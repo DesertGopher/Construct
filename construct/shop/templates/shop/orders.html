@@ -1,0 +1,42 @@
+{% extends 'shop/shop Layout.html' %}
+{% load static %}
+{% block title %}Мои заказы{% endblock %}
+
+{% block shopstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_order_list.css' %}">
+{% endblock %}
+
+{% block shop-style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block shop %}
+    {% if orders_list %}
+        <div class="orders_list" style="margin-top: 7vh;">
+            {% for order in orders_list %}
+            <div class="order">
+                <a href="{% url 'shop:order_detail' order.id %}"><b>Заказ № {{order.id}}</b> от {{order.date_created}}</a>
+                <a>Сумма заказа: <b>{{ order.total_cost }}₽</b></a>
+                <a>Тип оплаты: {{order.payment_type}}</a>
+                {% if order.status == status1 %}
+                    <a style="color: blue;"><i class="fas fa-spinner fa-pulse"></i> {{order.status}}</a>
+                {% endif %}
+                {% if order.status == status2 %}
+                    <a style="color: Goldenrod;"><i class="fas fa-truck"></i> {{order.status}}</a>
+                {% endif %}
+                {% if order.status == status3 %}
+                    <a style="color: green;"><i class="fas fa-check-circle"></i> {{order.status}}</a>
+                {% endif %}
+                {% if order.status == status4 %}
+                    <a style="color: red;"><i class="fas fa-ban"></i> {{order.status}}</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        У вас пока нет заказов
+    {% endif %}
+{% endblock %}

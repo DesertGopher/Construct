@@ -1,0 +1,28 @@
+.permissions {
+    width: 94%;
+    display:flex;
+    flex-direction: row;
+    margin: 0 0 0 3%;
+}
+.user_block {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 35px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 30px;
+    border: 5px solid lightblue;
+    width: 16%;
+    margin: 2% 0 0 1%;
+}
+.buttons {
+    margin: 5% 0 5% 0;
+}
+.title {
+    display:flex;
+    justify-content: center;
+    margin: 1% 0 0 0;
+    font-size: 26px;
+}

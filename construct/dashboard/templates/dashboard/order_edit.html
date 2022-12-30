@@ -1,0 +1,70 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Редактирование заказа{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_order_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_order_detail.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+    <div style="margin: 7vh 0 0 0;" class="order_products">
+        <a>Продукты в заказе</a>
+    </div>
+
+    <div class="cart_block">
+        {% for product in order_products %}
+            {% for num in amount %}
+                {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                    <div class="productpost">
+                        <a style="font-size: 18px; align-self:center; margin-bottom: 2%;" ><b><i>{{ product.name }}</i></b></a>
+                        <div class="block1">
+                            <same_figure>
+                                <a><img src="{{ product.prod_pic.url }}"></a>
+                            </same_figure>
+                        </div>
+
+                        <div class="block2">
+                            {% if product.discount > 0 %}
+                                <a style="align-self:flex-start;font-size: 14px;"><s>{{ product.price }} ₽</s> →
+                                <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+                                <a style="color: green;">
+                                    {{ num }} {{ product.measure }} → {% widthratio num 1 product.get_sale %}₽
+                                </a>
+                            {% else %}
+                                <a style="align-self:flex-start;font-size: 14px;">
+                                    <b>{{ product.price }} ₽/ {{ product.measure }}</b></a>
+                                <a style="color: green;">
+                                    {{ num }} {{ product.measure }} → {% widthratio num 1 product.price %}₽
+                                </a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <br><div class="price_info">
+        <a>Итого: <i>{{ total }}₽</i></a>
+        <a style="color: black;">Адрес доставки: <i>{{ order.address_id }}</i></a>
+    </div>
+
+    <div class="profileform">
+        <form method="POST" >
+            <div class="form">
+                {% csrf_token %}
+                {{ form.payment_type }}<br>
+                {{ form.status }}<br>
+                <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Обновить профиль </button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

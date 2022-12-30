@@ -1,0 +1,57 @@
+.aside_nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    float: left;
+    /* background: linear-gradient(to right, transparent, LightSkyBlue); */
+    width: 15%;
+    min-height: 94vh;
+    color: black;
+    borders: 1px;
+    border-right: 4px double green;
+}
+
+#a-hr {
+    width: 102%;
+    margin: 0 0 0 0;
+    max-height: 100px;
+    padding: 20px;
+}
+
+#a-hr:hover {
+    transition: all 400ms ease-in-out;
+}
+
+#a-hr > a {
+    width: 15vh;
+    color: green;
+    font-size: 16px;
+}
+#a-hr > a:hover {
+    color: black;
+    text-shadow: 5px 5px 8px black;
+    text-decoration: none;
+    transition: all 400ms ease-in-out;
+}
+#a-hr > a.active {
+    color: black;
+    font-size: 24px;
+    text-shadow: 5px 5px 8px black;
+}
+#a-hr.active{
+    background: linear-gradient(to right, transparent, rgb(201, 240, 236));
+}
+#a-hr > a.active:hover {
+    text-decoration: none;
+    text-shadow: none;
+}
+
+
+.main_nav {
+    min-height: 94vh;
+    display: flex;
+    flex-direction: row;
+}
+.content {
+    width: 85%;
+}

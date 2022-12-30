@@ -1,0 +1,41 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyInterpreterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="pylab" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyStubPackagesAdvertiser" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="PyQt5-stubs==5.15.2.0" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="construct.shop.views.dashboard" />
+          <option value="construct.shop.views.server_error_decorator" />
+          <option value="construct.cart.views.dashboard" />
+          <option value="construct.cart.views.api" />
+          <option value="construct.cart.views.server_error_decorator" />
+          <option value="construct.shop.views.api" />
+          <option value="construct.shop.views.cart" />
+          <option value="construct.news.views.api" />
+          <option value="construct.news.views.dashboard" />
+          <option value="construct.news.views.server_error_decorator" />
+          <option value="construct.dashboard.views.api" />
+          <option value="construct.dashboard.views.cart" />
+          <option value="construct.dashboard.views.shop" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

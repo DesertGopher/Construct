@@ -1,0 +1,28 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}База{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/api_index.css' %}">
+{% endblock %}
+
+{% block style %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block content %}
+<div class="models">
+
+    {% if models_list %}
+        <div class="obj_block">
+            {% for model in models_list %}
+                    <a>{{ model }}</a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>База пользователей пуста.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

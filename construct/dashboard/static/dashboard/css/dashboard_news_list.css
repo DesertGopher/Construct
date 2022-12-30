@@ -1,0 +1,41 @@
+.list {
+    display:flex;
+    width: 90%;
+    margin: 0 0 0 5%;
+    flex-direction: column;
+}
+.news_item {
+   display:flex;
+   width: 100%;
+   margin: 2% 0 0 0;
+   flex-direction: row;
+   justify-content: space-between;
+   font-size: 28px;
+   border: 1px solid lightblue;
+   padding: 1%;
+}
+.description {
+    display:flex;
+    width: 40%;
+    justify-content: space-start;
+}
+.date {
+    display:flex;
+    width: 25%;
+    justify-content: flex-end;
+}
+.is_active {
+    display:flex;
+    width:15%;
+    justify-content: center;
+}
+.buttons {
+    display:flex;
+    width:15%;
+    justify-content: space-around;
+}
+
+.add_news {
+    margin: 2% 0 0 5%;
+    font-size: 20px;
+}

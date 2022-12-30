@@ -1,0 +1,27 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Ой, 403{% endblock %}
+{% block style %}
+<style>
+    .notexist {
+        margin-top: 3%;
+        display: flex;
+        color: Green;
+        font-size: 30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="notexist">
+    <a>Для доступа к данной странице необходимо авторизоваться.</a>
+    <a type="button" class="log btn btn-link" href="{% url 'dashboard:login' %}">
+        <i class="fas fa-sign-in-alt"></i> Войти</a>
+    <a type="button" class="log btn btn-link" href="{% url 'dashboard:reg_form' %}">
+        <i class="fa fa-user-plus" aria-hidden="true"></i> Регистрация</a>
+    <a style="font-size: 30px;" class="btn btn-link" href="{% url 'dashboard:home' %}">Вернуться на главную</a>
+    <img src="{% static 'dashboard/img/401.jpg' %}" alt="401" width="30%" style="margin-left: 2%;">
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Вход{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_login.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+        <a class="aga">Войти в аккаунт</a>
+        <div class="div_form">
+                <div class="form">
+                        <form method="POST" >
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                <button type="submit" class="btn btn-outline-info" style="margin-bottom: 2%;" > Войти </button>
+                        </form>
+                </div>
+        </div>
+{% endblock %}

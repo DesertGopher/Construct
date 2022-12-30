@@ -1,0 +1,38 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Контакты{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_contact.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+    <div class="main">
+        <a style="color: gray;"> Construct </a>
+        <a style="font-size: 50px;"> +7 (911) 368-77-92 </a>
+        <a style="font-size: 22px;"> ConstructInc@mail.ru </a>
+    </div>
+    <div class="conts">
+        <div class="sn">
+          <a class="btn btn-light" href="https://play.google.com/" target="_blank"><i class="fab fa-google-play"></i></a>
+          <a class="btn btn-light" href="https://github.com/DesertGopher" target="_blank"><i class="fab fa-github"></i></a>
+          <a class="btn btn-light" href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a class="fa-li"><i class="fas fa-spinner fa-pulse"></i></a>
+        </div>
+        <div class="sn">
+            <a class="btn btn-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a class="btn btn-light" href="https://vk.com/" target="_blank"><i class="fab fa-vk"></i></a>
+            <a class="btn btn-light" href="https://ru-ru.facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a class="btn btn-light" href="https://twitter.com/?lang=ru" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-light" href="https://web.telegram.org/" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a class="btn btn-light" href="https://www.whatsapp.com/?lang=ru" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a class="btn btn-light" href="https://plus.google.com/" target="_blank"><i class="fab fa-google-plus-g"></i></a>
+            <a class="btn btn-light" href="https://m.ok.ru/" target="_blank"><i class="fab fa-odnoklassniki"></i></a>
+        </div>
+    </div>
+{% endblock %}

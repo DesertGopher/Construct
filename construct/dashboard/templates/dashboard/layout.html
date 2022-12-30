@@ -1,0 +1,86 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+
+        {% block title %}
+        {% endblock %}
+
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css"
+          integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="{% static 'dashboard/css/site.css' %}">
+    {% block static %}
+    {% endblock %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js"
+            integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'dashboard/favicon.ico' %}">
+
+    {% block style %}
+    {% endblock %}
+
+</head>
+
+<body>
+    <div class="fixed">
+        <div class="header">
+            <a href="{% url 'dashboard:home' %}" style="margin-left: 3%;">
+                <img src="{% static 'dashboard/img/LOGO.png' %}" width="35" height="35"></a>
+            <a href="{% url 'dashboard:home' %}" style="font-size: 28px; margin-left: 5px;">Construct</a>
+            <a type="button" style="font-size: 24px; margin: 0 0 0 1%;" class="btn btn-link"
+               href="{% url 'shop:index' %}">Магазин</a>
+            <a type="button" style="font-size: 24px;" class="btn btn-link"
+               href="{% url 'news:index' %}?newsId={{last_news}}">Новости</a>
+            <a type="button" style="font-size: 24px;" class="btn btn-link"
+               href="{% url 'dashboard:contact' %}">Контакты</a>
+        </div>
+        <div class="user">
+            {% if not user.is_authenticated %}
+                <a type="button" class="log btn btn-link" href="{% url 'dashboard:login' %}">
+                    <i class="fas fa-sign-in-alt"></i> Войти</a>
+                <a type="button" class="log btn btn-link" href="{% url 'dashboard:reg_form' %}">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i> Регистрация</a>
+            {% else %}
+                <a class="username" href="{% url 'dashboard:profile' %}">
+                    {% if profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}"> {{ user.username|upper }} </a>
+                    {% else %}
+                        <img src="{% static 'dashboard/img/user.png' %}"> {{ user.username|upper }} </a>
+                    {% endif %}
+                {% if user.is_staff %}
+
+                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:orders' %}">
+                        <i class="fa fa-clipboard-list" aria-hidden="true"></i></a>
+
+                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:news_list' %}">
+                        <i class="fa fa-edit"></i></a>
+                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:products_list' %}">
+                        <i class="fa fa-pen"></i></a>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <a type="button" class="log btn btn-info" href="{% url 'admin:index' %}">
+                        <i class="fa fa-cog" aria-hidden="true"></i></a>
+                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:permissions' %}">
+                        <i class="fa fa-user-edit" aria-hidden="true"></i></a>
+                {% endif %}
+                <a type="button" class="log btn btn-link" href="{% url 'dashboard:logout' %}">
+                    <i class="fas fa-sign-in-alt"></i> Выйти</a>
+            {% endif %}
+        </div>
+</div>
+
+<div class="margin_top"></div>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

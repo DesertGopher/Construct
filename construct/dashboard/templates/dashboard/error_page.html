@@ -1,0 +1,23 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Ошибка{% endblock %}
+{% block style %}
+<style>
+    .notexist {
+        margin-top: 3%;
+        display: flex;
+        color: Green;
+        font-size: 30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="notexist">
+    <a>{{ message }}</a>
+    <a style="font-size: 30px;" class="btn btn-link" href="{% url 'dashboard:home' %}">Вернуться на главную</a>
+    <img src="{% static 'dashboard/img/error_page.jpg' %}" alt="401" width="30%" style="margin-left: 2%;">
+</div>
+{% endblock %}

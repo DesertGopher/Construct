@@ -1,0 +1,38 @@
+.form-control:hover {
+        background-color: white;
+}
+.form {
+        display: flex;
+        margin-top: 2%;
+        flex-direction: column;
+}
+.div_form {
+        margin-top: 2%;
+        border-radius: 40px;
+        margin-left: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to bottom right, LightBlue, white) no-repeat;
+        width: 50%;
+        flex-direction: column;
+}
+.form input {
+        border-width: 0;
+        line-height: 40px;
+        border-radius: 20px;
+        color: black;
+        background: LightGreen;
+        margin-top: 5%;
+        width: 500px;
+}
+.aga {
+        display: flex;
+        justify-content: center;
+        font-size: 28px;
+        margin-top: 5%;
+        text-decoration: none;
+}
+.aga:hover {
+        text-decoration: none;
+}

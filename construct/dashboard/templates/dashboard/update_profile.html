@@ -1,0 +1,29 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_update_profile.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+    <div class="profileform">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ proform.profile_status }}<br>
+                {{ proform.bio }}<br>
+                {{ proform.profile_picture }}<br>
+                {{ proform.website }}<br>
+                <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Обновить профиль </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

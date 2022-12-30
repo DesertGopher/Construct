@@ -1,0 +1,43 @@
+.newspost{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 94vh;
+}
+.newpost_detail{
+    width: 96%;
+    margin: 0 2% 0 2%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+figure {
+    width: 40%;
+}
+figure img {
+    border-radius: 10px;
+    box-shadow: 0 0 20px gray inset, 0 0 20px 0 black;
+    max-width: 100%;
+}
+.block2 {
+    width: 50%;
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    margin-left: 3%;
+    font-size: 24px;
+}
+.block3 {
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-end;
+    margin-right: 1%;
+    align-self: flex-end;
+}
+.title {
+    font-size: 28px;
+    color: green;
+    margin: 2% 0 2% 0;
+}

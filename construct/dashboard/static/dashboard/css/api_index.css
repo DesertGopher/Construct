@@ -1,0 +1,6 @@
+.obj_block {
+    color: green;
+    display: flex;
+    flex-direction: column;
+    margin: 5% 0 0 5%;
+}

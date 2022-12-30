@@ -1,0 +1,148 @@
+{% extends 'shop/shop Layout.html' %}
+{% load static %}
+{% block title %}Магазин{% endblock %}
+
+{% block shopstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_detail.css' %}">
+{% endblock %}
+
+{% block shop-style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block shop %}
+<div style="height: 50px"></div>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<div class="cont">
+    <figure>
+        <img src="{{ product.prod_pic.url }}">
+    </figure>
+    <div class="block4">
+        {{ product.about|linebreaks }}
+        <p align="left" style="font-size: 24px; margin-right:2%">
+            {% if product.discount > 0 %}
+                <a style="align-self:flex-start;font-size: 24px;">Цена: <s>{{ product.price }} ₽</s> →
+                <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+            {% else %}
+                <a style="align-self:flex-start;font-size: 24px;"><b>Цена: {{ product.price }} ₽/ {{ product.measure }}</b></a>
+            {% endif %}<br>
+            Производитель: {{ product.vendor }}<br>
+            Категория: {{ product.category_class }}<br>
+            {% if product.is_stock > 0 %}
+                <a style="align-self:flex-end; color: green;"><i class="fa fa-check"></i> В наличии {{ product.is_stock }} {{ product.measure }}</a><br>
+            {% else %}
+                <a style="align-self:flex-end; color: red;"><i class="fa fa-times"></i> Нет в наличии</a><br>
+            {% endif %}
+        </p>
+
+
+        {% if product.is_stock > 0 %}
+        <a class="price" style="color: black;">Добавить в корзину</a>
+        <form action="{% url 'cart:cart_add' product.id %}" method="post" style="width:100px;">
+            {% csrf_token %}
+            <div style="display:flex; flex-direction:row;">
+            {{ cart_product_form }}
+            <button style="margin-left: 2%" class="btn btn-outline-success" type="submit" title="Добавить в корзину"><i class="fas fa-plus"></i></button>
+            {{ msg }}
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<hr style="width: 90%;">
+<a style="font-size: 22px; margin-left: 5%;">Похожие товары</a>
+<div class="category_block">
+{% if same_products %}
+    {% for product in same_products %}
+        <div class="productpost">
+                <a style="font-size: 14px; align-self:center; margin-bottom: 2%;" href="{% url 'shop:detail' product.id %}"><b><i>{{ product.name }}</i></b></a>
+                <div class="block1">
+                    <same_figure>
+                       <a><img src="{{ product.prod_pic.url }}"></a>
+                    </same_figure>
+                </div>
+                <div class="block2">
+                    {% if product.discount > 0 %}
+                        <a style="align-self:flex-start;font-size: 14px;"><s>{{ product.price }} ₽</s> →
+                        <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+                    {% else %}
+                        <a style="align-self:flex-start;font-size: 14px;"><b>{{ product.price }} ₽/ {{ product.measure }}</b></a>
+                    {% endif %}
+                    <div class="block3">
+                        <div class="stock">
+                            <div>
+                                {% if product.is_stock > 0 %}
+                                    <a style="align-self:flex-end; color: green;"><i class="fa fa-check"></i> В наличии {{ product.is_stock }} {{ product.measure }}</a><br>
+                                {% else %}
+                                    <a style="align-self:flex-end; color: red;"><i class="fa fa-times"></i> Нет в наличии</a><br>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="cart">
+                            {% if product.is_stock > 0 %}
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post" style="width:100px;">
+                                {% csrf_token %}
+                                <div style="display:flex; flex-direction:row;">
+                                {{ cart_product_form }}
+                                <button style="margin-left: 2%" class="btn btn-outline-success" type="submit" title="Добавить в корзину"><i class="fas fa-plus"></i></button>
+                                {{ msg }}
+                                </div>
+                            </form>
+                            {% else %}
+                                <div style="margin-bottom: 30%;"></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+{% else %}
+    <p>Похожих товаров не найдено.</p>
+{% endif %}
+<br>
+</div>
+
+<hr style="width: 90%;">
+
+<div class="reviews">
+    {% if user.is_authenticated %}
+        <div class="com_form">
+            <h3>Ваш отзыв</h3>
+            <form method="POST" >
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-success" > Оставить отзыв </button>
+            </form>
+        </div>
+        <div class="put_com" style="display: flex; justify-content: space-between; width: 96%; margin-left: 2%; margin-bottom: 2%;">
+            <a style="font-size: 20px"><b>Отзывы:</b></a>
+        </div>
+    {% else %}
+        <h3> Авторизуйтесь, чтобы оставить отзыв. </h3>
+    {% endif %}
+
+    {% if reviews %}
+        {% for review in reviews %}
+            {% if review in product.review_set.all %}
+                 <div class="block_com">
+                     <a style="margin: 1% 2% 0 1%;">
+                         {% if review.profile_picture %}
+                           <img style="border-radius: 50%; width: 30px;" src="{{ review.profile_picture.url }}">
+                         {% else %}
+                           <img src="{% static 'dashboard/img/user.png' %}" style="width: 30px">
+                         {% endif %}
+                         <strong>  {{ review.author }}</strong> {{ review.pub_date }}</a>
+                     <a style="font-size: 18px; margin: 0 2% 1% 2%;"><i>{{ review.text|linebreaks }}</i></a>
+                     <a></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p style="margin-left: 2%;">У товара пока нет отзывов.</p>
+    {% endif %}
+</div>
+{% endblock %}

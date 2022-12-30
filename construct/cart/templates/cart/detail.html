@@ -1,0 +1,97 @@
+{% extends 'shop/shop Layout.html' %}
+{% load static %}
+{% block title %}Магазин{% endblock %}
+
+{% block shopstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/cart_detail.css' %}">
+{% endblock %}
+
+{% block shop-style %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block shop %}
+
+<div class="page">
+
+    <div class="cart">
+        {% for item in cart %}
+            {% with product=item.product %}
+                <div class="cart-product">
+                        <a href="{{ product.get_absolute_url }}">
+                            <figure>
+                            <img src="{{ product.prod_pic.url }}">
+                            </figure>
+                        </a>
+                    <div class="prod-info">
+                        <div class="naming">
+                            <a style="font-size: 32px; color: black" href="{% url 'shop:detail' product.id %}">{{ product.name }}</a>
+                            <a>{{ product.vendor }}</a>
+                            <a style="color: red;" href="{% url 'cart:cart_remove' product.id%}"><i class="fa fa-times" aria-hidden="true"></i> Удалить</a>
+                        </div>
+
+                        <div class="cart_amount_price">
+                            <div style="display: flex; flex-direction: row; justify-content: flex-start; align-self:stretch;">
+                                <a style="font-size: 24px;">{{ item.quantity }} {{ product.measure }}</a>
+                            </div>
+
+                            <div  class="naming_price" style="">
+                                <a style="font-size: 26px">₽{{ item.total_price }}</a>
+                                {% if product.discount > 0 %}
+                                    <a style="font-size: 24px; color: gray"><s>₽{{ item.total_priceU }}</s></a>
+                                {% endif %}
+                                <a style="font-size: 14px; color: gray">Цена за {{ product.measure }} - ₽{{ product.get_sale }}</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% endwith %}
+        {% endfor %}
+    </div>
+
+    <div class="total">
+        <div style="display:flex; justify-content: space-between; margin: 0 5%; font-size: 36px">
+            <a>Итого</a>
+            <a>₽{{ cart.get_total_price_cart }}</a>
+        </div>
+        <div style="display:flex; justify-content: space-between; margin: 0 5%; color:gray">
+            {% with total_items=cart|length %}
+                <a>Товары, {{ total_items }} шт.</a>
+                <a>₽{{ cart.get_total_price_cart|add:cart.get_total_discount }}</a>
+            {% endwith %}
+        </div>
+        <div style="display:flex; justify-content: space-between; margin: 0 5%; color:gray">
+            <a>Скидка</a>
+            <a>{{ cart.get_total_discount }}</a>
+        </div>
+        <a style="width: 90%; border-radius: 20px; align-self:center; margin-top: 80px" href="{% url 'shop:create_order' %}" class="btn btn-success btn-rounded">Перейти к оформлению заказа</a>
+        <div style="display:flex; flex-direction: row;" class="cart_save_load">
+            <a title="Загрузить последнюю сохраненную корзину"
+               style="width: 50%; border-radius: 15px; margin: 20px 2% 0 5%"
+               class="btn btn-info btn-rounded" href="{% url 'cart:load_cart'%}"><i class="fa fa-arrow-left"></i> <i class="fa fa-shopping-cart"></i></a>
+            <a title="Сохранить корзину"
+               style="width: 50%; border-radius: 15px; margin: 20px 2% 0 2%"
+               class="btn btn-info btn-rounded" href="{% url 'cart:update_cart'%}"><i class="fa fa-save"></i> <i class="fa fa-shopping-cart"></i></a>
+            <a title="Очистить корзину"
+               style="width: 50%; border-radius: 15px; margin: 20px 5% 0 2%;"
+               class="btn btn-danger btn-rounded" href="{% url 'cart:clear_cart'%}"><i class="fa fa-trash"></i> <i class="fa fa-shopping-cart"></i></a>
+
+        </div>
+<!--        <hr style="flex: 0 0 100%;" />-->
+        <div class="saved_cart">
+            <a style="align-self:center; margin: 4% 0 2% 2%; font-size: 20px;">Последняя сохраненная корзина:</a>
+            {% if  saved_cart%}
+                {% for item in saved_cart %}
+                    <a style="font-size: 18px; margin: 1% 0 1% 4%; color: green"> {{ item }}</a>
+                {% endfor %}
+            {% else %}
+                <a style="font-size: 18px; margin: 1% 5 1% 5%; color: green">Сохраненная корзина пуста</a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

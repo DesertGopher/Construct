@@ -1,0 +1,44 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Новости{% endblock %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/news_nav.css' %}">
+
+    {% block newsstatic %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block style %}
+<style>
+</style>
+
+    {% block news-style %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="main_nav">
+
+    <div class="aside_nav">
+        <!--<div class="marg"></div>-->
+        {% if latest_news %}
+            {% for news in latest_news %}
+                <div {% if newsId == news.id %} class="active" {% endif %} id="a-hr">
+                    <a {% if newsId == news.id %} class="active" {% endif %} href="{% url 'news:index' %}?newsId={{ news.id }}">{{ news.title }}</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Пока нет новостей.</p>
+        {% endif %}
+    </div>
+
+    <div class="content">
+        {% block news %}
+        {% endblock %}
+    </div>
+</div>
+
+{% endblock %}

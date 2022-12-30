@@ -1,0 +1,23 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Ой, 404{% endblock %}
+{% block style %}
+<style>
+    .notexist {
+        margin-top: 3%;
+        display: flex;
+        color: Green;
+        font-size: 30px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="notexist">
+    {{ message|linebreaks }}
+    <a style="font-size: 30px;" class="btn btn-link" href="{% url 'dashboard:home' %}">Вернуться на главную</a>
+    <img src="{% static 'dashboard/img/404.jpg' %}" alt="404" width="55%" style="margin-left: 2%;">
+</div>
+{% endblock %}

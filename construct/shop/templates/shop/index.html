@@ -1,0 +1,44 @@
+{% extends 'shop/shop Layout.html' %}
+{% load static %}
+{% block title %}Магазин{% endblock %}
+
+{% block shopstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_index.css' %}">
+{% endblock %}
+
+{% block shop-style %}
+<style>
+
+</style>
+{% endblock %}
+{% block shop %}
+
+<div style="margin-top: 70px" class="category_block">
+
+    {% if categories %}
+        {% for category in categories %}
+            <div class="category_post">
+                <div class="block1">
+                    <figure>
+                        <a><img src="{{ category.picture.url }}"></a>
+                    </figure>
+                </div>
+                <div class="block2">
+                    <a style="font-size: 28px; align-self:center"><b>{{ category.name }}</b></a>
+                    <a style="font-size: 18px; text-align:justify; margin: 10px 10px 10px 10px" ><i>
+                        {{ category.description|linebreaks}}
+                    </i></a>
+                </div>
+                <div class="block3">
+                    <a style="font-size: 28px; align-self: stretch" class="btn btn-info"
+                       href="{% url 'shop:category_lstk' %}?name={{ category.id }}">Смотреть каталог</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        Категорий товаров нет.
+    {% endif %}
+
+</div>
+<br>
+{% endblock %}

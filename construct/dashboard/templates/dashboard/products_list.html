@@ -1,0 +1,62 @@
+
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Товары{% endblock %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_products_list.css' %}">
+
+{% endblock %}
+
+{% block style %}
+<style>
+</style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="add_product">
+        <a><i>Создать продукт</i></a>
+        <a type="button" class="log btn btn-outline-success" href="{% url 'dashboard:create_product' %}">
+            <i class="fa fa-plus"></i> </a>
+    </div>
+    <div class="list">
+        {% for category in categories %}
+        <div class="a_cat"><a>{{ category }}</a></div>
+        <div><hr></div>
+            {% for product in products %}
+            {% if product.category_class == category %}
+                <div class="product_item">
+                    <div class="description">
+                        <a style="margin: 0 3% 0 0;"><i>{{ product.id }}</i></a>
+                        <a href="{{ product.get_absolute_url }}"><i>{{ product.name }}</i></a>
+                    </div>
+                    <div class="is_active">
+                        {% if product.is_active %}
+                            <a style="color: green;">Active</a>
+                        {% else %}
+                            <a style="color: red;">Deleted</a>
+                        {% endif %}
+                    </div>
+                    <div class="price">
+                        <a>{{ product.price }}₽</a>
+                        <a>→</a>
+                        <a>{{ product.discount }}%</a>
+                        <a>→</a>
+                        <a>{{ product.get_sale }}₽</a>
+                    </div>
+                    <div class="buttons">
+                        <a type="button" class="log btn btn-warning" href="{% url 'dashboard:product_edit' product.id %}">
+                            <i class="fa fa-pen"></i> </a>
+                        <a type="button" class="log btn btn-danger"
+                           href="{% url 'dashboard:products_list' %}?deleted={{ product.id }}">
+                            <i class="fa fa-trash"></i></a>
+                        <a type="button" class="log btn btn-info"
+                           href="{% url 'dashboard:products_list' %}?restored={{ product.id }}">
+                            <i class="fa fa-redo"></i></a>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

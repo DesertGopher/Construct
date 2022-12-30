@@ -1,0 +1,127 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Профиль{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_profile.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+    <div class="main">
+        <div class="profile">
+            {% if profile.profile_picture %}
+                <img style="border-radius: 50%;" src="{{ profile.profile_picture.url }}">
+            {% else %}
+                <img style="border-radius: 50%;" src="{% static 'dashboard/img/user.png' %}">
+            {% endif %}
+
+            <a style="font-size: 50px;"> {{ user.username|upper }} </a>
+            {% if user.first_name %}
+                {% if user.last_name %}
+                    <a style="font-size: 22px;"> {{ user.first_name }} {{ user.last_name }}</a>
+                {% endif %}
+            {% endif %}
+
+            {% if user.email %}
+                <a style="font-size: 22px;"> {{ user.email }} </a>
+            {% endif %}
+
+            {% if profile.profile_status %}
+                <a style="font-size: 22px;"> {{ profile.profile_status }} </a><br>
+            {% endif %}
+
+            {% if profile.bio %}
+                <a style="font-size: 18px; width: 70%;"> {{ profile.bio }} </a><br>
+            {% endif %}
+
+            {% if profile.website %}
+                <a style="font-size: 22px;" href="{{ profile.website }}" target="_blank"> {{ profile.website }} </a><br>
+            {% endif %}
+            <a class="btn btn-info" href="{% url 'dashboard:update_profile' %}"> Редактировать профиль</a>
+        </div>
+
+        <div class="shop_addresses">
+            <a style="font-size: 36px;">Сохраненные товары</a>
+            <div class="cart_block">
+                {% if cart_products %}
+                    {% for product in cart_products %}
+                        <div class="productpost">
+                            <a style="font-size: 14px; align-self:center; margin-bottom: 2%;" href="{% url 'shop:detail' product.id %}"><b><i>{{ product.name }}</i></b></a>
+                                <div class="block1">
+                                    <same_figure>
+                                        <a><img src="{{ product.prod_pic.url }}"></a>
+                                    </same_figure>
+                                </div>
+
+                            <div class="block2">
+                                {% if product.discount > 0 %}
+                                    <a style="align-self:flex-start;font-size: 14px;"><s>{{ product.price }} ₽</s> →
+                                    <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+                                {% else %}
+                                    <a style="align-self:flex-start;font-size: 14px;"><b>{{ product.price }} ₽/ {{ product.measure }}</b></a>
+                                {% endif %}
+                                <div class="block3">
+                                    <div class="stock">
+                                        <div>
+                                            {% if product.is_stock > 0 %}
+                                                <a style="align-self:flex-end; color: green;"><i class="fa fa-check"></i> В наличии {{ product.is_stock }} {{ product.measure }}</a><br>
+                                            {% else %}
+                                                <a style="align-self:flex-end; color: red;"><i class="fa fa-times"></i> Нет в наличии</a><br>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <div class="cart">
+                                        {% if product.is_stock > 0 %}
+                                            <form action="{% url 'cart:cart_add' product.id %}" method="post" style="width:100px;">
+                                                {% csrf_token %}
+                                                <div style="display:flex; flex-direction:row;">
+                                                    {{ cart_product_form }}
+                                                    <button style="margin-left: 2%" class="btn btn-outline-success" type="submit" title="Добавить в корзину"><i class="fas fa-plus"></i></button>
+                                                    {{ msg }}
+                                                </div>
+                                            </form>
+                                        {% else %}
+                                            <div style="margin-bottom: 30%;"></div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <a style="font-size: 26px;">Вы не сохраняли товары</a>
+                {% endif %}
+            </div>
+            <div class="buts">
+                <a class="btn btn-secondary" href="{% url 'cart:cart_detail' %}">Корзина</a>
+                <a class="btn btn-secondary" href="{% url 'shop:index' %}">Мои заказы</a>
+                <a class="btn btn-secondary" href="{% url 'shop:index' %}">Каталоги</a>
+            </div>
+            <a style="font-size: 36px; margin-top: 5%;">Мои адреса</a><br>
+            <div class="address_list">
+                {% if address_list %}
+                    {% for address in address_list %}
+                        <li>{{ address }} <a style="color: red;" href="{% url 'dashboard:profile' %}?deleted={{ address.id }}"><i class="fa fa-trash"></i></a></li>
+                    {% endfor %}
+                    <br>
+                {% else %}
+                    У вас нет ни одного адреса
+                {% endif %}
+            </div>
+            <form method="POST" >
+                <div class="form">
+                    {% csrf_token %}
+                    {{ form.fact_address }} <br>
+                    {{ form.district }}<br>
+                </div>
+                <br><button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Добавить адрес </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

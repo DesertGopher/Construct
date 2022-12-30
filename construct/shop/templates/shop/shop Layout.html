@@ -1,0 +1,72 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Магазин{% endblock %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_nav.css' %}">
+
+    {% block shopstatic %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block style %}
+<style>
+</style>
+
+    {% block shop-style %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="shopnav">
+
+    <div class="nav1">
+        <a class="btn btn-outline-info" href="{% url 'shop:index' %}">Главная страница</a>
+        <ul class="mmenuu" style="margin-left: 2%;">
+            <li><a class="btn btn-outline-info">Каталоги <i class="fa fa-arrow-down"></i></a>
+                <ul class="ssubmenuu">
+                    <li><a class="btn btn-outline-info" href="{% url 'shop:category_lstk' %}?name={{ category.id }}">Все товары</a></li>
+                    {% if categories %}
+                        {% for category in categories %}
+                            <li><a class="btn btn-outline-info" href="{% url 'shop:category_lstk' %}?name={{ category.id }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        Категорий товаров нет.
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="nav2">
+        {{ title }}
+    </div>
+
+    <div class="nav3">
+        <ul class="mmenuu" style="margin-left: 2%;">
+            <li><a class="btn btn-outline-info" href="{% url 'cart:cart_detail' %}"><i class="fa fa-shopping-cart"></i> Корзина</a></i></a>
+                <ul class="ssubmenuu2">
+                {% with total_items=cart|length %}
+                    {% if cart|length > 0 %}
+                        <li style="margin-left: 5%;">В корзине:</li>
+                        <li><a href="{% url 'cart:cart_detail' %}">
+                            {{ total_items }} товаров<br>
+                            ₽{{ cart.get_total_price }}
+                        </a></li>
+                    {% else %}
+                        Корзина пуста
+                    {% endif %}
+                {% endwith %}
+                </ul>
+            </li>
+        </ul>
+        <a style="margin-left: 2%" class="btn btn-outline-info" href="{% url 'shop:orders' %}">Мои заказы</a>
+    </div>
+
+</div>
+
+{% block shop %}
+{% endblock %}
+
+{% endblock %}

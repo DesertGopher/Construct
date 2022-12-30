@@ -1,0 +1,67 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Заказы пользователей{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_orders.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="title"><a>Редактирование заказов пользователей</a></div>
+    {% for user_profile in profiles %}
+        {% for one in users %}
+        {% if forloop.counter0 == forloop.parentloop.counter0 %}
+            <hr>
+            <div class="user_orders">
+                <div class="user_block">
+                    <a>{{ one.username|upper }}</a>
+                    {% if user_profile.profile_picture %}
+                        <img style="border-radius: 50%;" src="{{ user_profile.profile_picture.url }}">
+                    {% else %}
+                        <img style="border-radius: 50%;" src="{% static 'dashboard/img/user.png' %}">
+                    {% endif %}
+                {% if one.first_name %}
+                {% if one.last_name %}
+                    <a> {{ one.first_name }} {{ one.last_name }}</a>
+                {% endif %}
+                {% endif %}
+
+                {% if one.email %}
+                    <a> {{ one.email }} </a>
+                {% endif %}
+
+                {% if user_profile.profile_status %}
+                    <a> {{ user_profile.profile_status }} </a>
+                {% endif %}
+                </div>
+                <div class="orders_list">
+                    {% for order in orders_list %}
+                        {% if order.client_id == one %}
+                            <div class="order">
+                                <a href="{% url 'dashboard:order_edit' order.id %}"><b>Заказ № {{order.id}}</b></a>
+                                {% if order.status == status1 %}
+                                    <a style="color: blue;"><i class="fas fa-spinner fa-pulse"></i> {{order.status}}</a>
+                                {% endif %}
+                                {% if order.status == status2 %}
+                                    <a style="color: Goldenrod;"><i class="fas fa-truck"></i> {{order.status}}</a>
+                                {% endif %}
+                                {% if order.status == status3 %}
+                                    <a style="color: green;"><i class="fas fa-check-circle"></i> {{order.status}}</a>
+                                {% endif %}
+                                {% if order.status == status4 %}
+                                    <a style="color: red;"><i class="fas fa-ban"></i> {{order.status}}</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'news/news_layout.html' %}
+{% load static %}
+{% block title %}Новости{% endblock %}
+
+{% block newsstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/news_index.css' %}">
+{% endblock %}
+
+{% block news-style %}
+<style>
+.newspost {
+    background: linear-gradient(to left, transparent, rgb(201, 240, 236));
+}
+</style>
+{% endblock %}
+{% block news %}
+
+<div class="news">
+    {% if current_new %}
+        <div class="newspost">
+            <div class="title">
+                <a style=><b><i>{{ current_new.title }}</i></b></a>
+            </div>
+
+            <div class="newpost_detail">
+                <figure>
+                    <a><img src="{{ current_new.picture.url }}"></a>
+                </figure>
+
+                <div class="block2">
+                    <a style="align-self:flex-start;">{{ current_new.news|linebreaks }}</a>
+                    <a style="align-self:flex-end; color: green">{{ current_new.pub_date }}</a>
+                </div>
+            </div>
+
+        </div>
+    {% else %}
+        <p>Пока нет новостей.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+.main {
+  height: 88vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.conts {
+  display: flex;
+  flex-direction: row;
+  height: 6vh;
+  background: lightgray;
+  width: 100%;
+}
+.sn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+.sn > a {
+  border-radius: 50%;
+  font-size: 20px;
+  margin-left: 3%;
+}

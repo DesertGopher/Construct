@@ -1,0 +1,48 @@
+.list {
+    display:flex;
+    width: 90%;
+    margin: 0 0 0 5%;
+    flex-direction: column;
+}
+.product_item {
+   display:flex;
+   width: 100%;
+   margin: 2% 0 0 0;
+   flex-direction: row;
+   justify-content: space-between;
+   font-size: 28px;
+   border: 1px solid lightblue;
+   padding: 1%;
+}
+.description {
+    display:flex;
+    width: 40%;
+    justify-content: flex-start;
+
+}
+.price {
+    display:flex;
+    width: 25%;
+    justify-content: space-between;
+}
+.is_active {
+    display:flex;
+    width:15%;
+    justify-content: center;
+}
+.buttons {
+    display:flex;
+    width:15%;
+    justify-content: space-around;
+}
+.add_product {
+    margin: 2% 0 0 5%;
+    font-size: 20px;
+}
+.a_cat {
+    display:flex;
+    justify-content: center;
+    font-size: 28px;
+    color: blue;
+    margin: 2% 0 0 0;
+}

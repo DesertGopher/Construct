@@ -1,0 +1,65 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Construct{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/dashboard_about.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+.back {
+    background: linear-gradient(to left, transparent, rgb(201, 240, 236)), url(static/dashboard/img/bg.jpg) no-repeat;
+}
+.front {
+    background: url(static/dashboard/img/LOGO.jpg) no-repeat;
+    background-position: center;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="back">
+
+    <div class="front">
+<!--        <div class="rotate-shadows"></div>-->
+            <div class="construct-text">Construct</div>
+<!--        <div class="rotate-shadows"></div>-->
+    </div>
+
+
+</div>
+<hr>
+
+<p align="center" style="font-size: 28px;"><b>Последние новости</b></p>
+<div class="news">
+        {% if latest_news %}
+        {% for news in latest_news %}
+            <div class="newspost">
+                <figure>
+                    <img src="{{ news.picture.url }}">
+                    <h3 class="title">{{ news.title }}</h3>
+                    <div class="overlay"></div>
+                    <div class="button">
+                        <a class="btn btn-outline-success" href="{% url 'news:index' %}?newsId={{ news.id }}">
+                            Читать подробнее</a>
+                    </div>
+                </figure>
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>Пока нет новостей.</p>
+    {% endif %}
+</div>
+<hr>
+<div class="footer">
+    <a>
+        <ins>Информация:</ins>
+    </a>
+    <button type="button" class="btn btn-outline-dark">Экспорт XML</button>
+    <button type="button" class="btn btn-outline-dark">Чертежи</button>
+    <button type="button" class="btn btn-outline-dark">Tekla Structures</button>
+    <button type="button" class="btn btn-outline-dark">Профессии</button>
+</div>
+<hr>
+
+{% endblock %}

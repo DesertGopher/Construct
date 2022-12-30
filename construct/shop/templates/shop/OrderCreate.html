@@ -1,0 +1,56 @@
+{% extends 'shop/shop Layout.html' %}
+{% load static %}
+{% block title %}Оформление заказа{% endblock %}
+
+{% block shopstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_order_create.css' %}">
+{% endblock %}
+
+{% block shop-style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block shop %}
+
+    <div style="margin: 7vh 0 0 0;" class="order_products">
+        <a>Продукты в заказе</a>
+    </div>
+
+    <div class="cart_block">
+        {% for item in cart %}
+            {% with product=item.product %}
+            <div class="productpost">
+                <a style="font-size: 18px; align-self:center; margin-bottom: 2%;" ><b><i>{{ product.name }}</i></b></a>
+                <div class="block1">
+                    <same_figure>
+                        <a href="{% url 'shop:detail' product.id %}"><img src="{{ product.prod_pic.url }}"></a>
+                    </same_figure>
+                </div>
+
+                <div class="block2">
+                    {% if product.discount > 0 %}
+                        <a style="align-self:flex-start;font-size: 14px;"><s>{{ product.price }} ₽</s> →
+                        <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+                    {% else %}
+                        <a style="align-self:flex-start;font-size: 14px;"><b>{{ product.price }} ₽/ {{ product.measure }}</b></a>
+                    {% endif %}
+                    <a style="color: green;">{{ item.quantity }} {{ product.measure }} → {{ item.total_price }}₽</a>
+                </div>
+            </div>
+            {% endwith %}
+        {% endfor %}
+    </div>
+
+    <br><div class="order_products">
+        <a>Итого: {{ cart.get_total_price_cart }}₽</a>
+    </div>
+
+    <form method="POST" >
+            {% csrf_token %}
+            {{ form.as_p }}<br>
+            <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Заказать </button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'shop/shop Layout.html' %}
+{% load static %}
+{% block title %}Магазин{% endblock %}
+
+{% block shopstatic %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/shop_category.css' %}">
+{% endblock %}
+
+{% block shop-style %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block shop %}
+
+<div class="category_block">
+    {% if product_list %}
+        {% for product in product_list %}
+
+            <div class="productpost">
+                <a style="font-size: 28px; align-self:center"><b><i>{{ product.name }}</i></b></a>
+                <div class="block1">
+
+                    <figure>
+                       <a><img src="{{ product.prod_pic.url }}"></a>
+                    </figure>
+                </div>
+                <div class="block2">
+                    {% if product.discount > 0 %}
+                        <a style="align-self:flex-start;font-size: 24px;"><s>{{ product.price }} ₽</s> →
+                        <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+                    {% else %}
+                        <a style="align-self:flex-start;font-size: 24px;"><b>{{ product.price }} ₽/ {{ product.measure }}</b></a>
+                    {% endif %}
+                    <div class="block3">
+                        <div class="stock">
+                            <div>
+                                {% if product.is_stock > 0 %}
+                                    <a style="align-self:flex-end; color: green;"><i class="fa fa-check">
+                                    </i> В наличии {{ product.is_stock }} {{ product.measure }}</a><br>
+                                {% else %}
+                                    <a style="align-self:flex-end; color: red;"><i class="fa fa-times"></i> Нет в наличии</a><br>
+                                {% endif %}
+                                {% if user.is_active %}
+                                    <a style="align-self:self-end;" href="{% url 'shop:detail' product.id %}">Смотреть товар</a>
+                                {% else %}
+                                    <a style="align-self:self-end;">Авторизуйтесь для просмотра информации о товаре</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="cart">
+                            {% if user.is_active %}
+                                {% if product.is_stock > 0 %}
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post" style="width:100px;">
+                                    {% csrf_token %}
+                                    <div style="display:flex; flex-direction:row;">
+                                        {{ cart_product_form }}
+                                        <button style="margin-left: 2%" class="btn btn-outline-success" type="submit"
+                                                title="Добавить в корзину"><i class="fas fa-plus"></i></button>
+                                        {{ msg }}
+                                    </div>
+                                </form>
+                                {% else %}
+                                    <button style="margin-left: 2%" class="btn btn-outline-danger" title="Нет в наличии">
+                                        <i class="fa fa-times"></i></button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        {% else %}
+        <p>Пока каталог пуст.</p>
+    {% endif %}
+<br>
+    </div>
+{% endblock %}

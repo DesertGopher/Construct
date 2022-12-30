@@ -1,0 +1,14 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Log out{% endblock %}
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<a> Хотите выйти из аккаунта {{ user.username }}?</a>
+        <button type="submit" class="btn btn-info">Выйти</button>
+        <button type="reset" class="btn btn-outline-warning">Назад</button>
+{% endblock %}
