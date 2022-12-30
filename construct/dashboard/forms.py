@@ -12,27 +12,48 @@ class ProductEdit(ModelForm):
         model = Product
         fields = ['name', 'price', 'about', 'measure', 'category_class', 'vendor', 'is_stock', 'discount', 'prod_pic']
 
+    price = forms.IntegerField(required=True)
+    is_stock = forms.IntegerField(required=True)
+    discount = forms.IntegerField(required=True)
+
     def __init__(self, *args, **kwargs):
         super(ProductEdit, self).__init__(*args, **kwargs)
-        self.fields['name'].help_text = ''
-        self.fields['name'].label = ''
+        self.fields['name'].required = False
+        self.fields['price'].required = False
+        self.fields['about'].required = False
+        self.fields['measure'].required = False
+        self.fields['category_class'].required = False
+        self.fields['vendor'].required = False
+        self.fields['is_stock'].required = False
+        self.fields['discount'].required = False
+
+        self.fields['name'].label = 'Наименование'
+        self.fields['price'].label = 'Цена'
+        self.fields['about'].label = 'Описание'
+        self.fields['measure'].label = 'Измерение'
+        self.fields['category_class'].label = 'Категория'
+        self.fields['vendor'].label = 'Производитель'
+        self.fields['is_stock'].label = 'В наличии'
+        self.fields['discount'].label = 'Скидка (%)'
+
         self.fields['name'].widget = forms.Textarea(attrs={'placeholder':
-                                               'Наименование',
-                                               'cols': 8,
-                                               'rows': 1,
-                                               'class': 'form-control', })
-        self.fields['about'].help_text = ''
-        self.fields['about'].label = ''
+                                                           'Наименование товара',
+                                                           'cols': 8,
+                                                           'rows': 1,
+                                                           'class': 'form-control',
+                                                           'required': 'True'})
+
         self.fields['about'].widget = forms.Textarea(attrs={'placeholder': 'Описание продукта',
-                                               'cols': 8,
-                                               'rows': 5,
-                                               'class': 'form-control', })
-        self.fields['vendor'].help_text = ''
-        self.fields['vendor'].label = ''
+                                                            'cols': 8,
+                                                            'rows': 5,
+                                                            'class': 'form-control',
+                                                            'required': 'True'})
+
         self.fields['vendor'].widget = forms.Textarea(attrs={'placeholder': 'Производитель',
-                                               'cols': 8,
-                                               'rows': 1,
-                                               'class': 'form-control', })
+                                                             'cols': 8,
+                                                             'rows': 1,
+                                                             'class': 'form-control',
+                                                             'required': 'True'})
 
 
 class NewsEdit(ModelForm):

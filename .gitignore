@@ -13,3 +13,5 @@ construct/news/__pycache__/
 construct/construct/__pycache__/
 construct/media/
 
+construct/db.sqlite3
+construct/db.sqlite3

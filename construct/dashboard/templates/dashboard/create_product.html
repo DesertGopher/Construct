@@ -3,7 +3,7 @@
 {% load static %}
 {% block title %}Создание продукта{% endblock %}
 {% block static %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/news_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/product_edit.css' %}">
 
 {% endblock %}
 
@@ -22,8 +22,8 @@
     <form method="POST" enctype="multipart/form-data">
         <div class="form">
             {% csrf_token %}
-            {{ form.as_p}} <br>
-            <br><button  type="submit" class="btn btn-info" style="margin-bottom: 2%;"> Создать продукт </button>
+            {{ form.as_p }} <br>
+            <button  type="submit" class="btn btn-info" style="margin-bottom: 2%;"> Создать продукт </button>
         </div>
 
     </form>
