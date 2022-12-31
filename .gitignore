@@ -1,4 +1,4 @@
-/env/
+/.venv/
 /construct/api/migrations/
 /construct/shop/migrations/
 /construct/dashboard/migrations/
@@ -15,3 +15,6 @@ construct/media/
 
 construct/db.sqlite3
 construct/db.sqlite3
+cranko.exe
+/.doctrees/
+/.idea/
