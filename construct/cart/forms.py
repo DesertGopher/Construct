@@ -12,3 +12,14 @@ class CartAddProductForm(forms.Form):
         self.fields['quantity'].label = ''
         self.fields['quantity'].widget = forms.TextInput(
             attrs={'class': 'form-control'})
+
+
+class CartRemoveProductForm(forms.Form):
+    quantity = forms.IntegerField(min_value=1, step_size=1, initial=1)
+    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+
+    def __init__(self, *args, **kwargs):
+        super(CartRemoveProductForm, self).__init__(*args, **kwargs)
+        self.fields['quantity'].label = ''
+        self.fields['quantity'].widget = forms.TextInput(
+            attrs={'class': 'form-control'})

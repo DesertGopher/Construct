@@ -26,7 +26,6 @@ class Cart(object):
     def add(self, product, quantity=1, update_quantity=False):
         """ Добавить продукт в корзину или обновить его количество"""
         product_id = str(product.id)
-        boolka = False
 
         if int(quantity) > int(product.is_stock):
             print('Нельзя добавить чтобы было больше чем в наличии изначально')
@@ -43,10 +42,18 @@ class Cart(object):
 
             if not self.cart[product_id]['quantity'] > int(product.is_stock):
                 self.save()
-                boolka = True
             else:
                 print('Не поулчится так')
 
+    def reduce(self, product, quantity=-1, update_quantity=False):
+        """ Уменьшить количество продукта в корзине"""
+        product_id = str(product.id)
+        if int(quantity) > self.cart[product_id]['quantity']-1:
+            self.remove(product)
+
+        elif not update_quantity:
+            self.cart[product_id]['quantity'] -= quantity
+            self.save()
 
     def save(self):
         # Обновление сессии cart

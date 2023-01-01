@@ -72,3 +72,20 @@ figure img {
     width: 35%;
     justify-content: space-between;
 }
+
+.amounts {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: space-around;
+}
+
+.cart_amount_form {
+    display:flex;
+    flex-direction:row;
+    height: 4vh;
+    align-items: center;
+}
+form {
+    width: 95px;
+}

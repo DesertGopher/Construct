@@ -6,7 +6,7 @@ from api.serializers import LoadCartSerializer, GetProductMeasure, GetMeasure, U
 from dashboard.exceptions import *
 from api.models import Product, Measure, ProductCategory, Profile
 from .cart import Cart
-from .forms import CartAddProductForm
+from .forms import CartAddProductForm, CartRemoveProductForm
 
 
 @require_POST
@@ -20,6 +20,22 @@ def cart_add(request, product_id):
             cart.add(product=product,
                      quantity=cd['quantity'],
                      update_quantity=cd['update'])
+        return redirect('cart:cart_detail')
+    else:
+        return render(request, 'dashboard/401.html')
+
+
+@require_POST
+def cart_reduce(request, product_id):
+    if request.user.is_active:
+        cart = Cart(request)
+        product = get_object_or_404(Product, id=product_id)
+        form = CartRemoveProductForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            cart.reduce(product=product,
+                        quantity=cd['quantity'],
+                        update_quantity=cd['update'])
         return redirect('cart:cart_detail')
     else:
         return render(request, 'dashboard/401.html')
@@ -40,14 +56,14 @@ def cart_detail(request):
     if request.user.is_active:
         cart = Cart(request)
         profile = Profile.objects.get(client_id=request.user)
-        cart_product_form = CartAddProductForm()
+        cart_add_product_form = CartAddProductForm()
+        cart_remove_product_form = CartRemoveProductForm()
         categories = ProductCategory.objects.all()
         title = 'Корзина'
         product_list = UserCart.objects.get(client_id=request.user)
         serializer = LoadCartSerializer(product_list, many=False)
         saved_cart = []
         keys = serializer.data['product_list'].keys()
-        print(cart)
 
         for key in keys:
             product = Product.objects.get(id=key)
@@ -60,7 +76,8 @@ def cart_detail(request):
             'profile': profile,
             'categories': categories,
             'cart': cart,
-            'cart_product_form': cart_product_form,
+            'cart_add_product_form': cart_add_product_form,
+            'cart_remove_product_form': cart_remove_product_form,
             'title': title,
             'saved_cart': saved_cart
         }
