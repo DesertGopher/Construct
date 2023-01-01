@@ -10,6 +10,8 @@ from datetime import datetime
 from api.serializers import LoadCartSerializer, OrderProducts
 from django.urls import reverse
 from dashboard.exceptions import *
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 @server_error_decorator
@@ -127,8 +129,6 @@ def create_order(request):
         address_list = Address.objects.filter(client_id=request.user, is_active=True)
         title = 'Оформление заказа'
 
-        for i in cart:
-            print(i['product'].is_stock)
         if not cart.get_all_products():
             message = 'Оформление заказа с пустой корзиной невозможно.\n Добавьте товары в корзину.'
             return render(request, 'dashboard/error_page.html', {'message': message})
@@ -154,6 +154,25 @@ def create_order(request):
                 order_form.product_list = cart.get_all_products()
                 order_form.total_cost = cart.get_total_price_cart()
                 order_form.save()
+
+                subject = f'Пользователь {request.user} сделал заказ.'
+                message = (
+                    f'Номер заказа: {order_form.id}\n'
+                    f'Клиент: {request.user}\n'
+                    f'Адрес: {order_form.address_id}\n'
+                    f'Дата создания заказа клиентом: {order_form.date_created}\n'
+                    # f'Товары: {cart_products}\n'
+                    f'Тип оплаты: {order_form.payment_type}\n'
+                    f'Сумма заказа: {order_form.total_cost} руб\n'
+                    f'Статус заказа: {order_form.status}'
+                )
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    settings.RECIPIENTS_EMAIL,
+                )
                 for prod in cart:
                     prod['product'].is_stock = int(prod['product'].is_stock) - int(prod['quantity'])
                     prod['product'].save()
@@ -170,6 +189,7 @@ def create_order(request):
             'address_list': address_list,
             'title': title
         }
+
         return render(request, 'shop/OrderCreate.html', context)
     else:
         return render(request, 'dashboard/401.html')

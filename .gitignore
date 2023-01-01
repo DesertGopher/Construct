@@ -6,15 +6,15 @@
 /construct/news/migrations/
 /construct/api/__pycache__/
 /construct/api/__init__.py
-construct/cart/__pycache__/
-construct/shop/__pycache__/
-construct/dashboard/__pycache__/
-construct/news/__pycache__/
-construct/construct/__pycache__/
-construct/media/
+/construct/cart/__pycache__/
+/construct/shop/__pycache__/
+/construct/dashboard/__pycache__/
+/construct/news/__pycache__/
+/construct/construct/__pycache__/
+/construct/media/
 
-construct/db.sqlite3
-construct/db.sqlite3
+/construct/db.sqlite3
 cranko.exe
 /.doctrees/
 /.idea/
+/config/secret.json

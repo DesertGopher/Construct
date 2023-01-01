@@ -2,9 +2,10 @@
 
 Repository with Construct site architecture for VKR.
 
-## requirements:
+### requirements:
 - markdown (?)
 - django
+- django-ckeditor
 - pillow
 - DRF
 - pdocs3 (?)
