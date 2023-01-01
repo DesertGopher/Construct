@@ -16,7 +16,7 @@
 {% endblock %}
 {% block content %}
 <div class="notexist">
-    {{ message|linebreaks }}
+    <a>У вас нет прав доступа к этой странице</a>
     <a style="font-size: 30px;" class="btn btn-link" href="{% url 'dashboard:home' %}">Вернуться на главную</a>
     <img src="{% static 'dashboard/img/403.jpg' %}" alt="403" width="30%" style="margin-left: 2%;">
 </div>

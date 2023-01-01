@@ -52,38 +52,36 @@ def cart_remove(request, product_id):
 
 
 @server_error_decorator
+@is_active_decorator
 def cart_detail(request):
-    if request.user.is_active:
-        cart = Cart(request)
-        profile = Profile.objects.get(client_id=request.user)
-        cart_add_product_form = CartAddProductForm()
-        cart_remove_product_form = CartRemoveProductForm()
-        categories = ProductCategory.objects.all()
-        title = 'Корзина'
-        product_list = UserCart.objects.get(client_id=request.user)
-        serializer = LoadCartSerializer(product_list, many=False)
-        saved_cart = []
-        keys = serializer.data['product_list'].keys()
+    cart = Cart(request)
+    profile = Profile.objects.get(client_id=request.user)
+    cart_add_product_form = CartAddProductForm()
+    cart_remove_product_form = CartRemoveProductForm()
+    categories = ProductCategory.objects.all()
+    title = 'Корзина'
+    product_list = UserCart.objects.get(client_id=request.user)
+    serializer = LoadCartSerializer(product_list, many=False)
+    saved_cart = []
+    keys = serializer.data['product_list'].keys()
 
-        for key in keys:
-            product = Product.objects.get(id=key)
-            measure_serializer = GetProductMeasure(product, many=False)
-            measure = Measure.objects.get(id=measure_serializer.data['measure'])
-            measure = GetMeasure(measure, many=False)
-            saved_cart.append(str(serializer.data['product_list'].get(key)) + str(measure.data['measure'])
-                              + ' --- ' + str(Product.objects.get(id=key)))
-        context = {
-            'profile': profile,
-            'categories': categories,
-            'cart': cart,
-            'cart_add_product_form': cart_add_product_form,
-            'cart_remove_product_form': cart_remove_product_form,
-            'title': title,
-            'saved_cart': saved_cart
-        }
-        return render(request, 'cart/detail.html', context)
-    else:
-        return render(request, 'dashboard/401.html')
+    for key in keys:
+        product = Product.objects.get(id=key)
+        measure_serializer = GetProductMeasure(product, many=False)
+        measure = Measure.objects.get(id=measure_serializer.data['measure'])
+        measure = GetMeasure(measure, many=False)
+        saved_cart.append(str(serializer.data['product_list'].get(key)) + str(measure.data['measure'])
+                          + ' --- ' + str(Product.objects.get(id=key)))
+    context = {
+        'profile': profile,
+        'categories': categories,
+        'cart': cart,
+        'cart_add_product_form': cart_add_product_form,
+        'cart_remove_product_form': cart_remove_product_form,
+        'title': title,
+        'saved_cart': saved_cart
+    }
+    return render(request, 'cart/detail.html', context)
 
 
 def update_cart(request):
