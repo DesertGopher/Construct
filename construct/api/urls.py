@@ -22,13 +22,7 @@ urlpatterns = [
     path('news/', views.NewsList.as_view(), name="news"),
     path('news-detail/<int:id>/', views.NewsDetail.as_view(), name="news_detail"),
 
-    # Категории товаров
-    path('categories/', views.Categories.as_view(), name="categories"),
-    path('category-detail/<int:id>/', views.CategoryDetail.as_view(), name="category_detail"),
-
-    # Статусы заказа
-    path('statuses/', views.Statuses.as_view(), name="statuses"),
-
     # Заказы
     path('orders/', views.Orders.as_view(), name="orders"),
+    path('order-detail/<int:id>/', views.OrderDetail.as_view(), name="order_detail"),
 ]

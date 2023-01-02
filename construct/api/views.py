@@ -21,18 +21,17 @@ class Orders(APIView):
             return Response(context)
 
 
-class Statuses(APIView):
-    """Класс для работы с таблицей новостей."""
+class OrderDetail(APIView):
+    """Класс для работы с заказом по id."""
 
-    def get(self, request):
-        """Возвращает информацию о всех новостях."""
-        data = OrderStatus.objects.all()
-        if data:
-            serializer = OrderStatusSerializer(data, many=True)
+    def get(self, request, id):
+        """Получает информацию о заказе по id"""
+        try:
+            data = Order.objects.get(id=id)
+            serializer = OrderSerializer(data, many=False)
             return Response(serializer.data)
-        else:
-            context = ER.get_err_message(2)
-            return Response(context)
+        except Exception as e:
+            return ER.exception_handler(e, 'Заказ')
 
 
 class NewsList(APIView):
@@ -213,76 +212,6 @@ class Products(APIView):
             return Response({'data': serializer.data, 'message': 'Продукт успешно добавлен.'})
         except Exception as e:
             return ER.exception_handler(e, 'Продукт')
-
-
-class Categories(APIView):
-    """Класс для работы с таблицей категорий товаров."""
-
-    def get(self, request):
-        """Возвращает информацию о всех категориях."""
-        data = ProductCategory.objects.all()
-        if data:
-            serializer = CategorySerializer(data, many=True)
-            return Response(serializer.data)
-        else:
-            context = ER.get_err_message(2)
-            return Response(context)
-
-    def post(self, request):
-        """Добавляет категорию в базу данных """
-        try:
-            serializer = CategorySerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response({'data': serializer.data, 'message': 'Категория успешно добавлена.'})
-        except Exception as e:
-            return ER.exception_handler(e, 'Категория')
-
-
-class CategoryDetail(APIView):
-    """Класс для работы с категориями по id."""
-
-    def get(self, request, id):
-        """Получает информацию о категории по id"""
-        try:
-            data = ProductCategory.objects.get(id=id)
-            serializer = CategorySerializer(data, many=False)
-            return Response(serializer.data)
-        except Exception as e:
-            return ER.exception_handler(e, 'Категория')
-
-    def put(self, request, id):
-        """Редактирует категорию по id"""
-        if request.data:
-            try:
-                category = ProductCategory.objects.get(pk=id)
-                serializer = CategorySerializer(category, data=request.data, partial=True)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
-                return Response({'status': True,
-                                'message': 'Запись о категории успешно изменена.'})
-            except Exception as e:
-                return ER.exception_handler(e, 'Категория')
-        else:
-            return Response({'status': False, 'message': "Пустой запрос!"})
-
-
-class CartDetail(APIView):
-    def put(self, request, id):
-        """Загрузка корзины"""
-        if request.data:
-            try:
-                cart = UserCart.objects.get(client_id=id)
-                request.data['product_list'] = {"some": "sas"}
-                serializer = CartSerializer(cart, data=request.data, partial=True)
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
-                return Response({'status': True,
-                                'message': 'Запись о категории успешно изменена.'})
-            except Exception as e:
-                return ER.exception_handler(e, 'Категория')
-        else:
-            return Response({'status': False, 'message': "Пустой запрос!"})
 
 
 def index(request):

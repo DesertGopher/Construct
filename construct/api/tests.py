@@ -1,19 +1,11 @@
 import string
-from datetime import date
 from typing import Optional
 import json
 
 from django.urls import reverse
-from django_rest.http import status
-from rest_framework import request
-from rest_framework.permissions import AllowAny
 from rest_framework.test import APITestCase
-
-from .serializers import *
-from .ex_handler import ExceptionResolver as ER
-from .models import *
+from rest_framework import status
 from .views import *
-from rest_framework import permissions
 import random
 
 
@@ -236,14 +228,31 @@ class ProductsTests(APITestCase):
 
     def setUp(self):
         """Метод для ввода новых записей в тестовую БД"""
+
+        self.measure = Measure.objects.create(
+            id=1,
+            full_measure=VAL.string_values(),
+            measure=VAL.string_values(),
+        )
+
+        self.category = ProductCategory.objects.create(
+            id=1,
+            name=VAL.string_values(),
+            description=VAL.string_values(),
+        )
+
         for id in range(1, 4):
             Product.objects.create(
                 id=id,
                 name=VAL.string_values(),
                 price=VAL.float_values(),
                 about=VAL.string_values(50),
-                measure='шт.',
-                category_class=VAL.int_values()
+                measure=self.measure,
+                category_class=self.category,
+                vendor=VAL.string_values(),
+                is_stock=VAL.int_values(),
+                discount=VAL.int_values(1, 50),
+                is_active=True,
             )
 
         self.valid_field_payload = {
@@ -251,8 +260,12 @@ class ProductsTests(APITestCase):
             'name': VAL.string_values(),
             'price': VAL.float_values(),
             'about': VAL.string_values(50),
-            'measure': VAL.string_values(),
-            'category': VAL.int_values(),
+            # 'measure': self.measure,
+            # 'category_class': self.category,
+            'vendor': VAL.string_values(),
+            'is_stock': VAL.int_values(),
+            'discount': VAL.int_values(1, 50),
+            'is_active': True,
         }
 
         self.invalid_field_payload = {
@@ -260,8 +273,12 @@ class ProductsTests(APITestCase):
             'invalid_name': VAL.string_values(),
             'invalid_price': VAL.float_values(),
             'invalid_about': VAL.string_values(50),
-            'invalid_measure': VAL.string_values(),
-            'invalid_category': VAL.int_values(),
+            # 'invalid_measure': self.measure,
+            # 'invalid_category_class': self.category,
+            'invalid_vendor': VAL.string_values(),
+            'invalid_is_stock': VAL.int_values(),
+            'invalid_discount': VAL.int_values(1, 50),
+            'invalid_is_active': True,
         }
 
         self.invalid_field_payload_data = {
@@ -269,8 +286,12 @@ class ProductsTests(APITestCase):
             'name': VAL.json(),
             'price': VAL.string_values(),
             'about': VAL.int_values(50),
-            'measure': VAL.float_values(),
-            'category': VAL.string_values(),
+            # 'measure': self.measure,
+            # 'category_class': self.category,
+            'vendor': VAL.int_values(),
+            'is_stock': VAL.string_values(),
+            'discount': VAL.string_values(),
+            'is_active': VAL.string_values(),
         }
 
         self.valid_field_payload_put = {
@@ -278,8 +299,12 @@ class ProductsTests(APITestCase):
             'name': VAL.string_values(),
             'price': VAL.float_values(),
             'about': VAL.string_values(50),
-            'measure': 'кг.',
-            'category': VAL.int_values(),
+            # 'measure': self.measure,
+            # 'category_class': self.category,
+            'vendor': VAL.string_values(),
+            'is_stock': VAL.int_values(),
+            'discount': VAL.int_values(51, 60),
+            'is_active': True,
         }
 
     def test_get_all_products(self):
@@ -340,7 +365,7 @@ class ProductsTests(APITestCase):
         serializer = ProductsSerializer(data)
         updated_serializer = ProductsSerializer(updated_data)
         self.assertNotEqual(
-            serializer.data['measure'], updated_serializer.data['measure'])
+            serializer.data['discount'], updated_serializer.data['discount'])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_invalid_update_product(self):
@@ -353,11 +378,12 @@ class ProductsTests(APITestCase):
         self.assertEqual(response.data, ER.get_err_message(4))
 
 
-class BlogsTests(APITestCase):
-    """Класс для тестирования таблицы Products"""
+class OrdersTests(APITestCase):
+    """Класс для тестирования таблицы orders"""
 
     def setUp(self):
         """Метод для ввода новых записей в тестовую БД"""
+
         self.user = User.objects.create(
             id=1,
             password=VAL.string_values(),
@@ -370,207 +396,83 @@ class BlogsTests(APITestCase):
             is_active=True,
         )
 
-        Blog.objects.create(
+        self.district = District.objects.create(
             id=1,
-            title=VAL.string_values(),
-            description=VAL.string_values(),
-            task=VAL.string_values(),
-            pub_date='2022-08-30 23:14:35.715464',
-            author=self.user
+            region_kladr=VAL.string_values(),
+            name=VAL.string_values(),
         )
 
-        self.valid_field_payload = {
-            'id': 5,
-            'title': VAL.string_values(),
-            'description': VAL.string_values(),
-            'task': VAL.string_values(),
-            'pub_date': VAL.string_values(),
-            'author': 'User1'
-        }
-
-        self.invalid_field_payload = {
-            'invalid_id': 5,
-            'invalid_title': VAL.string_values(),
-            'invalid_description': VAL.string_values(),
-            'invalid_task': VAL.string_values(),
-            'invalid_pub_date': VAL.string_values(),
-            'invalid_author': 'User1'
-        }
-
-        self.invalid_field_payload_data = {
-            'id': 10,
-            'title': VAL.json(),
-            'description': VAL.json(),
-            'task': VAL.json(),
-            'pub_date': VAL.json(),
-            'author': VAL.int_values()
-        }
-
-
-    def test_get_all_blogs(self):
-        """Метод получения всех блогов"""
-        response = self.client.get(reverse('api:blog'))
-        blogs = Blog.objects.all()
-        serializer = BlogsSerializer(blogs, many=True)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_single_product(self):
-        """Метод получения блога по id"""
-        response = self.client.get(reverse('api:blog_detail', kwargs={'id': 1}))
-        blog = Blog.objects.get(pk=1)
-        serializer = BlogsSerializer(blog)
-        assert(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_get_single_invalid_blog(self):
-        """Метод получения несуществующего блога"""
-        response = self.client.get(reverse('api:blog_detail', kwargs={'id': 6}))
-        self.assertEqual(response.data, ER.get_err_message(6, 'Блог'))
-
-    def test_create_blog(self):
-        """Метод создания нового блога"""
-        response = self.client.post(
-            reverse('api:blog'),
-            data=json.dumps(self.valid_field_payload),
-            content_type='application/json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_create_invalid_blog(self):
-        """Метод создания нового блога с неправильно введенными полями"""
-        response = self.client.post(
-            reverse('api:blog'),
-            data=json.dumps(self.invalid_field_payload),
-            content_type='application/json')
-        self.assertEqual(response.data, ER.get_err_message(4))
-
-    def test_create_invalid_blog_data(self):
-        """Метод создания нового блога с неправильно введенными данными"""
-        response = self.client.post(
-            reverse('api:blog'),
-            data=json.dumps(self.invalid_field_payload_data),
-            content_type='application/json')
-        self.assertEqual(response.data, ER.get_err_message(4))
-
-    def test_invalid_update_blog(self):
-        """Метод неправильного изменения продукта"""
-        response = self.client.put(
-            reverse('api:blog_detail',
-                    kwargs={'id': 1}),
-            data=json.dumps(self.invalid_field_payload_data),
-            content_type='application/json')
-        self.assertEqual(response.data, ER.get_err_message(4))
-
-
-class CommentsTests(APITestCase):
-    """Класс для тестирования таблицы Products"""
-
-    def setUp(self):
-        """Метод для ввода новых записей в тестовую БД"""
-        self.user = User.objects.create(
+        self.address = Address.objects.create(
             id=1,
-            password=VAL.string_values(),
-            is_superuser=False,
-            username='User1',
-            first_name=VAL.string_values(),
-            last_name=VAL.string_values(),
-            email='email@mail.ru',
-            is_staff=False,
+            client_id=self.user,
+            district=self.district,
+            fact_address='fact_address',
             is_active=True,
         )
 
-        self.blog = Blog.objects.create(
+        self.status = OrderStatus.objects.create(
             id=1,
-            title=VAL.string_values(),
-            description=VAL.string_values(),
-            task=VAL.string_values(),
-            pub_date='2022-08-30 23:14:35.715464',
-            author=self.user
+            status_name=VAL.string_values(50),
         )
 
-        Comment.objects.create(
+        self.payment = OrderPayment.objects.create(
             id=1,
-            text=VAL.string_values(),
-            pub_date='2022-08-30 23:14:35.715464',
-            author=self.user,
-            post=self.blog
+            payment_name=VAL.string_values(50),
+        )
+
+        Order.objects.create(
+            id=1,
+            client_id=self.user,
+            status=self.status,
+            date_created="2022-12-18T03:50:16.939176Z",
+            payment_type=self.payment,
+            product_list=VAL.json(),
+            total_cost=VAL.int_values(),
+            address_id=self.address,
         )
 
         self.valid_field_payload = {
             'id': 5,
-            'text': VAL.string_values(),
-            'pub_date': '2022-08-30 23:14:35.715464',
-            'author': 'self.user',
-            'post': 'self.blog'
+            'date_created': "2022-12-18T03:50:16.939176Z",
+            'product_list': VAL.json(),
+            'total_cost': VAL.int_values(),
+            'address_id': self.address,
+            'payment_type': self.payment,
+            'client_id': self.user,
+            'status': self.status,
         }
 
         self.invalid_field_payload = {
             'invalid_id': 5,
-            'invalid_text': VAL.string_values(),
-            'invalid_pub_date': '2022-08-30 23:14:35.715464',
-            'invalid_author': 'self.user',
-            'invalid_post': 'self.blog'
+            'invalid_date_created': "2022-12-18T03:50:16.939176Z",
+            'invalid_product_list': VAL.json(),
+            'invalid_total_cost': VAL.int_values(),
         }
 
         self.invalid_field_payload_data = {
             'id': 10,
-            'text': VAL.json(),
-            'pub_date': False,
-            'author': None,
-            'post': True
+            'date_created': "2022-12-18T03:50:16.939176Z",
+            'product_list': VAL.int_values(),
+            'total_cost': VAL.string_values(),
         }
 
-
-    def test_get_all_comments(self):
-        """Метод получения всех комментариев"""
-        response = self.client.get(reverse('api:comment'))
-        comments = Comment.objects.all()
-        serializer = CommentsSerializer(comments, many=True)
+    def test_get_all_orders(self):
+        """Метод получения всех заказов"""
+        response = self.client.get(reverse('api:orders'))
+        orders = Order.objects.all()
+        serializer = OrderSerializer(orders, many=True)
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_single_comment(self):
-        """Метод получения комментария по id"""
-        response = self.client.get(reverse('api:comment_detail', kwargs={'id': 1}))
-        comment = Comment.objects.get(pk=1)
-        serializer = CommentsSerializer(comment)
+    def test_get_single_order(self):
+        """Метод получения заказа по id"""
+        response = self.client.get(reverse('api:order_detail', kwargs={'id': 1}))
+        order = Order.objects.get(pk=1)
+        serializer = OrderSerializer(order)
         assert(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_single_invalid_comment(self):
-        """Метод получения несуществующего комментария"""
-        response = self.client.get(reverse('api:comment_detail', kwargs={'id': 6}))
-        self.assertEqual(response.data, ER.get_err_message(6, 'Комментарий'))
-
-    def test_create_comment(self):
-        """Метод создания нового комментария"""
-        response = self.client.post(
-            reverse('api:comment'),
-            data=json.dumps(self.valid_field_payload),
-            content_type='application/json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_create_invalid_comment(self):
-        """Метод создания нового комментария с неправильно введенными полями"""
-        response = self.client.post(
-            reverse('api:comment'),
-            data=json.dumps(self.invalid_field_payload),
-            content_type='application/json')
-        self.assertEqual(response.data, ER.get_err_message(4))
-
-    def test_create_invalid_comment_data(self):
-        """Метод создания нового комментария с неправильно введенными данными"""
-        response = self.client.post(
-            reverse('api:comment'),
-            data=json.dumps(self.invalid_field_payload_data),
-            content_type='application/json')
-        self.assertEqual(response.data, ER.get_err_message(4))
-
-    def test_invalid_update_comment(self):
-        """Метод неправильного изменения комментария"""
-        response = self.client.put(
-            reverse('api:comment_detail',
-                    kwargs={'id': 1}),
-            data=json.dumps(self.invalid_field_payload_data),
-            content_type='application/json')
-        self.assertEqual(response.data, ER.get_err_message(4))
+    def test_get_single_invalid_order(self):
+        """Метод получения несуществующего заказа"""
+        response = self.client.get(reverse('api:order_detail', kwargs={'id': 6}))
+        self.assertEqual(response.data, ER.get_err_message(6, 'Заказ'))
