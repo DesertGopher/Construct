@@ -5,13 +5,17 @@ from .serializers import *
 from .ex_handler import ExceptionResolver as ER
 from .models import *
 from django.apps import apps
+from drf_yasg.utils import swagger_auto_schema
 
 
 class Orders(APIView):
     """Класс для работы с таблицей новостей."""
 
+    @swagger_auto_schema(operation_id="Orders",
+                         operation_summary="Выводит информацию о всех заказах пользователей",
+                         tags=['Заказы'])
     def get(self, request):
-        """Возвращает информацию о всех новостях."""
+        """Возвращает информацию о всех заказах."""
         data = Order.objects.all()
         if data:
             serializer = OrderSerializer(data, many=True)
@@ -24,6 +28,9 @@ class Orders(APIView):
 class OrderDetail(APIView):
     """Класс для работы с заказом по id."""
 
+    @swagger_auto_schema(operation_id="OrderDetail",
+                         operation_summary="Выводит информацию о заказе по id заказа",
+                         tags=['Заказы'])
     def get(self, request, id):
         """Получает информацию о заказе по id"""
         try:
@@ -37,9 +44,12 @@ class OrderDetail(APIView):
 class NewsList(APIView):
     """Класс для работы с таблицей новостей."""
 
+    @swagger_auto_schema(operation_id="NewsList",
+                         operation_summary="Выводит информацию о всех активных новостях",
+                         tags=['Новости'])
     def get(self, request):
         """Возвращает информацию о всех новостях."""
-        data = News.objects.all()
+        data = News.objects.filter(is_active=True)
         if data:
             serializer = NewsSerializer(data, many=True)
             return Response(serializer.data)
@@ -47,6 +57,9 @@ class NewsList(APIView):
             context = ER.get_err_message(2)
             return Response(context)
 
+    @swagger_auto_schema(operation_id="NewsList",
+                         operation_summary="Создание новости",
+                         tags=['Новости'])
     def post(self, request):
         """Добавляет новость в базу данных """
         try:
@@ -61,6 +74,9 @@ class NewsList(APIView):
 class NewsDetail(APIView):
     """Класс для работы с новостью по id."""
 
+    @swagger_auto_schema(operation_id="NewsDetail",
+                         operation_summary="Выводит информацию о новости по id",
+                         tags=['Новости'])
     def get(self, request, id):
         """Получает информацию о новости по id"""
         try:
@@ -70,6 +86,9 @@ class NewsDetail(APIView):
         except Exception as e:
             return ER.exception_handler(e, 'Новость')
 
+    @swagger_auto_schema(operation_id="NewsDetail",
+                         operation_summary="Изменяет новость по id",
+                         tags=['Новости'])
     def put(self, request, id):
         """Редактирует новость по id"""
         if request.data:
@@ -90,6 +109,9 @@ class UserDetail(APIView):
     """Класс для работы с пользователем по id."""
     # permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(operation_id="UserDetail",
+                         operation_summary="Возвращает информацию пользователе по id",
+                         tags=['Пользователи'])
     def get(self, request, id):
         """Получает информацию о пользователе по id"""
         try:
@@ -99,6 +121,9 @@ class UserDetail(APIView):
         except Exception as e:
             return ER.exception_handler(e, 'Пользователь')
 
+    @swagger_auto_schema(operation_id="UserDetail",
+                         operation_summary="Изменяет пользователя по id",
+                         tags=['Пользователи'])
     def put(self, request, id):
         """Редактирует пользователя по id"""
         if request.data:
@@ -118,6 +143,9 @@ class UserDetail(APIView):
 class Users(APIView):
     """Класс для работы с таблицей пользователей."""
 
+    @swagger_auto_schema(operation_id="Users",
+                         operation_summary="Возвращает информацию о всех пользователях",
+                         tags=['Пользователи'])
     def get(self, request):
         """Возвращает информацию о всех пользователях."""
         data = User.objects.all()
@@ -128,6 +156,9 @@ class Users(APIView):
             context = ER.get_err_message(2)
             return Response(context)
 
+    @swagger_auto_schema(operation_id="Users",
+                         operation_summary="Создание пользователя",
+                         tags=['Пользователи'])
     def post(self, request):
         """Добавляет пользователя в базу данных """
         try:
@@ -142,6 +173,9 @@ class Users(APIView):
 class IsUserAdmin(APIView):
     """Класс для получения списка суперпользователей."""
 
+    @swagger_auto_schema(operation_id="IsUserAdmin",
+                         operation_summary="Возвращает список суперпользователей",
+                         tags=['Пользователи'])
     def get(self, request):
         """Возвращает информацию о всех суперпользователях."""
         data = User.objects.filter(is_superuser=True)
@@ -156,6 +190,9 @@ class IsUserAdmin(APIView):
 class ProductDetail(APIView):
     """Класс для работы с продуктом по id."""
 
+    @swagger_auto_schema(operation_id="ProductDetail",
+                         operation_summary="Возвращает информацию о товаре по id",
+                         tags=['Товары'])
     def get(self, request, id):
         """Получает информацию о продукте по id"""
         try:
@@ -165,6 +202,9 @@ class ProductDetail(APIView):
         except Exception as e:
             return ER.exception_handler(e, 'Продукт')
 
+    @swagger_auto_schema(operation_id="ProductDetail",
+                         operation_summary="Изменяет товар по id",
+                         tags=['Товары'])
     def put(self, request, id):
         """Редактирует продукт по id"""
         if request.data:
@@ -180,22 +220,16 @@ class ProductDetail(APIView):
         else:
             return Response({'status': False, 'message': "Пустой запрос!"})
 
-    def delete(self, request, id):
-        """Удаляет продукт по id"""
-        if request.data:
-            try:
-                product = Products.objects.get(pk=id)
-                product.delete()
-            except Exception as e:
-                return ER.exception_handler(e, 'Продукт')
-
 
 class Products(APIView):
     """Класс для работы с таблицей продуктов."""
 
+    @swagger_auto_schema(operation_id="Products",
+                         operation_summary="Выводит список всех активных товаров",
+                         tags=['Товары'])
     def get(self, request):
         """Возвращает информацию о всех продуктах."""
-        data = Product.objects.all()
+        data = Product.objects.filter(is_active=True)
         if data:
             serializer = ProductsSerializer(data, many=True)
             return Response(serializer.data)
@@ -203,6 +237,9 @@ class Products(APIView):
             context = ER.get_err_message(2)
             return Response(context)
 
+    @swagger_auto_schema(operation_id="Products",
+                         operation_summary="Создание товара",
+                         tags=['Товары'])
     def post(self, request):
         """Добавляет продукт в базу данных """
         try:

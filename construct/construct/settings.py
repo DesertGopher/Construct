@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'shop',
     'cart',
     'news',
-    # 'multiforloop',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
