@@ -5,7 +5,7 @@ Example of file config/secret.json
 ```json
 {
   "user_host": "sender_mail_address",
-  "user_host_password": "sender_mail_address_password_for_localgost",
+  "user_host_password": "sender_mail_address_password_for_localhost",
   "recipients_email": ["list_of_recipients_emails"]
 }
 ```
