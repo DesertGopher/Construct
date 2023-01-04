@@ -20,3 +20,4 @@ cranko.exe
 /config/secret.json
 
 /logs/
+/config/
