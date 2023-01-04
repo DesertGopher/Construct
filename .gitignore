@@ -19,3 +19,4 @@ cranko.exe
 /.idea/
 /config/secret.json
 
+/logs/

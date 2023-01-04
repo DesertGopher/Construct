@@ -18,6 +18,9 @@ Repository with Construct site architecture for VKR.
 - django-filter==22.1
 - django-cors-headers==3.13 (for CORS)
 - djangorestframework-api-key==2.2 (Api auth)
-- loguru==0.6.0 (логирование)
+- loguru==0.6.0 (logging)
 - WhiteNoise==2.0.6 (For testing locally with debug False)
 
+
+### logs
+- api_view_logs.txt (API methods logs)
