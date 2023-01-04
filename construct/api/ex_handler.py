@@ -1,5 +1,14 @@
 from rest_framework.response import Response
 from typing import Optional
+from loguru import logger
+from django.conf import settings
+
+
+logger.add(settings.PATH_LOG / "api_view_logs.txt", diagnose=False, backtrace=False,
+           format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
+           retention='7 days', compression="zip",
+           filter=lambda record: "view" in record["extra"])
+view_logger = logger.bind(view=True)
 
 
 class ExceptionResolver:
@@ -26,6 +35,7 @@ class ExceptionResolver:
         try:
             return error_messages_dict[error_code]
         except KeyError as e:
+            view_logger.exception(e)
             return {'error_code': None, 'message': 'Неизвестный код ошибки.'}
 
     @classmethod
@@ -34,22 +44,42 @@ class ExceptionResolver:
         """Возвращает DRF Response и логгирует ошибки исходя из переданного исключения."""
         if ex.__class__.__name__ == 'DoesNotExist':
             context = cls.get_err_message(6, object_name)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)
+
         elif ex.__class__.__name__ in ('ParseError', 'DataError'):
             context = cls.get_err_message(3)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)
+
         elif ex.__class__.__name__ == 'ValidationError':
             context = cls.get_err_message(4)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)
+
         elif ex.__class__.__name__ == 'IntegrityError':
             context = cls.get_err_message(5, object_name)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)
+
         elif ex.__class__.__name__ == 'KeyError':
             context = cls.get_err_message(7)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)
+
         elif ex.__class__.__name__ == 'TypeError':
             context = cls.get_err_message(8, object_name, msg)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)
+
         else:
             context = cls.get_err_message(1)
+            view_logger.exception(ex)
+            view_logger.info(context)
             return Response(context)

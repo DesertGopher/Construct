@@ -1,0 +1,10 @@
+2023-01-04T08:17:22.118292+0300 ERROR News matching query does not exist.
+Traceback (most recent call last):
+  File "F:\Education\University\GitHub\Construct\construct\api\views.py", line 88, in get
+    data = News.objects.get(id=id)
+  File "F:\Education\University\GitHub\Construct\.venv\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "F:\Education\University\GitHub\Construct\.venv\lib\site-packages\django\db\models\query.py", line 650, in get
+    raise self.model.DoesNotExist(
+api.models.News.DoesNotExist: News matching query does not exist.
+2023-01-04T08:17:22.520597+0300 INFO {'error_code': 6, 'message': 'Новость с таким id отсутствует в базе данных.'}

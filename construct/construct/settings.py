@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 BASE_DIR = Path(__file__).resolve().parent.parent
 CONF_DIR = Path(__file__).resolve().parent.parent.parent
 
+
 try:
     with open(os.path.join(CONF_DIR, 'config', 'secret.json')) as handle:
         SECRETS = json.load(handle)
@@ -16,14 +17,16 @@ except IOError:
     SECRETS = {
         'secret_key': 'a'
     }
+
+PATH_LOG = Path(str(SECRETS['PATH_LOG']))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6c-(8evc733!@n(!62cpp8*l(6d=q_*d6o-t$x8=-5n)l%8ah6'
+SECRET_KEY = SECRETS.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
-
 
 # Application definition
 
