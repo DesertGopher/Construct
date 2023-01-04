@@ -1,0 +1,15 @@
+markdown==3.4.1
+django==4.1.4
+django-ckeditor==6.5.1
+pillow==9.3
+djangorestframework==3.14
+pdocs3==0.10
+sphinx==5.3
+Pallets-Sphinx-Themes==2.0.3
+sphinx-rtd-theme==1.1.1
+myst-parser==0.18.1
+furo==2022.12.7
+drf-yasg==1.21.4
+django-filter==22.1
+django-cors-headers==3.13
+djangorestframework-api-key==2.2

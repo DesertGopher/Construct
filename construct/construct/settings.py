@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+from rest_framework.permissions import AllowAny
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from django.urls import reverse_lazy
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'cart',
     'news',
     'drf_yasg',
+    'rest_framework_api_key',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +159,13 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 RECIPIENTS_EMAIL = SECRETS.get('recipients_email', [])
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# API authorization (AllowAny for no auth)
+# REST_FRAMEWORK = {
+#     "DEFAULT_PERMISSION_CLASSES": [
+#         "rest_framework_api_key.permissions.HasAPIKey",
+#     ]
+# }
+
+# HasAPIKey CUSTOM HEADER
+API_KEY_CUSTOM_HEADER = "HTTP_X_AUTHORIZATION"

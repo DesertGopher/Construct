@@ -6,10 +6,12 @@ from .ex_handler import ExceptionResolver as ER
 from .models import *
 from django.apps import apps
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework_api_key.permissions import HasAPIKey
 
 
 class Orders(APIView):
     """Класс для работы с таблицей новостей."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="Orders",
                          operation_summary="Выводит информацию о всех заказах пользователей",
@@ -27,6 +29,7 @@ class Orders(APIView):
 
 class OrderDetail(APIView):
     """Класс для работы с заказом по id."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="OrderDetail",
                          operation_summary="Выводит информацию о заказе по id заказа",
@@ -43,6 +46,7 @@ class OrderDetail(APIView):
 
 class NewsList(APIView):
     """Класс для работы с таблицей новостей."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="NewsList",
                          operation_summary="Выводит информацию о всех активных новостях",
@@ -73,6 +77,7 @@ class NewsList(APIView):
 
 class NewsDetail(APIView):
     """Класс для работы с новостью по id."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="NewsDetail",
                          operation_summary="Выводит информацию о новости по id",
@@ -107,7 +112,7 @@ class NewsDetail(APIView):
 
 class UserDetail(APIView):
     """Класс для работы с пользователем по id."""
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="UserDetail",
                          operation_summary="Возвращает информацию пользователе по id",
@@ -142,6 +147,7 @@ class UserDetail(APIView):
 
 class Users(APIView):
     """Класс для работы с таблицей пользователей."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="Users",
                          operation_summary="Возвращает информацию о всех пользователях",
@@ -172,6 +178,7 @@ class Users(APIView):
 
 class IsUserAdmin(APIView):
     """Класс для получения списка суперпользователей."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="IsUserAdmin",
                          operation_summary="Возвращает список суперпользователей",
@@ -189,6 +196,7 @@ class IsUserAdmin(APIView):
 
 class ProductDetail(APIView):
     """Класс для работы с продуктом по id."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="ProductDetail",
                          operation_summary="Возвращает информацию о товаре по id",
@@ -223,6 +231,7 @@ class ProductDetail(APIView):
 
 class Products(APIView):
     """Класс для работы с таблицей продуктов."""
+    permission_classes = [HasAPIKey]
 
     @swagger_auto_schema(operation_id="Products",
                          operation_summary="Выводит список всех активных товаров",
