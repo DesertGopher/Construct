@@ -13,7 +13,7 @@ CONF_DIR = Path(__file__).resolve().parent.parent.parent
 try:
     with open(os.path.join(CONF_DIR, 'config', 'secret.json')) as handle:
         SECRETS = json.load(handle)
-except IOError:
+except IOError:  # потеря связи
     SECRETS = {
         'secret_key': 'a'
     }
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # add whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
