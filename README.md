@@ -1,8 +1,10 @@
 # Construct_Inc.
 
-Repository with Construct site architecture for VKR.
+Repository with Construct site architecture for VKR. \
+Python 3.9
 
-### requirements:
+
+## Requirements:
 - markdown==3.4.1 (??? for no usage now)
 - django==4.1.4 (monolith framework)
 - django-ckeditor==6.5.1 (??? for no usage now)
@@ -22,5 +24,18 @@ Repository with Construct site architecture for VKR.
 - WhiteNoise==2.0.6 (For testing locally with debug False)
 
 
-### logs
+## Logs
 - api_view_logs.txt (API methods logs)
+
+
+## Example of file config/secret.json
+```json
+{
+  "PATH_LOG": "path_for_writing_logs",
+  "SECRET_KEY": "django_secret_key",
+  "HasAPIKey": "permission_api_key",
+  "user_host": "sender_mail_address",
+  "user_host_password": "sender_mail_address_password_for_localhost",
+  "recipients_email": ["list_of_recipients_emails"]
+}
+```
