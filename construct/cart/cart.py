@@ -1,12 +1,7 @@
 from decimal import Decimal
-from urllib import request
 
 from django.conf import settings
 from api.models import Product
-from django.contrib import messages
-from django.core.exceptions import ValidationError
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
 
 global total
 
@@ -94,8 +89,8 @@ class Cart(object):
 
     def get_total_price(self):
         """Подсчет стоимости товаров в корзине."""
-        return sum(Decimal(Decimal(item['price']) * (100 - Decimal(item['discount']))/100) * item['quantity'] for item in
-                   self.cart.values())
+        return sum(Decimal(Decimal(item['price']) * (100 - Decimal(item['discount']))/100) * item['quantity']
+                   for item in self.cart.values())
 
     def get_total_price_cart(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in

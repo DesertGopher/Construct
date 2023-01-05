@@ -1,7 +1,4 @@
-from typing import Optional
 from django.shortcuts import render
-from functools import wraps
-from django.core.exceptions import PermissionDenied
 
 
 def server_error_decorator(func):

@@ -1,12 +1,21 @@
+from loguru import logger
 from django.shortcuts import render
+from django.apps import apps
+from django.conf import settings
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_api_key.permissions import HasAPIKey
+
 from .serializers import *
 from .ex_handler import ExceptionResolver as ER
 from .models import *
-from django.apps import apps
-from drf_yasg.utils import swagger_auto_schema
-from rest_framework_api_key.permissions import HasAPIKey
+
+logger.add(settings.PATH_LOG / "api_view_logs.txt", diagnose=False, backtrace=False,
+           format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
+           retention='7 days', compression="zip",
+           filter=lambda record: "view" in record["extra"])
+view_logger = logger.bind(view=True)
 
 
 class Orders(APIView):
@@ -21,6 +30,7 @@ class Orders(APIView):
         data = Order.objects.all()
         if data:
             serializer = OrderSerializer(data, many=True)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -39,6 +49,7 @@ class OrderDetail(APIView):
         try:
             data = Order.objects.get(id=id)
             serializer = OrderSerializer(data, many=False)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Заказ')
@@ -56,6 +67,7 @@ class NewsList(APIView):
         data = News.objects.filter(is_active=True)
         if data:
             serializer = NewsSerializer(data, many=True)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -70,6 +82,7 @@ class NewsList(APIView):
             serializer = NewsSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            view_logger.info({'data': serializer.data, 'message': 'Новость успешно добавлен.'})
             return Response({'data': serializer.data, 'message': 'Новость успешно добавлен.'})
         except Exception as e:
             return ER.exception_handler(e, 'Новость')
@@ -87,6 +100,7 @@ class NewsDetail(APIView):
         try:
             data = News.objects.get(id=id)
             serializer = NewsSerializer(data, many=False)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Новость')
@@ -102,6 +116,8 @@ class NewsDetail(APIView):
                 serializer = NewsSerializer(news, data=request.data, partial=True)
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
+                view_logger.info({'status': True,
+                                'message': 'Запись о новости успешно изменена.'})
                 return Response({'status': True,
                                 'message': 'Запись о новости успешно изменена.'})
             except Exception as e:
@@ -122,6 +138,7 @@ class UserDetail(APIView):
         try:
             data = User.objects.get(id=id)
             serializer = UsersSerializer(data, many=False)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Пользователь')
@@ -137,6 +154,8 @@ class UserDetail(APIView):
                 serializer = UsersSerializer(user, data=request.data, partial=True)
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
+                view_logger.info({'status': True,
+                                'message': 'Запись о пользователе успешно изменена.'})
                 return Response({'status': True,
                                 'message': 'Запись о пользователе успешно изменена.'})
             except Exception as e:
@@ -157,6 +176,7 @@ class Users(APIView):
         data = User.objects.all()
         if data:
             serializer = UsersSerializer(data, many=True)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -171,6 +191,7 @@ class Users(APIView):
             serializer = UserCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            view_logger.info({'data': serializer.data, 'message': 'Пользователь успешно добавлен.'})
             return Response({'data': serializer.data, 'message': 'Пользователь успешно добавлен.'})
         except Exception as e:
             return ER.exception_handler(e, 'Пользователь')
@@ -188,6 +209,7 @@ class IsUserAdmin(APIView):
         data = User.objects.filter(is_superuser=True)
         if data:
             serializer = UsersSerializer(data, many=True)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -206,6 +228,7 @@ class ProductDetail(APIView):
         try:
             data = Product.objects.get(id=id)
             serializer = ProductsSerializer(data, many=False)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Продукт')
@@ -221,6 +244,8 @@ class ProductDetail(APIView):
                 serializer = ProductsSerializer(product, data=request.data, partial=True)
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
+                view_logger.info({'status': True,
+                                'message': 'Запись о продукте успешно изменена.'})
                 return Response({'status': True,
                                 'message': 'Запись о продукте успешно изменена.'})
             except Exception as e:
@@ -241,6 +266,7 @@ class Products(APIView):
         data = Product.objects.filter(is_active=True)
         if data:
             serializer = ProductsSerializer(data, many=True)
+            view_logger.info(serializer.data)
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -255,6 +281,7 @@ class Products(APIView):
             serializer = ProductsSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            view_logger.info({'data': serializer.data, 'message': 'Продукт успешно добавлен.'})
             return Response({'data': serializer.data, 'message': 'Продукт успешно добавлен.'})
         except Exception as e:
             return ER.exception_handler(e, 'Продукт')

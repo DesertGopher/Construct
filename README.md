@@ -2,7 +2,7 @@
 
 Repository with Construct site architecture for VKR. \
 Python 3.9
-
+---
 
 ## Requirements:
 - markdown==3.4.1 (??? for no usage now)
@@ -23,11 +23,11 @@ Python 3.9
 - loguru==0.6.0 (logging)
 - WhiteNoise==2.0.6 (For testing locally with debug False)
 
-
+---
 ## Logs
 - api_view_logs.txt (API methods logs)
 
-
+---
 ## Example of file config/secret.json
 ```json
 {
@@ -39,3 +39,4 @@ Python 3.9
   "recipients_email": ["list_of_recipients_emails"]
 }
 ```
+---

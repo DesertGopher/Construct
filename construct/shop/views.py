@@ -1,11 +1,9 @@
-from django.db.models import F
-from django.http import Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from api.models import Product, Review, ProductCategory, Profile, UserCart, User, Address, Order, OrderStatus
-from django.template import loader
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
-from .forms import ReviewForm, OrderCreate, OrderEdit
+from .forms import ReviewForm, OrderCreate
 from datetime import datetime
 from api.serializers import LoadCartSerializer, OrderProducts
 from django.urls import reverse
@@ -71,7 +69,7 @@ def detail(request, product_id):
         return render(request, 'dashboard/404.html', {'message': message})
     cart_product_form = CartAddProductForm()
     title = str(product.name)
-    same_products = Product.objects.filter(category_class=product.category_class).order_by('-discount')[:6]
+    same_products = Product.objects.filter(category_class=product.category_class, is_active=True).order_by('-discount')[:6]
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
