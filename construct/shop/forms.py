@@ -1,4 +1,5 @@
-from django.forms import ModelForm
+from django.contrib.auth.models import User
+from django.forms import ModelForm, TextInput, Textarea, DateTimeField
 from api.models import Review, Order, Address, OrderPayment, Product, OrderStatus
 from django import forms
 
@@ -43,3 +44,19 @@ class OrderCreate(ModelForm):
     class Meta:
         model = Order
         fields = ['payment_type', 'address_id']
+
+
+class OrderEdit(ModelForm):
+    payment_type = forms.ModelChoiceField(
+        queryset=OrderPayment.objects.all(),
+        label='Выберите тип оплаты',
+    )
+
+    status = forms.ModelChoiceField(
+        queryset=OrderStatus.objects.all(),
+        label='Статус заказа',
+    )
+
+    class Meta:
+        model = Order
+        fields = ['payment_type', 'status']

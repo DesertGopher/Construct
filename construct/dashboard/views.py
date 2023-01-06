@@ -41,6 +41,15 @@ def contact(request):
 
 
 @server_error_decorator
+def terms_of_service(request):
+    if request.user.is_active:
+        profile = Profile.objects.get(client_id=request.user)
+        return render(request, 'dashboard/terms_of_service.html', {'profile': profile})
+    else:
+        return render(request, 'dashboard/terms_of_service.html')
+
+
+@server_error_decorator
 @is_active_decorator
 def profile(request):
 

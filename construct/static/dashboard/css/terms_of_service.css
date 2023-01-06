@@ -1,0 +1,13 @@
+.main {
+  height: 88vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.terms {
+  display: flex;
+  flex-direction: column;
+  color: gray;
+  font-size: 22px;
+}

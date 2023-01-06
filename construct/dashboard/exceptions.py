@@ -1,4 +1,10 @@
+from functools import wraps
+
 from django.shortcuts import render
+
+
+def exception_resolver():
+    pass
 
 
 def server_error_decorator(func):

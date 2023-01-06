@@ -1,0 +1,26 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Условия обслуживания{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/terms_of_service.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+    <div class="main">
+        <a style="font-size: 50px;"> TERMS OF SERVICE </a>
+        <a style="font-size: 22px;">Предоставляемая информация может использоваться для:</a>
+        <div class="terms">
+            <a>- ведения внутренней отчетности;</a>
+            <a>- мониторинга работы сайта;</a>
+            <a>- улучшения качества продукции и предоставления услуг;</a>
+            <a>- предоставления информации и услуг, которые запрашивает пользователь;</a>
+            <a>- форматирования статистических данных;</a>
+        </div>
+    </div>
+{% endblock %}
