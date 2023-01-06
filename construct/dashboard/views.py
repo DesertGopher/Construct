@@ -50,6 +50,15 @@ def terms_of_service(request):
 
 
 @server_error_decorator
+def privacy_policy(request):
+    if request.user.is_active:
+        profile = Profile.objects.get(client_id=request.user)
+        return render(request, 'dashboard/privacy_policy.html', {'profile': profile})
+    else:
+        return render(request, 'dashboard/privacy_policy.html')
+
+
+@server_error_decorator
 @is_active_decorator
 def profile(request):
 
