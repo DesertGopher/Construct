@@ -22,6 +22,7 @@ Python 3.9
 - djangorestframework-api-key==2.2 (Api auth)
 - loguru==0.6.0 (logging)
 - WhiteNoise==2.0.6 (For testing locally with debug False)
+- python-dotenv==0.21.0 (.env load)
 
 ---
 ## Logs
