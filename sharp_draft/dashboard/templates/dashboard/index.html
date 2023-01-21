@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Привет KEKW
-</body>
-</html>
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}SharpDraft{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+Приветусики
+{% endblock %}

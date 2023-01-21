@@ -19,5 +19,11 @@ cranko.exe
 /.idea/
 /config/secret.json
 
+/sharp_draft/dashboard/__pycache__/
+/sharp_draft/api/__pycache__/
+/sharp_draft/sharp_draft/__pycache__/
+
 /logs/
 /config/
+/sharp_draft/static/dashboard/css/__init__.py
+/construct/api/old migrations/

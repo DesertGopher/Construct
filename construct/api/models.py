@@ -18,8 +18,9 @@ class News(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Новости'
-        verbose_name_plural = 'Новость'
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        db_table = 'news'
 
 
 class ProductCategory(models.Model):
@@ -31,8 +32,9 @@ class ProductCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Категории'
-        verbose_name_plural = 'Категория'
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        db_table = 'product_category'
 
 
 class Measure(models.Model):
@@ -43,8 +45,9 @@ class Measure(models.Model):
         return self.measure
 
     class Meta:
-        verbose_name = 'Меры товаров'
-        verbose_name_plural = 'Мера товара'
+        verbose_name = 'Мера товара'
+        verbose_name_plural = 'Меры товаров'
+        db_table = 'measure'
 
 
 class Product(models.Model):
@@ -70,8 +73,9 @@ class Product(models.Model):
         return f'/shop/{self.id}/'
 
     class Meta:
-        verbose_name = 'Продукты'
-        verbose_name_plural = 'Продукт'
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+        db_table = 'product'
 
 
 class Review(models.Model):
@@ -88,8 +92,9 @@ class Review(models.Model):
         return self.text
 
     class Meta:
-        verbose_name = 'Отзывы'
-        verbose_name_plural = 'Отзыв'
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        db_table = 'review'
 
 
 class Profile(models.Model):
@@ -103,8 +108,9 @@ class Profile(models.Model):
         return str(self.client_id)
 
     class Meta:
-        verbose_name = 'Профили'
-        verbose_name_plural = 'Профиль'
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+        db_table = 'profile'
 
 
 class UserCart(models.Model):
@@ -115,8 +121,9 @@ class UserCart(models.Model):
         return str(self.client_id)
 
     class Meta:
-        verbose_name = 'Корзины пользователей'
-        verbose_name_plural = 'Корзина пользователя'
+        verbose_name = 'Корзина пользователя'
+        verbose_name_plural = 'Корзины пользователей'
+        db_table = 'user_cart'
 
 
 class OrderStatus(models.Model):
@@ -126,8 +133,9 @@ class OrderStatus(models.Model):
         return self.status_name
 
     class Meta:
-        verbose_name = 'Статусы заказа'
-        verbose_name_plural = 'Статус заказа'
+        verbose_name = 'Статус заказа'
+        verbose_name_plural = 'Статусы заказов'
+        db_table = 'order_status'
 
 
 class OrderPayment(models.Model):
@@ -137,8 +145,9 @@ class OrderPayment(models.Model):
         return self.payment_name
 
     class Meta:
-        verbose_name = 'Методы оплаты'
-        verbose_name_plural = 'Метод оплаты'
+        verbose_name = 'Метод оплаты'
+        verbose_name_plural = 'Методы оплаты'
+        db_table = 'order_payment'
 
 
 class District(models.Model):
@@ -149,8 +158,9 @@ class District(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Регионы'
-        verbose_name_plural = 'Регион'
+        verbose_name = 'Регион'
+        verbose_name_plural = 'Регионы'
+        db_table = 'district'
 
 
 class Address(models.Model):
@@ -160,8 +170,9 @@ class Address(models.Model):
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        verbose_name = 'Адреса'
-        verbose_name_plural = 'Адрес'
+        verbose_name = 'Адрес'
+        verbose_name_plural = 'Адреса'
+        db_table = 'address'
 
     def __str__(self):
         return self.fact_address
@@ -182,6 +193,7 @@ class Order(models.Model):
         return str('Заказ № ' + str(self.id))
 
     class Meta:
-        verbose_name = 'Заказы'
-        verbose_name_plural = 'Заказ'
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        db_table = 'order'
 
