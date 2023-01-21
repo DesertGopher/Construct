@@ -13,11 +13,9 @@
 /construct/construct/__pycache__/
 /construct/media/
 
-/construct/db.sqlite3
 cranko.exe
 /.doctrees/
 /.idea/
-/config/secret.json
 
 /sharp_draft/dashboard/__pycache__/
 /sharp_draft/api/__pycache__/

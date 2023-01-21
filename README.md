@@ -23,6 +23,7 @@ Python 3.9
 - loguru==0.6.0 (logging)
 - WhiteNoise==2.0.6 (For testing locally with debug False)
 - python-dotenv==0.21.0 (.env load)
+- mysqlclient==2.1.1 (for connecting to mysql db)
 
 ---
 ## Logs
@@ -33,7 +34,6 @@ Python 3.9
 ```json
 {
   "PATH_LOG": "path_for_writing_logs",
-  "SECRET_KEY": "django_secret_key",
   "HasAPIKey": "permission_api_key",
   "user_host": "sender_mail_address",
   "user_host_password": "sender_mail_address_password_for_localhost",
@@ -41,3 +41,14 @@ Python 3.9
 }
 ```
 ---
+## Example of file dotenv
+```text
+SECRET_KEY=django-secret_key
+ALLOWED_HOSTS=allowed_hosts_list
+
+DB_NAME=mysql_database_name
+DB_USER=mysql_database_user
+DB_HOST=mysql_database_host
+DB_PASSWORD=mysql_database_password
+DB_PORT=mysql_database_port
+```

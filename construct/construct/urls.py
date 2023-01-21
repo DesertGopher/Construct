@@ -27,6 +27,8 @@ urlpatterns = [
     path('cart/', include('cart.urls'), name='cart'),
     path('shop/', include('shop.urls'), name='shop'),
     path('news/', include('news.urls'), name='news'),
+    path('crm/', include('crm.urls'), name='crm'),
+    path('sharp-draft/', include('sharp_draft.urls'), name='sharp_draft'),
 
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
          name='schema-swagger-ui'),

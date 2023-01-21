@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'shop',
     'cart',
     'news',
+    'sharp_draft',
+    'crm',
     'drf_yasg',
     'rest_framework_api_key',
 ]
