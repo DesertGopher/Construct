@@ -42,7 +42,7 @@
             <a type="button" style="font-size: 24px;" class="btn btn-link"
                href="{% url 'dashboard:contact' %}">Контакты</a>
             <a type="button" style="font-size: 24px;" class="btn btn-link"
-               href="{% url 'dashboard:contact' %}">Sharp Draft</a>
+               href="{% url 'sharp_draft:home' %}">Sharp Draft</a>
         </div>
         <div class="user">
             {% if not user.is_authenticated %}
@@ -66,7 +66,7 @@
                         <i class="fa fa-edit"></i></a>
                     <a type="button" class="log btn btn-info" href="{% url 'dashboard:products_list' %}">
                         <i class="fa fa-pen"></i></a>
-                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:products_list' %}">CRM</a>
+                    <a type="button" class="log btn btn-info" href="{% url 'crm:home' %}">CRM</a>
                 {% endif %}
                 {% if user.is_superuser %}
                     <a type="button" class="log btn btn-info" href="{% url 'admin:index' %}">

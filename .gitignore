@@ -4,6 +4,8 @@
 /construct/dashboard/migrations/
 /construct/cart/migrations/
 /construct/news/migrations/
+/construct/crm/migrations/
+/construct/sharp_draft/migrations/
 /construct/api/__pycache__/
 /construct/api/__init__.py
 /construct/cart/__pycache__/
@@ -11,6 +13,8 @@
 /construct/dashboard/__pycache__/
 /construct/news/__pycache__/
 /construct/construct/__pycache__/
+/construct/crm/__pycache__/
+/construct/sharp_draft/__pycache__/
 /construct/media/
 
 cranko.exe
