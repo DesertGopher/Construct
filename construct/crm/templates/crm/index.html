@@ -22,23 +22,43 @@
             <a class="btn btn-outline-info" href="">Панель администратора</a>
         </div>
         <div class="swag">
-            <a class="btn btn-outline-warning" href="">Terms of service</a>
-            <a class="btn btn-outline-warning" href="">Privacy policy</a>
-            <a class="btn btn-outline-success" href="../../../swagger/">Swagger</a>
-            <a class="btn btn-outline-success" href="../../../redoc/">Redoc</a>
-            <a class="btn btn-outline-success" href="">Sphinx</a>
+            <a class="btn btn-outline-primary" href="">Terms of service</a>
+            <a class="btn btn-outline-primary" href="">Privacy policy</a>
+            <a class="btn btn-outline-primary" href="../../../swagger/">Swagger</a>
+            <a class="btn btn-outline-primary" href="../../../redoc/">Redoc</a>
+            <a class="btn btn-outline-primary" href="">Sphinx</a>
         </div>
     </div>
     <div class="drf_window">
         <a style="font-size: 28px;">DRF</a>
     </div>
     <div class="logs">
-        <a style="font-size: 28px;">Logs</a>
-        <div class="logs_content">
-            {% if strings %}
-                <a>{{ strings|linebreaks }}</a>
-            {% endif %}
+
+        <ul class="nav nav-tabs">
+            <li><a class="nav-link api-tab active" data-toggle="tab" href="#api">АПИ</a></li>
+            <li><a class="nav-link orders-tab" data-toggle="tab" href="#orders">Заказы</a></li>
+            <li><a class="nav-link server-tab" data-toggle="tab" href="#server">Сервер</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="api" class="tab-pane fade in active">
+                <div class="logs_content">
+                    <a>{{ api_logs|linebreaks }}</a>
+                </div>
+            </div>
+            <div id="orders" class="tab-pane fade">
+                <div class="logs_content">
+                    <a>{{ order_logs|linebreaks }}</a>
+                </div>
+            </div>
+            <div id="server" class="tab-pane fade">
+                <div class="logs_content">
+                    <a>{{ server_logs|linebreaks }}</a>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
+
 {% endblock %}

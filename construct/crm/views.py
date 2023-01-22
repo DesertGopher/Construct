@@ -10,6 +10,16 @@ from itertools import islice
 @is_staff_decorator
 def index(request):
     profile = Profile.objects.get(client_id=request.user)
-    with open(settings.PATH_LOG / "api_view_logs.txt", encoding="utf-8") as file:
-        strings = file.read()
-    return render(request, 'crm/index.html', {'profile': profile, 'strings': strings})
+    with open(settings.PATH_LOG / f"api_view_logs.txt", encoding="utf-8") as file:
+        api_logs = file.read()
+    with open(settings.PATH_LOG / f"orders_logs.txt", encoding="utf-8") as file:
+        order_logs = file.read()
+    with open(settings.PATH_LOG / f"server_logs.txt", encoding="utf-8") as file:
+        server_logs = file.read()
+    context = {
+        'profile': profile,
+        'api_logs': api_logs,
+        'order_logs': order_logs,
+        'server_logs': server_logs
+    }
+    return render(request, 'crm/index.html', context)

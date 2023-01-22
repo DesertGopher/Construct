@@ -1,15 +1,25 @@
+from datetime import datetime
+from loguru import logger
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse
+
 from api.models import Product, Review, ProductCategory, Profile, UserCart, User, Address, Order, OrderStatus
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
 from .forms import ReviewForm, OrderCreate
-from datetime import datetime
 from api.serializers import LoadCartSerializer, OrderProducts
-from django.urls import reverse
 from dashboard.exceptions import *
-from django.core.mail import send_mail
-from django.conf import settings
+
+
+logger.add(settings.PATH_LOG / "orders_logs.txt", diagnose=False, backtrace=False,
+           format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
+           retention='7 days', compression="zip",
+           filter=lambda record: "view" in record["extra"])
+order_logger = logger.bind(view=True)
 
 
 @server_error_decorator
@@ -172,6 +182,7 @@ def create_order(request):
             for prod in cart:
                 prod['product'].is_stock = int(prod['product'].is_stock) - int(prod['quantity'])
                 prod['product'].save()
+            order_logger.debug(str('Пользователь ' + str(request.user) + ' сделал заказ №' + str(order_form.id)))
             return HttpResponseRedirect(reverse('shop:orders'))
     form = OrderCreate(user=request.user)
 

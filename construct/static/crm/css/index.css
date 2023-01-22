@@ -6,7 +6,7 @@
     height: 90vh;
     justify-content: space-around;
 }
-.drf_window, .crm_nav, .logs {
+.drf_window {
         background: lightblue;
 }
 
@@ -21,6 +21,7 @@
     display: flex;
     margin: 1% 0 0 0;
     flex-direction: column;
+    align-items: flex-start;
 }
 .buts > a, .swag > a {
     text-decoration: none;
@@ -45,9 +46,19 @@
 .logs_content {
     background: black;
     color: white;
-    width: 95%;
-    height: 93%;
+    margin: 0 0 0 0;
+    width: 100%;
+    height: 85vh;
     padding: 8px;
     overflow: scroll;
     font-size: 10px;
+}
+
+.nav-tabs > li > a.api-tab.active, .nav-tabs > li > a.orders-tab.active, .nav-tabs > li > a.server-tab.active {
+    background-color: black;
+    color: white;
+    border-color: black;
+}
+.nav-tabs > li:hover {
+    border: none;
 }
