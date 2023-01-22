@@ -22,4 +22,6 @@ def index(request):
         'order_logs': order_logs,
         'server_logs': server_logs
     }
+    if str(request.GET.get('name')) != 'None':
+        context['name'] = str(request.GET.get('name'))
     return render(request, 'crm/index.html', context)

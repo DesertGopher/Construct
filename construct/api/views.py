@@ -2,10 +2,12 @@ from loguru import logger
 from django.shortcuts import render
 from django.apps import apps
 from django.conf import settings
+from django.views.decorators.clickjacking import xframe_options_exempt
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_api_key.permissions import HasAPIKey
+from rest_framework.permissions import AllowAny
 
 from .serializers import *
 from .ex_handler import ExceptionResolver as ER
@@ -20,7 +22,7 @@ view_logger = logger.bind(view=True)
 
 class Orders(APIView):
     """Класс для работы с таблицей новостей."""
-    permission_classes = [HasAPIKey]
+    permission_classes = [AllowAny]
 
     @swagger_auto_schema(operation_id="Orders",
                          operation_summary="Выводит информацию о всех заказах пользователей",
@@ -166,11 +168,12 @@ class UserDetail(APIView):
 
 class Users(APIView):
     """Класс для работы с таблицей пользователей."""
-    permission_classes = [HasAPIKey]
+    permission_classes = [AllowAny]
 
     @swagger_auto_schema(operation_id="Users",
                          operation_summary="Возвращает информацию о всех пользователях",
                          tags=['Пользователи'])
+    @xframe_options_exempt
     def get(self, request):
         """Возвращает информацию о всех пользователях."""
         data = User.objects.all()
@@ -185,6 +188,7 @@ class Users(APIView):
     @swagger_auto_schema(operation_id="Users",
                          operation_summary="Создание пользователя",
                          tags=['Пользователи'])
+    @xframe_options_exempt
     def post(self, request):
         """Добавляет пользователя в базу данных """
         try:
