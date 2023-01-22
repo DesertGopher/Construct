@@ -1,0 +1,53 @@
+.main_page {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 1% 0 0 0;
+    height: 90vh;
+    justify-content: space-around;
+}
+.drf_window, .crm_nav, .logs {
+        background: lightblue;
+}
+
+.crm_nav {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    height: 90vh;
+    justify-content: space-between;
+}
+.buts, .swag {
+    display: flex;
+    margin: 1% 0 0 0;
+    flex-direction: column;
+}
+.buts > a, .swag > a {
+    text-decoration: none;
+    margin: 3% 0 2% 0;
+    font-size: 14px;
+}
+
+.drf_window {
+    display: flex;
+    flex-direction: column;
+    width: 39%;
+    align-items: center;
+}
+
+.logs {
+    display: flex;
+    flex-direction: column;
+    width: 39%;
+    align-items: center;
+}
+
+.logs_content {
+    background: black;
+    color: white;
+    width: 95%;
+    height: 93%;
+    padding: 8px;
+    overflow: scroll;
+    font-size: 10px;
+}

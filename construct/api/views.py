@@ -30,7 +30,7 @@ class Orders(APIView):
         data = Order.objects.all()
         if data:
             serializer = OrderSerializer(data, many=True)
-            view_logger.info(serializer.data)
+            view_logger.info('Получен список заказов')
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -49,7 +49,7 @@ class OrderDetail(APIView):
         try:
             data = Order.objects.get(id=id)
             serializer = OrderSerializer(data, many=False)
-            view_logger.info(serializer.data)
+            view_logger.info({'order': data, 'id': serializer.data['id']})
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Заказ')
@@ -67,7 +67,7 @@ class NewsList(APIView):
         data = News.objects.filter(is_active=True)
         if data:
             serializer = NewsSerializer(data, many=True)
-            view_logger.info(serializer.data)
+            view_logger.info('Получен список новостей')
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -100,7 +100,7 @@ class NewsDetail(APIView):
         try:
             data = News.objects.get(id=id)
             serializer = NewsSerializer(data, many=False)
-            view_logger.info(serializer.data)
+            view_logger.info({'news': serializer.data['title'], 'id': serializer.data['id']})
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Новость')
@@ -138,7 +138,7 @@ class UserDetail(APIView):
         try:
             data = User.objects.get(id=id)
             serializer = UsersSerializer(data, many=False)
-            view_logger.info(serializer.data)
+            view_logger.info({'user': serializer.data['username'], 'id': serializer.data['id']})
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Пользователь')
@@ -176,7 +176,7 @@ class Users(APIView):
         data = User.objects.all()
         if data:
             serializer = UsersSerializer(data, many=True)
-            view_logger.info(serializer.data)
+            view_logger.info('Получен список пользователей')
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
@@ -228,7 +228,7 @@ class ProductDetail(APIView):
         try:
             data = Product.objects.get(id=id)
             serializer = ProductsSerializer(data, many=False)
-            view_logger.info(serializer.data)
+            view_logger.info({'product': serializer.data['name'], 'id': serializer.data['id']})
             return Response(serializer.data)
         except Exception as e:
             return ER.exception_handler(e, 'Продукт')
@@ -245,7 +245,7 @@ class ProductDetail(APIView):
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
                 view_logger.info({'status': True,
-                                'message': 'Запись о продукте успешно изменена.'})
+                                 'message': 'Запись о продукте успешно изменена.'})
                 return Response({'status': True,
                                 'message': 'Запись о продукте успешно изменена.'})
             except Exception as e:
@@ -266,7 +266,7 @@ class Products(APIView):
         data = Product.objects.filter(is_active=True)
         if data:
             serializer = ProductsSerializer(data, many=True)
-            view_logger.info(serializer.data)
+            view_logger.info('Получен список товаров')
             return Response(serializer.data)
         else:
             context = ER.get_err_message(2)
