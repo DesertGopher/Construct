@@ -5,29 +5,38 @@ Python 3.9
 ---
 
 ## Requirements:
-- markdown==3.4.1 (??? for no usage now)
-- django==4.1.4 (monolith framework)
-- django-ckeditor==6.5.1 (??? for no usage now)
-- pillow==9.3 (images work)
-- djangorestframework==3.14 (Django rest framework)
-- pdocs3==0.10 (??? for no usage now)
-- sphinx==5.3 (documentation)
-- Pallets-Sphinx-Themes==2.0.3 (sphinx theme)
-- sphinx-rtd-theme==1.1.1 (sphinx theme)
-- myst-parser==0.18.1 (for sphinx interaction with md)
-- furo==2022.12.7 (sphinx theme)
-- drf-yasg==1.21.4 (swagger)
-- django-filter==22.1
-- django-cors-headers==3.13 (for CORS)
-- djangorestframework-api-key==2.2 (Api auth)
-- loguru==0.6.0 (logging)
-- WhiteNoise==2.0.6 (For testing locally with debug False)
-- python-dotenv==0.21.0 (.env load)
-- mysqlclient==2.1.1 (for connecting to mysql db)
-
+- DJANGO
+  - django==4.1.4 (monolith framework)
+  - django-ckeditor==6.5.1 (??? FOR NO USAGE)
+  - djangorestframework==3.14 (Django rest framework)
+  - django-filter==22.1
+  - django-cors-headers==3.13 (for CORS)
+  - djangorestframework-api-key==2.2 (Api auth)
+  - WhiteNoise==2.0.6 (For testing locally with debug False FOR NO USAGE)
+- DOCS
+  - drf-yasg==1.21.4 (swagger)
+  - pdocs3==0.10 (??? FOR NO USAGE)
+  - sphinx==5.3 (documentation)
+  - Pallets-Sphinx-Themes==2.0.3 (sphinx theme)
+  - sphinx-rtd-theme==1.1.1 (sphinx theme)
+  - myst-parser==0.18.1 (for sphinx interaction with md)
+  - furo==2022.12.7 (sphinx theme)
+- DB
+  - mysqlclient==2.1.1 (for connecting to mysql db)
+- PYTHON
+  - pillow==9.3 (images work)
+  - loguru==0.6.0 (logging)
+  - python-dotenv==0.21.0 (.env load)
+  - markdown==3.4.1 (??? FOR NO USAGE)
+- FastAPI
+  - fastapi==0.89.1 (api development)
+  - uvicorn==0.20.0 (fastapi running)
+  - pydantic==1.10.4 (models)
 ---
 ## Logs
 - api_view_logs.txt (API methods logs)
+- server_logs.txt (server work)
+- orders_logs.txt (logs for orders)
 
 ---
 ## Example of file config/secret.json
@@ -41,7 +50,7 @@ Python 3.9
 }
 ```
 ---
-## Example of file dotenv
+## Example of file config/.env
 ```text
 SECRET_KEY=django-secret_key
 ALLOWED_HOSTS=allowed_hosts_list
