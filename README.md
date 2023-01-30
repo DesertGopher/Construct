@@ -32,6 +32,7 @@ Python 3.9
   - fastapi==0.89.1 (api development)
   - uvicorn==0.20.0 (fastapi running)
   - pydantic==1.10.4 (models)
+  - sqlalchemy==2.0.0 (ORM)
 ---
 ## Logs
 - api_view_logs.txt (API methods logs)
@@ -60,4 +61,6 @@ DB_USER=mysql_database_user
 DB_HOST=mysql_database_host
 DB_PASSWORD=mysql_database_password
 DB_PORT=mysql_database_port
+
+SERVER_HOST=fastapi_server_host
 ```
