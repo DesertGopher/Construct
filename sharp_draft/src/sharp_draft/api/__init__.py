@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from .operations import router as operations_router
+from . import news
 
 
 router = APIRouter()
-router.include_router(operations_router)
+router.include_router(news.router)

@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
 
 CONF_DIR = Path(__file__).resolve().parent.parent.parent.parent
-print(os.path.abspath(CONF_DIR / 'config' / '.env'))
+# print(os.path.abspath(CONF_DIR / 'config' / '.env'))
 
 settings = Settings(
     _env_file=os.path.abspath(CONF_DIR / 'config' / '.env'),
