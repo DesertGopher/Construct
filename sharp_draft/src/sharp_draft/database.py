@@ -6,7 +6,6 @@ import os
 
 engine = create_engine(
     settings.database_url,
-    # connect_args={'check_same_thread': False},
 )
 
 

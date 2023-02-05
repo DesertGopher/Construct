@@ -6,7 +6,7 @@ from typing import List
 
 
 router = APIRouter(
-    prefix='/operations'
+    prefix='/news'
 )
 
 
