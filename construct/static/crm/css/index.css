@@ -1,12 +1,10 @@
 body {
     background: radial-gradient(white, LightCyan);
 }
-
 .pads {
     width: 90%;
     margin: 0 0 0 5%;
 }
-
 .main_page {
     display: flex;
     flex-direction: row;
@@ -41,7 +39,6 @@ body {
     width: 39%;
     align-items: flex-start;
 }
-
 .box {
     display: flex;
     flex-direction: column;
@@ -64,6 +61,7 @@ form {
     width: 100%;
     margin: 0 auto;
 }
+
 .d1 {
     background: LightSkyBlue;
     width: 100%;
@@ -101,7 +99,6 @@ form {
     width: 39%;
     align-items: center;
 }
-
 .logs_content {
     background: black;
     color: white;
@@ -114,11 +111,57 @@ form {
     border: 8px inset rgb(80, 80, 80);
 }
 
-.nav-tabs > li > a.api-tab.active, .nav-tabs > li > a.orders-tab.active, .nav-tabs > li > a.server-tab.active {
+.nav-tabs > li > a.api-tab.active,
+.nav-tabs > li > a.orders-tab.active,
+.nav-tabs > li > a.server-tab.active {
     background-color: black;
     color: white;
     border-color: black;
 }
 .nav-tabs > li:hover {
     border: none;
+}
+
+.form_radio_group {
+	display: inline-block;
+	overflow: hidden;
+}
+.form_radio_group-item {
+	display: inline-block;
+	float: left;
+}
+.form_radio_group input[type=radio] {
+	width: 20px;
+}
+
+.search-tabs {
+    width: 100%;
+    border-right: 3px solid LightSkyBlue;
+    border-left: 3px solid LightSkyBlue;
+    border-bottom: 3px solid LightSkyBlue;
+}
+.search-tabs > li {
+    width: 25%;
+}
+.search-tabs > li > a.p-tab.active,
+.search-tabs > li > a.n-tab.active,
+.search-tabs > li > a.o-tab.active,
+.search-tabs > li > a.u-tab.active {
+    background-color: LightSkyBlue;
+    color: white;
+    border-color: LightSkyBlue;
+    text-align: center;
+}
+.search-tabs > li > a.p-tab,
+.search-tabs > li > a.n-tab,
+.search-tabs > li > a.o-tab,
+.search-tabs > li > a.u-tab {
+    text-align: center;
+}
+.search-tabs > li > a:hover {
+    background-color: LightCyan;
+    border: none;
+}
+.box > .tab-content {
+    width: 100%;
 }

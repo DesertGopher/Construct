@@ -7,6 +7,7 @@ from api.models import News
 
 
 class SearchForm(forms.Form):
+
     query = forms.CharField()
 
     def __init__(self, *args, **kwargs):
