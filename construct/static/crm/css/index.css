@@ -1,5 +1,6 @@
 body {
     background: radial-gradient(white, LightCyan);
+
 }
 .pads {
     width: 90%;
@@ -132,6 +133,7 @@ form {
 }
 .form_radio_group input[type=radio] {
 	width: 20px;
+
 }
 
 .search-tabs {
@@ -142,6 +144,7 @@ form {
 }
 .search-tabs > li {
     width: 25%;
+
 }
 .search-tabs > li > a.p-tab.active,
 .search-tabs > li > a.n-tab.active,
@@ -164,4 +167,5 @@ form {
 }
 .box > .tab-content {
     width: 100%;
+
 }

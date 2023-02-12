@@ -125,6 +125,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOUTH_MIGRATION_MODULES = [
+    {
+        'djangocms_wow': 'djangocms_wow.south_migrations',
+    }
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

@@ -14,19 +14,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+} &:hover {
+
 }
-.construct-text{
+.construct-text {
     color: white;
     font-size: 140px;
     text-shadow: 4px 4px 7px cyan;
+    transition: transform .10s ease;
+    transform: translateY(-10px);
 }
-.news{
+.news {
     display: flex;
     flex-direction:row;
     justify-content: space-around;
     align-items: center;
 }
-.newspost{
+.newspost {
     display: flex;
     flex-direction:row;
     align-items: center;
