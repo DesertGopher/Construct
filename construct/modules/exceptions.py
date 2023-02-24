@@ -1,18 +1,8 @@
-from functools import wraps
-from typing import List
-
-from loguru import logger
-from .custom_loguru import *
+from custom_loguru import *
 from django.shortcuts import render
-from django.db import IntegrityError, DataError
-from django.core.exceptions import EmptyResultSet, ObjectDoesNotExist, MultipleObjectsReturned
-
-from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError, ParseError
 
 
 def server_error_decorator(func):
-
     def wrapped(*args, **kwargs):
         try:
             log_request_created(server_logger, *args, **kwargs)

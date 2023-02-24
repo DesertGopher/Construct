@@ -17,7 +17,6 @@ logger.bind(view=True)
 
 
 # логгер для основных представлений
-# views.py
 logger.add(
     settings.PATH_LOG / "server_logs.log",
     diagnose=False,
@@ -30,6 +29,36 @@ logger.add(
     filter=lambda record: "view" in record["extra"]
 )
 server_logger = logger.bind(view=True)
+
+
+# логгер для АПИ методов
+logger.add(
+    settings.PATH_LOG / "api_view_logs.log",
+    diagnose=False,
+    backtrace=False,
+    format="{time:YYYY-MM-DD HH:mm:ss.SSS} [{level}] {message}",
+    level="DEBUG",
+    rotation="1 MB",
+    retention='7 days',
+    compression="zip",
+    filter=lambda record: "view" in record["extra"]
+)
+api_view_logger = logger.bind(view=True)
+
+
+# логгер для заказов
+logger.add(
+    settings.PATH_LOG / "orders_logs.log",
+    diagnose=False,
+    backtrace=False,
+    format="{time:YYYY-MM-DD HH:mm:ss.SSS} [{level}] {message}",
+    level="DEBUG",
+    rotation="1 MB",
+    retention='7 days',
+    compression="zip",
+    filter=lambda record: "view" in record["extra"]
+)
+orders_logger = logger.bind(view=True)
 
 
 def log_request_created(base_logger, request, *args, **kwargs):

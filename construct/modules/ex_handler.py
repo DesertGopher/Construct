@@ -1,71 +1,70 @@
+from typing import List
+from functools import wraps
+from custom_loguru import *
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from typing import Optional
-from loguru import logger
-from django.conf import settings
 
 
-# logger.add(settings.PATH_LOG / "api_view_logs.txt", diagnose=False, backtrace=False,
-#            format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
-#            retention='7 days', compression="zip",
-#            filter=lambda record: "view" in record["extra"])
-# view_logger = logger.bind(view=True)
+def ex_handler(ex: Exception, object_name: str = 'Объект',
+               class_name: str = 'Класс', method_name: str = 'Метод',
+               error_fields: List[str] = []) -> dict:
+
+    ex_name = ex.__class__.__name__
+
+    if ex_name == 'EmptyResultSet':
+        error_code = 2
+    elif ex_name in ('ParseError', 'DataError', 'ValueError'):
+        error_code = 3
+    elif ex_name == 'ValidationError':
+        error_code = 4
+    elif ex_name == 'IntegrityError':
+        error_code = 5
+    elif ex_name in ('DoesNotExist', 'ObjectDoesNotExist'):
+        error_code = 6
+    elif ex_name == 'KeyError':
+        error_code = 7
+    elif ex_name == 'TypeError':
+        error_code = 8
+    else:
+        error_code = 1
+
+    messages = {
+        1: ex.args[0] if ex.args else 'Неизвестная ошибка.',
+        2: 'Данные по запросу не найдены.',
+        3: 'Ошибка в формате данных. Проверьте правильность введенных данных.',
+        4: f'Поля {error_fields} не указаны, либо указаны неверно. Проверьте правильность введенных данных.',
+        5: f'{object_name} с таким id уже присутствует в базе данных.',
+        6: f'{object_name} с таким id отсутствует в базе данных.',
+        7: 'Возможно отсутствует заголовок запроса или поле данных в теле запроса.',
+        8: ex.args[0] if ex.args else 'Неизвестная ошибка.',
+    }
+
+    error_root = f'Ошибка в {class_name}|{method_name}'
+
+    return {
+        'error_code': error_code,
+        'message': f'{messages[error_code]} {error_root}'
+    }
 
 
-class ExceptionResolver:
-    """Класс для обработки ошибок и исключений."""
-
-    @staticmethod
-    def get_err_message(error_code: int = 1, object_name: Optional[str] = 'Объект', msg: Optional[None] = None) -> dict:
-        """Возвращает сообщение ошибки по ее коду"""
-
-        def get_custom_msg(msg):
-            """Возвращает стандартный ответ, либо переданное сообщение при его наличии."""
-            return 'Неизвестная ошибка' if not msg else msg
-
-        error_messages_dict = {
-            1: {'error_code': 1, 'message':
-                get_custom_msg(msg)},
-            2: {'error_code': 2, 'message':
-                'Данные по запросу не найдены.'},
-            3: {'error_code': 3, 'message':
-                'Ошибка в формате данных. Проверьте правильность введенных данных.'},  # ParseError, DataError
-            4: {'error_code': 4, 'message':
-                'Поле не указано, либо указано неверно. Проверьте правильность введенных данных.'},  # ValidationError
-            5: {'error_code': 5, 'message':
-                f'{object_name} с таким id уже присутствует в базе данных.'},  # IntegrityError, ValidationError
-            6: {'error_code': 6, 'message':
-                f'{object_name} с таким id отсутствует в базе данных.'},  # model.DoesNotExist
-            7: {'error_code': 7, 'message':
-                'Возможно отсутсвует заголовок запроса или поле данных в теле запроса.'},  # KeyError
-            8: {'error_code': 8, 'message':
-                get_custom_msg(msg)}  # TypeError
-        }
-        try:
-            return error_messages_dict[error_code]
-        except KeyError as e:
-            # view_logger.exception(e)
-            # view_logger.info({'error_code': None, 'message': 'Неизвестный код ошибки.'})
-            return {'error_code': None, 'message': 'Неизвестный код ошибки.'}
-
-    @classmethod
-    def exception_handler(cls, ex: Exception,
-                          object_name: Optional[str] = 'Объект',
-                          msg: Optional[str] = 'Неизвестная ошибка') -> Response:
-        """Возвращает DRF Response и логгирует ошибки исходя из переданного исключения."""
-        if ex.__class__.__name__ == 'DoesNotExist':
-            context = cls.get_err_message(6, object_name)
-        elif ex.__class__.__name__ in ('ParseError', 'DataError'):
-            context = cls.get_err_message(3)
-        elif ex.__class__.__name__ == 'ValidationError':
-            context = cls.get_err_message(4)
-        elif ex.__class__.__name__ == 'IntegrityError':
-            context = cls.get_err_message(5, object_name)
-        elif ex.__class__.__name__ == 'KeyError':
-            context = cls.get_err_message(7)
-        elif ex.__class__.__name__ == 'TypeError':
-            context = cls.get_err_message(8, object_name, msg)
-        else:
-            context = cls.get_err_message(1)
-        # view_logger.info(context)
-        # view_logger.exception(ex)
-        return Response(context)
+def exception_handler(object_name: str = 'Объект'):
+    """Декоратор для ловли и обработки ошибок в методах представлений."""
+    def func_decorator(method):
+        @wraps(method)
+        def wrapper(self, *args, **kwargs):
+            try:
+                log_request_created(api_view_logger, *args, **kwargs)
+                result = method(self, *args, **kwargs)
+                log_request_completed(api_view_logger, result, *args, **kwargs)
+            except Exception as e:
+                error_fields = []
+                if isinstance(e, ValidationError):
+                    error_fields = list(e.get_full_details().keys())
+                error = ex_handler(e, object_name, self.__class__.__name__,
+                                   method.__name__, error_fields)
+                log_request_error(api_view_logger, e, error)
+                return Response(error)
+            else:
+                return result
+        return wrapper
+    return func_decorator
