@@ -7,6 +7,7 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from dashboard import views
 
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Swagger",

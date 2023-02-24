@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 from api.models import News, UserCart, Product, Profile, Address, District, Order, OrderStatus, ProductCategory
-from dashboard.exceptions import *
+from modules.exceptions import *
 from .forms import SearchForm
 
 
@@ -18,12 +18,15 @@ def index(request):
         order_logs = file.read()
     with open(settings.PATH_LOG / f"server_logs.log", encoding="utf-8") as file:
         server_logs = file.read()
+    with open(settings.PATH_LOG / f"logs.log", encoding="utf-8") as file:
+        logs = file.read()
 
     params = {
         'profile': profile,
         'api_logs': api_logs,
         'order_logs': order_logs,
-        'server_logs': server_logs
+        'server_logs': server_logs,
+        'logs': logs
     }
 
     form = SearchForm()

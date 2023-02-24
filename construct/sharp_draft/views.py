@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from api.models import News, UserCart, Product, Profile, Address, District, Order, OrderStatus, ProductCategory
-from dashboard.exceptions import *
+from modules.exceptions import *
 
 
 @server_error_decorator

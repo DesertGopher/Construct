@@ -11,8 +11,8 @@ from api.models import Product, Review, ProductCategory, Profile, UserCart, User
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
 from .forms import ReviewForm, OrderCreate
-from api.serializers import LoadCartSerializer, OrderProducts
-from dashboard.exceptions import *
+from modules.serializers import LoadCartSerializer, OrderProducts
+from modules.exceptions import *
 
 
 @server_error_decorator

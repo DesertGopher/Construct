@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 from django.core import management
+
 
 DJANGO_SETTINGS = 'construct.settings'
 

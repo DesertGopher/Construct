@@ -2,7 +2,7 @@ import re
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import *
+from api.models import *
 
 
 class OrderSerializer(serializers.ModelSerializer):

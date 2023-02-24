@@ -7,13 +7,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from api.models import News, UserCart, Product, Profile, Address, District, Order, OrderStatus, ProductCategory
+from api.models import News, UserCart, Product, Profile, Address, Order, OrderStatus, ProductCategory
 from .forms import *
 from .forms import UserCreationForm, AddAddress, UserUpdate, ProductEdit
-from api.serializers import LoadCartSerializer, OrderProducts
+from modules.serializers import LoadCartSerializer, OrderProducts
 from cart.cart import Cart
-from shop.forms import OrderCreate, OrderEdit
-from .exceptions import *
+from shop.forms import OrderEdit
+from modules.exceptions import *
 
 
 @server_error_decorator
