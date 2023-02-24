@@ -1,4 +1,5 @@
 from .custom_loguru import *
+from .orders_logs import *
 from django.shortcuts import render
 
 
@@ -12,6 +13,20 @@ def server_error_decorator(func):
         except Exception as message:
             log_request_error(server_logger, message)
             return func(*args, **kwargs)
+            # return render(request, 'dashboard/500.html', {'message': message})
+    return wrapped
+
+
+def orders_decorator(func):
+    def wrapped(request, *args, **kwargs):
+        try:
+            log_request_created(orders_logger, *args, **kwargs)
+            result = str('Пользователь ' + str(request.user.username) + ' сделал заказ в приложении')
+            log_request_completed(orders_logger, result, *args, **kwargs)
+            return func(request, *args, **kwargs)
+        except Exception as message:
+            log_request_error(orders_logger, message)
+            return func(request, *args, **kwargs)
             # return render(request, 'dashboard/500.html', {'message': message})
     return wrapped
 

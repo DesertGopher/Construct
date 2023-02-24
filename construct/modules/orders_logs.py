@@ -16,36 +16,6 @@ logger.add(
 logger.bind(view=True)
 
 
-# логгер для основных представлений
-logger.add(
-    settings.PATH_LOG / "server_logs.log",
-    diagnose=False,
-    backtrace=False,
-    format="{time:YYYY-MM-DD HH:mm:ss.SSS} [{level}] {message}",
-    level="DEBUG",
-    rotation="1 MB",
-    retention='7 days',
-    compression="zip",
-    filter=lambda record: "view" in record["extra"]
-)
-server_logger = logger.bind(view=True)
-
-
-# логгер для АПИ методов
-logger.add(
-    settings.PATH_LOG / "api_view_logs.log",
-    diagnose=False,
-    backtrace=False,
-    format="{time:YYYY-MM-DD HH:mm:ss.SSS} [{level}] {message}",
-    level="DEBUG",
-    rotation="1 MB",
-    retention='7 days',
-    compression="zip",
-    filter=lambda record: "api" in record["extra"]
-)
-api_view_logger = logger.bind(view=True)
-
-
 # логгер для заказов
 logger.add(
     settings.PATH_LOG / "orders_logs.log",
@@ -56,7 +26,7 @@ logger.add(
     rotation="1 MB",
     retention='7 days',
     compression="zip",
-    filter=lambda record: "orders" in record["extra"]
+    filter=lambda record: "view" in record["extra"]
 )
 orders_logger = logger.bind(view=True)
 

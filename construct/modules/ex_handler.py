@@ -1,6 +1,6 @@
 from typing import List
 from functools import wraps
-from .custom_loguru import *
+from .api_logs import *
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 

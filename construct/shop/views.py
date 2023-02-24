@@ -15,12 +15,23 @@ from modules.serializers import LoadCartSerializer, OrderProducts
 from modules.exceptions import *
 
 
+def get_params(request):
+    categories = ProductCategory.objects.all()
+    cart_product_form = CartAddProductForm()
+    cart = Cart(request)
+    params = {
+        'categories': categories,
+        'cart_product_form': cart_product_form,
+        'cart': cart,
+    }
+    return params
+
+
 @server_error_decorator
 def index(request):
-    categories = ProductCategory.objects.all()
     title = 'Каталоги'
     context = {
-        'categories': categories,
+        **get_params(request),
         'title': title
     }
     if request.user.is_active:
@@ -32,25 +43,21 @@ def index(request):
 
 @server_error_decorator
 def category(request):
-    cart_product_form = CartAddProductForm()
     filter = str(request.GET.get('name'))
-    categories = ProductCategory.objects.all()
     if filter:
         product_list = Product.objects.filter(category_class=int(filter), is_active=True).order_by('-is_stock')
         title = ProductCategory.objects.get(id=int(filter)).name
         context = {
-            'categories': categories,
+            **get_params(request),
             'product_list': product_list,
-            'cart_product_form': cart_product_form,
             'title': title
         }
     else:
         product_list = Product.objects.filter(is_active=True).order_by('-discount')
         title = 'Все товары'
         context = {
-            'categories': categories,
+            **get_params(),
             'product_list': product_list,
-            'cart_product_form': cart_product_form,
             'title': title
         }
     if request.user.is_active:
@@ -64,15 +71,21 @@ def category(request):
 def detail(request, product_id):
     profile = Profile.objects.get(client_id=request.user)
     reviews = Review.objects.order_by('-pub_date')
-    categories = ProductCategory.objects.all()
     try:
         product = Product.objects.get(pk=product_id, is_active=True)
     except Product.DoesNotExist:
         message = 'Такого товара не существует.'
         return render(request, 'dashboard/404.html', {'message': message})
-    cart_product_form = CartAddProductForm()
     title = str(product.name)
-    same_products = Product.objects.filter(category_class=product.category_class, is_active=True).order_by('-discount')[:6]
+    same_products = Product.objects.filter(category_class=product.category_class,
+                                           is_active=True).order_by('-discount')[:6]
+    params = {
+        'profile': profile,
+        'product': product,
+        'title': title,
+        'same_products': same_products,
+        'reviews': reviews,
+    }
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
@@ -84,36 +97,21 @@ def detail(request, product_id):
             comment_f.profile_picture = Profile.objects.get(client_id=request.user).profile_picture
             comment_f.save()
             form = ReviewForm()
-            context = {'profile': profile,
-                       'product': product,
-                       'categories': categories,
-                       'cart_product_form': cart_product_form,
-                       'title': title,
-                       'same_products': same_products,
-                       'reviews': reviews,
-                       'form': form
-                       }
+            context = {**get_params(request),
+                       **params,
+                       'form': form}
             return render(request, 'shop/detail.html', context)
-    form = ReviewForm()
-    context = {'profile': profile,
-               'categories': categories,
-               'product': product,
-               'cart_product_form': cart_product_form,
-               'title': title,
-               'same_products': same_products,
-               'reviews': reviews,
-               'form': form
-               }
 
+    form = ReviewForm()
+    context = {**get_params(request),
+               **params,
+               'form': form}
     return render(request, 'shop/detail.html', context)
 
 
-@server_error_decorator
+@orders_decorator
 @is_active_decorator
 def create_order(request):
-    cart = Cart(request)
-    categories = ProductCategory.objects.all()
-
     product_list = UserCart.objects.get(client_id=request.user)
     serializer = LoadCartSerializer(product_list, many=False)
     keys = serializer.data['product_list'].keys()
@@ -160,7 +158,6 @@ def create_order(request):
                 f'Клиент: {request.user}\n'
                 f'Адрес: {order_form.address_id}\n'
                 f'Дата создания заказа клиентом: {order_form.date_created}\n'
-                # f'Товары: {cart_products}\n'
                 f'Тип оплаты: {order_form.payment_type}\n'
                 f'Сумма заказа: {order_form.total_cost} руб\n'
                 f'Статус заказа: {order_form.status}'
@@ -180,9 +177,8 @@ def create_order(request):
     form = OrderCreate(user=request.user)
 
     context = {
-        'categories': categories,
+        **get_params(request),
         'cart_products': cart_products,
-        'cart': cart,
         'user': user,
         'form': form,
         'profile': profile,
@@ -202,15 +198,17 @@ def orders(request):
     status3 = OrderStatus.objects.get(status_name="Доставлен")
     status4 = OrderStatus.objects.get(status_name="Отменен")
     profile = Profile.objects.get(client_id=request.user)
-    categories = ProductCategory.objects.all()
-    title = 'Мои заказы'
-    context = {
-        'categories': categories,
-        'orders_list': orders_list,
+    statuses = {
         'status1': status1,
         'status2': status2,
         'status3': status3,
         'status4': status4,
+    }
+    title = 'Мои заказы'
+    context = {
+        **get_params(request),
+        'orders_list': orders_list,
+        **statuses,
         'title': title,
         'profile': profile,
     }
