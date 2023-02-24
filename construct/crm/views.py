@@ -12,11 +12,11 @@ from .forms import SearchForm
 @is_staff_decorator
 def index(request):
     profile = Profile.objects.get(client_id=request.user)
-    with open(settings.PATH_LOG / f"api_view_logs.txt", encoding="utf-8") as file:
+    with open(settings.PATH_LOG / f"api_view_logs.log", encoding="utf-8") as file:
         api_logs = file.read()
-    with open(settings.PATH_LOG / f"orders_logs.txt", encoding="utf-8") as file:
+    with open(settings.PATH_LOG / f"orders_logs.log", encoding="utf-8") as file:
         order_logs = file.read()
-    with open(settings.PATH_LOG / f"server_logs.txt", encoding="utf-8") as file:
+    with open(settings.PATH_LOG / f"server_logs.log", encoding="utf-8") as file:
         server_logs = file.read()
 
     params = {

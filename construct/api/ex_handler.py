@@ -4,11 +4,11 @@ from loguru import logger
 from django.conf import settings
 
 
-logger.add(settings.PATH_LOG / "api_view_logs.txt", diagnose=False, backtrace=False,
-           format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
-           retention='7 days', compression="zip",
-           filter=lambda record: "view" in record["extra"])
-view_logger = logger.bind(view=True)
+# logger.add(settings.PATH_LOG / "api_view_logs.txt", diagnose=False, backtrace=False,
+#            format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
+#            retention='7 days', compression="zip",
+#            filter=lambda record: "view" in record["extra"])
+# view_logger = logger.bind(view=True)
 
 
 class ExceptionResolver:
@@ -43,8 +43,8 @@ class ExceptionResolver:
         try:
             return error_messages_dict[error_code]
         except KeyError as e:
-            view_logger.exception(e)
-            view_logger.info({'error_code': None, 'message': 'Неизвестный код ошибки.'})
+            # view_logger.exception(e)
+            # view_logger.info({'error_code': None, 'message': 'Неизвестный код ошибки.'})
             return {'error_code': None, 'message': 'Неизвестный код ошибки.'}
 
     @classmethod
@@ -66,6 +66,6 @@ class ExceptionResolver:
             context = cls.get_err_message(8, object_name, msg)
         else:
             context = cls.get_err_message(1)
-        view_logger.info(context)
-        view_logger.exception(ex)
+        # view_logger.info(context)
+        # view_logger.exception(ex)
         return Response(context)

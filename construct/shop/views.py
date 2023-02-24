@@ -15,13 +15,6 @@ from api.serializers import LoadCartSerializer, OrderProducts
 from dashboard.exceptions import *
 
 
-logger.add(settings.PATH_LOG / "orders_logs.txt", diagnose=False, backtrace=False,
-           format="{time} {level} {message}", level="DEBUG", rotation="1 MB",
-           retention='7 days', compression="zip",
-           filter=lambda record: "view" in record["extra"])
-order_logger = logger.bind(view=True)
-
-
 @server_error_decorator
 def index(request):
     categories = ProductCategory.objects.all()
@@ -182,7 +175,7 @@ def create_order(request):
             for prod in cart:
                 prod['product'].is_stock = int(prod['product'].is_stock) - int(prod['quantity'])
                 prod['product'].save()
-            order_logger.debug(str('Пользователь ' + str(request.user) + ' сделал заказ №' + str(order_form.id)))
+            # order_logger.debug(str('Пользователь ' + str(request.user) + ' сделал заказ №' + str(order_form.id)))
             return HttpResponseRedirect(reverse('shop:orders'))
     form = OrderCreate(user=request.user)
 
