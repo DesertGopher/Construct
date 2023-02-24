@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from datetime import *
-from ckeditor.fields import RichTextField
-from django.contrib.auth.models import AbstractUser
 
 
 class News(models.Model):
@@ -196,4 +195,3 @@ class Order(models.Model):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
         db_table = 'order'
-

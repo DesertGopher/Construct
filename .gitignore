@@ -29,3 +29,5 @@ cranko.exe
 /config/
 /sharp_draft/static/dashboard/css/__init__.py
 /construct/api/old migrations/
+/construct/modules/__pycache__/
+*.pyc

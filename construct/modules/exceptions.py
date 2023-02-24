@@ -1,4 +1,4 @@
-from custom_loguru import *
+from .custom_loguru import *
 from django.shortcuts import render
 
 
