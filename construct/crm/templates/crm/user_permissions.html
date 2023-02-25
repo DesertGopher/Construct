@@ -1,17 +1,17 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
-{% block title %}Права доспупа{% endblock %}
+{% block title %}CRM Права доспупа{% endblock %}
 
-{% block static %}
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/permissions.css' %}">
 {% endblock %}
 
-{% block style %}
-<style>
-
-</style>
+{% block crm-style %}
+    <style>
+    </style>
 {% endblock %}
-{% block content %}
+
+{% block crm %}
 <div class="title"><a>Настройка прав доступа для пользователей</a></div>
     <div class="permissions">
         {% for user in users %}

@@ -1,19 +1,19 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
-{% block title %}Редактирование заказа{% endblock %}
+{% block title %}CRM Редактирование заказа{% endblock %}
 
-{% block static %}
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/order_edit.css' %}">
     <link rel="stylesheet" href="{% static 'shop/css/order_detail.css' %}">
 {% endblock %}
 
-{% block style %}
-<style>
-
-</style>
+{% block crm-style %}
+    <style>
+    </style>
 {% endblock %}
-{% block content %}
-    <div style="margin: 7vh 0 0 0;" class="order_products">
+
+{% block crm %}
+    <div crm="margin: 7vh 0 0 0;" class="order_products">
         <a>Продукты в заказе</a>
     </div>
 

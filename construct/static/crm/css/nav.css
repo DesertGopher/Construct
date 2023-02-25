@@ -1,3 +1,7 @@
+body {
+    background: radial-gradient(white, LightCyan);
+}
+
 .main_nav {
     height: 94vh;
     display: flex;
@@ -6,10 +10,19 @@
 }
 
 .crm_nav {
-    display: flex;
     width: 15%;
+    height: 94vh;
+    position: fixed;
+}
+
+.buts {
+    height: 94vh;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
 }
 
 .content {
+    margin: 0 0 0 15%;
     width: 85%;
 }

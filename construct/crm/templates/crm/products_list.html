@@ -1,19 +1,17 @@
-
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
-{% block title %}Товары{% endblock %}
-{% block static %}
+{% block title %}CRM Товары{% endblock %}
+
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/products_list.css' %}">
-
 {% endblock %}
 
-{% block style %}
-<style>
-</style>
-
+{% block crm-style %}
+    <style>
+    </style>
 {% endblock %}
 
-{% block content %}
+{% block crm %}
     <div class="add_product">
         <a><i>Создать продукт</i></a>
         <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_product' %}">

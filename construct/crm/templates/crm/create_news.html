@@ -1,19 +1,17 @@
-
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
-{% block title %}Создание новости{% endblock %}
-{% block static %}
+{% block title %}CRM Создание новости{% endblock %}
+
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/news_edit.css' %}">
-
 {% endblock %}
 
-{% block style %}
-<style>
-</style>
-
+{% block crm-style %}
+    <style>
+    </style>
 {% endblock %}
 
-{% block content %}
+{% block crm %}
 <div class="but">
     <a type="button" class="log btn btn-info" href="{% url 'crm:news_list' %}">
         <i class="fa fa-long-arrow-alt-left"></i> Назад</a>

@@ -1,21 +1,18 @@
 {% extends 'dashboard/layout.html' %}
 {% load static %}
 {% block title %}CRM{% endblock %}
+
 {% block static %}
     <link rel="stylesheet" href="{% static 'crm/css/nav.css' %}">
-
     {% block crm-static %}
     {% endblock %}
-
 {% endblock %}
 
 {% block style %}
-<style>
-</style>
-
+    <style>
+    </style>
     {% block crm-style %}
     {% endblock %}
-
 {% endblock %}
 
 {% block content %}
@@ -30,8 +27,6 @@
             <a class="btn btn-outline-info" href="{% url 'crm:orders' %}">Управление заказами</a>
             <a class="btn btn-outline-info" href="{% url 'crm:permissions' %}">Управление правами</a>
             <a class="btn btn-outline-info" href="{% url 'admin:index' %}">Панель администратора</a>
-        </div>
-        <div class="swag">
             <a class="btn btn-outline-primary" href="">Terms of service</a>
             <a class="btn btn-outline-primary" href="">Privacy policy</a>
             <a class="btn btn-outline-primary" href="../../../swagger/">Swagger</a>

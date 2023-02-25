@@ -1,18 +1,17 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
-{% block title %}Новости{% endblock %}
-{% block static %}
+{% block title %}CRM Новости{% endblock %}
+
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/news_list.css' %}">
-
 {% endblock %}
 
-{% block style %}
-<style>
-</style>
-
+{% block crm-style %}
+    <style>
+    </style>
 {% endblock %}
 
-{% block content %}
+{% block crm %}
 
     <div class="add_news">
         <a><i>Добавить новость</i></a>

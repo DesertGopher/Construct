@@ -1,17 +1,17 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
-{% block title %}Заказы пользователей{% endblock %}
+{% block title %}CRM Заказы пользователей{% endblock %}
 
-{% block static %}
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/orders.css' %}">
 {% endblock %}
 
-{% block style %}
-<style>
-
-</style>
+{% block crm-style %}
+    <style>
+    </style>
 {% endblock %}
-{% block content %}
+
+{% block crm %}
 <div class="title"><a>Редактирование заказов пользователей</a></div>
     {% for user_profile in profiles %}
         {% for one in users %}
