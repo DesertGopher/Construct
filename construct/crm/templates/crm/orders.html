@@ -3,7 +3,7 @@
 {% block title %}Заказы пользователей{% endblock %}
 
 {% block static %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/orders.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/css/orders.css' %}">
 {% endblock %}
 
 {% block style %}
@@ -43,7 +43,7 @@
                     {% for order in orders_list %}
                         {% if order.client_id == one %}
                             <div class="order">
-                                <a href="{% url 'dashboard:order_edit' order.id %}"><b>Заказ № {{order.id}}</b></a>
+                                <a href="{% url 'crm:order_edit' order.id %}"><b>Заказ № {{order.id}}</b></a>
                                 {% if order.status == status1 %}
                                     <a style="color: blue;"><i class="fas fa-spinner fa-pulse"></i> {{order.status}}</a>
                                 {% endif %}

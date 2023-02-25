@@ -1,0 +1,15 @@
+.main_nav {
+    height: 94vh;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.crm_nav {
+    display: flex;
+    width: 15%;
+}
+
+.content {
+    width: 85%;
+}

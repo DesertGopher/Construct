@@ -3,7 +3,7 @@
 {% load static %}
 {% block title %}Товары{% endblock %}
 {% block static %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/products_list.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/css/products_list.css' %}">
 
 {% endblock %}
 
@@ -16,7 +16,7 @@
 {% block content %}
     <div class="add_product">
         <a><i>Создать продукт</i></a>
-        <a type="button" class="log btn btn-outline-success" href="{% url 'dashboard:create_product' %}">
+        <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_product' %}">
             <i class="fa fa-plus"></i> </a>
     </div>
     <div class="list">
@@ -45,13 +45,13 @@
                         <a>{{ product.get_sale }}₽</a>
                     </div>
                     <div class="buttons">
-                        <a type="button" class="log btn btn-warning" href="{% url 'dashboard:product_edit' product.id %}">
+                        <a type="button" class="log btn btn-warning" href="{% url 'crm:product_edit' product.id %}">
                             <i class="fa fa-pen"></i> </a>
                         <a type="button" class="log btn btn-danger"
-                           href="{% url 'dashboard:products_list' %}?deleted={{ product.id }}">
+                           href="{% url 'crm:products_list' %}?deleted={{ product.id }}">
                             <i class="fa fa-trash"></i></a>
                         <a type="button" class="log btn btn-info"
-                           href="{% url 'dashboard:products_list' %}?restored={{ product.id }}">
+                           href="{% url 'crm:products_list' %}?restored={{ product.id }}">
                             <i class="fa fa-redo"></i></a>
                     </div>
                 </div>

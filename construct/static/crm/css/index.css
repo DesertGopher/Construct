@@ -37,7 +37,7 @@ body {
 .drf_window {
     display: flex;
     flex-direction: column;
-    width: 39%;
+    width: 45%;
     align-items: flex-start;
 }
 .box {
@@ -93,11 +93,10 @@ form {
     color: #F9F0DA;
 }
 
-
 .logs {
     display: flex;
     flex-direction: column;
-    width: 39%;
+    width: 45%;
     align-items: center;
 }
 .logs_content {
@@ -114,7 +113,8 @@ form {
 
 .nav-tabs > li > a.api-tab.active,
 .nav-tabs > li > a.orders-tab.active,
-.nav-tabs > li > a.server-tab.active {
+.nav-tabs > li > a.server-tab.active,
+.nav-tabs > li > a.logs-tab.active {
     background-color: black;
     color: white;
     border-color: black;

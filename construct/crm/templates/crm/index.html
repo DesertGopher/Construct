@@ -1,35 +1,19 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'crm/crm_layout.html' %}
 {% load static %}
 {% block title %}CRM{% endblock %}
 
-{% block static %}
+{% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/index.css' %}">
 {% endblock %}
 
-{% block style %}
+{% block crm-style %}
 <style>
 
 </style>
 {% endblock %}
-{% block content %}
+{% block crm %}
 <div class="pads">
     <div class="main_page">
-        <div class="crm_nav">
-            <div class="buts">
-                <a class="btn btn-outline-info" href="?name=api:orders">Управление товарами</a>
-                <a class="btn btn-outline-info" href="">Управление новостями</a>
-                <a class="btn btn-outline-info" href="">Управление заказами</a>
-                <a class="btn btn-outline-info" href="">Управление правами</a>
-                <a class="btn btn-outline-info" href="">Панель администратора</a>
-            </div>
-            <div class="swag">
-                <a class="btn btn-outline-primary" href="">Terms of service</a>
-                <a class="btn btn-outline-primary" href="">Privacy policy</a>
-                <a class="btn btn-outline-primary" href="../../../swagger/">Swagger</a>
-                <a class="btn btn-outline-primary" href="../../../redoc/">Redoc</a>
-                <a class="btn btn-outline-primary" href="">Sphinx</a>
-            </div>
-        </div>
 
         <div class="drf_window">
             <div class="d1">
@@ -130,14 +114,12 @@
         </div>
 
         <div class="logs">
-
             <ul class="nav nav-tabs">
                 <li><a class="nav-link api-tab active" data-toggle="tab" href="#api">АПИ</a></li>
                 <li><a class="nav-link orders-tab" data-toggle="tab" href="#orders">Заказы</a></li>
                 <li><a class="nav-link server-tab" data-toggle="tab" href="#server">Сервер</a></li>
                 <li><a class="nav-link logs-tab" data-toggle="tab" href="#logs">Общие логи</a></li>
             </ul>
-
             <div class="tab-content">
                 <div id="api" class="tab-pane fade in active">
                     <div class="logs_content">
@@ -160,8 +142,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
     </div>
 </div>
 {% endblock %}

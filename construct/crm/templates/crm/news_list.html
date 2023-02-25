@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Новости{% endblock %}
 {% block static %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/news_list.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/css/news_list.css' %}">
 
 {% endblock %}
 
@@ -16,7 +16,7 @@
 
     <div class="add_news">
         <a><i>Добавить новость</i></a>
-        <a type="button" class="log btn btn-outline-success" href="{% url 'dashboard:create_news' %}">
+        <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_news' %}">
             <i class="fa fa-plus"></i> </a>
     </div>
 
@@ -43,13 +43,13 @@
                     </div>
 
                     <div class="buttons">
-                        <a type="button" class="log btn btn-warning" href="{% url 'dashboard:news_edit' new.id %}">
+                        <a type="button" class="log btn btn-warning" href="{% url 'crm:news_edit' new.id %}">
                             <i class="fa fa-pen"></i> </a>
                         <a type="button" class="log btn btn-danger"
-                           href="{% url 'dashboard:news_list' %}?deleted={{ new.id }}">
+                           href="{% url 'crm:news_list' %}?deleted={{ new.id }}">
                             <i class="fa fa-trash"></i></a>
                         <a type="button" class="log btn btn-info"
-                           href="{% url 'dashboard:news_list' %}?restored={{ new.id }}">
+                           href="{% url 'crm:news_list' %}?restored={{ new.id }}">
                             <i class="fa fa-redo"></i></a>
                     </div>
 

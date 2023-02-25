@@ -3,7 +3,7 @@
 {% block title %}Права доспупа{% endblock %}
 
 {% block static %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/permissions.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/css/permissions.css' %}">
 {% endblock %}
 
 {% block style %}
@@ -29,11 +29,11 @@
                     {% endif %}
 
                 <div class="buttons">
-                    <a class="btn btn-danger" href="{% url 'dashboard:make_user_superuser' user.id %}">
+                    <a class="btn btn-danger" href="{% url 'crm:make_user_superuser' user.id %}">
                         <i class="fa fa-user-shield"></i></a>
-                    <a class="btn btn-primary" href="{% url 'dashboard:make_user_manager' user.id %}">
+                    <a class="btn btn-primary" href="{% url 'crm:make_user_manager' user.id %}">
                         <i class="fa fa-user-tie"></i></a>
-                    <a class="btn btn-success" href="{% url 'dashboard:make_user_client' user.id %}">
+                    <a class="btn btn-success" href="{% url 'crm:make_user_client' user.id %}">
                         <i class="fa fa-user"></i></a>
                 </div>
                 {% else %}

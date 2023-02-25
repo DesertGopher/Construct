@@ -1,9 +1,9 @@
 
 {% extends 'dashboard/layout.html' %}
 {% load static %}
-{% block title %}Новости{% endblock %}
+{% block title %}Создание продукта{% endblock %}
 {% block static %}
-    <link rel="stylesheet" href="{% static 'dashboard/css/news_edit.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/css/product_edit.css' %}">
 
 {% endblock %}
 
@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="but">
-    <a type="button" class="log btn btn-info" href="{% url 'dashboard:products_list' %}">
+    <a type="button" class="log btn btn-info" href="{% url 'crm:products_list' %}">
         <i class="fa fa-long-arrow-alt-left"></i> Назад</a>
 </div>
 <div class="profileform">
@@ -23,8 +23,7 @@
         <div class="form">
             {% csrf_token %}
             {{ form.as_p }} <br>
-
-            <br><button  type="submit" class="btn btn-info" style="margin-bottom: 2%;"> Обновить </button>
+            <button  type="submit" class="btn btn-info" style="margin-bottom: 2%;"> Создать продукт </button>
         </div>
 
     </form>

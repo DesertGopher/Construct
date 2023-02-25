@@ -207,8 +207,8 @@ def orders(request):
     title = 'Мои заказы'
     context = {
         **get_params(request),
-        'orders_list': orders_list,
         **statuses,
+        'orders_list': orders_list,
         'title': title,
         'profile': profile,
     }
@@ -218,7 +218,6 @@ def orders(request):
 @server_error_decorator
 @is_active_decorator
 def order_detail(request, order_id):
-    cart = Cart(request)
     try:
         order = Order.objects.get(pk=order_id, client_id=request.user)
     except Order.DoesNotExist:
@@ -235,7 +234,6 @@ def order_detail(request, order_id):
     order_products = Product.objects.filter(id__in=get_keys)
 
     profile = Profile.objects.get(client_id=request.user)
-    categories = ProductCategory.objects.all()
     title = order
     total = float(0)
     len = int(0)
@@ -243,14 +241,13 @@ def order_detail(request, order_id):
         total += product.get_sale() * amount[len]
         len += 1
     context = {
-        'categories': categories,
+        **get_params(request),
         'keys': keys,
         'amount': amount,
         'order_products': order_products,
         'title': title,
         'profile': profile,
         'order': order,
-        'cart': cart,
         'total': total,
     }
     return render(request, 'shop/order_detail.html', context)

@@ -67,20 +67,12 @@
                     {% endif %}
                 {% if user.is_staff %}
 
-                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:orders' %}">
-                        <i class="fa fa-clipboard-list" aria-hidden="true"></i></a>
-
-                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:news_list' %}">
-                        <i class="fa fa-edit"></i></a>
-                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:products_list' %}">
-                        <i class="fa fa-pen"></i></a>
                     <a type="button" class="log btn btn-info" href="{% url 'crm:home' %}">CRM</a>
                 {% endif %}
                 {% if user.is_superuser %}
                     <a type="button" class="log btn btn-info" href="{% url 'admin:index' %}">
                         <i class="fa fa-cog" aria-hidden="true"></i></a>
-                    <a type="button" class="log btn btn-info" href="{% url 'dashboard:permissions' %}">
-                        <i class="fa fa-user-edit" aria-hidden="true"></i></a>
+
                 {% endif %}
                 <a type="button" class="log btn btn-link" href="{% url 'dashboard:logout' %}">
                     <i class="fas fa-sign-in-alt"></i> Выйти</a>
