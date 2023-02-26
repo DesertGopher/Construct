@@ -20,6 +20,10 @@ body {
     display: flex;
     flex-direction: column;
     border-right: 1px solid black;
+    justify-content: space-around;
+}
+.crm_nav > .buts > a {
+    height: 6vh;
 }
 
 .content {

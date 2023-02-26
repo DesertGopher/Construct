@@ -43,14 +43,16 @@
             <a href="{% url 'dashboard:home' %}" style="margin-left: 3%;">
                 <img src="{% static 'dashboard/img/LOGO.png' %}" width="35" height="35"></a>
             <a href="{% url 'dashboard:home' %}" style="font-size: 28px; margin-left: 5px;">Construct</a>
-            <a type="button" style="font-size: 24px; margin: 0 0 0 1%;" class="btn btn-link"
+            <a type="button" style="font-size: 22px; margin: 0 0 0 1%;" class="btn btn-link"
                href="{% url 'shop:index' %}">Магазин</a>
-            <a type="button" style="font-size: 24px;" class="btn btn-link"
+            <a type="button" style="font-size: 22px;" class="btn btn-link"
                href="{% url 'news:index' %}?newsId={{last_news}}">Новости</a>
-            <a type="button" style="font-size: 24px;" class="btn btn-link"
+            <a type="button" style="font-size: 22px;" class="btn btn-link"
                href="{% url 'dashboard:contact' %}">Контакты</a>
-            <a type="button" style="font-size: 24px;" class="btn btn-link"
+            <a type="button" style="font-size: 22px;" class="btn btn-link"
                href="{% url 'sharp_draft:home' %}">Sharp Draft</a>
+            <a type="button" style="font-size: 22px" class="btn btn-link"
+               href="">Тех. поддержка</a>
         </div>
         <div class="user">
             {% if not user.is_authenticated %}

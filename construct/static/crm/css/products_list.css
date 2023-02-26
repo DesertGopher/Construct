@@ -38,6 +38,7 @@
 .add_product {
     margin: 2% 0 0 5%;
     font-size: 20px;
+    display: flex;
 }
 .a_cat {
     display:flex;

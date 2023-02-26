@@ -17,6 +17,12 @@
         <a><i>Добавить новость</i></a>
         <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_news' %}">
             <i class="fa fa-plus"></i> </a>
+        <div class="d1">
+            <form action="." method="get">
+                {{ form.query }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
     </div>
 
     <div class="list">
@@ -38,7 +44,7 @@
                     </div>
 
                     <div class="date">
-                        <a>{{ new.pub_date }}</a>
+                        <a style="font-size: 18px;">{{ new.pub_date }}</a>
                     </div>
 
                     <div class="buttons">

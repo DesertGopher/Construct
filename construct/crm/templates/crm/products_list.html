@@ -16,7 +16,14 @@
         <a><i>Создать продукт</i></a>
         <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_product' %}">
             <i class="fa fa-plus"></i> </a>
+        <div class="d1">
+            <form action="." method="get">
+                {{ form.query }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
     </div>
+
     <div class="list">
         {% for category in categories %}
         <div class="a_cat"><a>{{ category }}</a></div>

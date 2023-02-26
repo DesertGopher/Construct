@@ -120,11 +120,34 @@ def products_list(request):
     categories = ProductCategory.objects.all().order_by('id')
     filter = str(request.GET.get('deleted'))
     restore = str(request.GET.get('restored'))
-    context = {
+
+    params = {
         'profile': profile,
-        'products': products,
         'categories': categories,
     }
+
+    form = SearchForm()
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            cd = form.cleaned_data
+            products = Product.objects.filter(Q(name__icontains=cd['query']) |
+                                              Q(vendor__icontains=cd['query']))
+
+            context = {
+                **params,
+                'products': products,
+                'form': form,
+                'cd': cd,
+            }
+            return render(request, 'crm/products_list.html', context)
+
+    context = {
+        **params,
+        'products': products,
+        'form': form,
+    }
+
     if filter != 'None':
         if (isinstance(int(filter), int)):
             product_to_delete = Product.objects.get(id=int(filter))
@@ -211,19 +234,37 @@ def news_list(request):
     news = News.objects.all().order_by('id')
     filter = str(request.GET.get('deleted'))
     restore = str(request.GET.get('restored'))
+
+    form = SearchForm()
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            cd = form.cleaned_data
+            news = News.objects.filter(Q(title__icontains=cd['query']) |
+                                       Q(news__icontains=cd['query']))
+
+            context = {
+                'profile': profile,
+                'news': news,
+                'form': form,
+                'cd': cd,
+            }
+            return render(request, 'crm/news_list.html', context)
+
     context = {
         'profile': profile,
         'news': news,
+        'form': form,
     }
     if filter != 'None':
-        if (isinstance(int(filter), int)):
+        if isinstance(int(filter), int):
             new_to_delete = News.objects.get(id=int(filter))
             new_to_delete.is_active = False
             new_to_delete.save()
             return render(request, 'crm/news_list.html', context)
 
     if restore != 'None':
-        if (isinstance(int(restore), int)):
+        if isinstance(int(restore), int):
             new_to_restore = News.objects.get(id=int(restore))
             new_to_restore.is_active = True
             new_to_restore.save()
@@ -238,22 +279,54 @@ def user_orders(request):
     users = User.objects.all()
     profiles = Profile.objects.all()
     orders_list = Order.objects.all().order_by('-id')
+    profile = Profile.objects.get(client_id=request.user)
     status1 = OrderStatus.objects.get(status_name="В сборке")
     status2 = OrderStatus.objects.get(status_name="В доставке")
     status3 = OrderStatus.objects.get(status_name="Доставлен")
     status4 = OrderStatus.objects.get(status_name="Отменен")
 
-    profile = Profile.objects.get(client_id=request.user)
+    statuses = {
+        'status1': status1,
+        'status2': status2,
+        'status3': status3,
+        'status4': status4,
+    }
+
+    form = SearchForm()
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            cd = form.cleaned_data
+
+            users = User.objects.filter(Q(username__icontains=cd['query']) |
+                                        Q(first_name__icontains=cd['query']) |
+                                        Q(last_name__icontains=cd['query']) |
+                                        Q(email__icontains=cd['query']) |
+                                        Q(id__icontains=cd['query']))
+
+            search_params = {
+                'users': users,
+            }
+
+            context = {
+                'users': users,
+                'profiles': profiles,
+                'profile': profile,
+                'orders_list': orders_list,
+                **statuses,
+                **search_params,
+                'form': form,
+                'cd': cd,
+            }
+            return render(request, 'crm/orders.html', context)
 
     context = {
         'users': users,
         'profiles': profiles,
         'profile': profile,
         'orders_list': orders_list,
-        'status1': status1,
-        'status2': status2,
-        'status3': status3,
-        'status4': status4,
+        **statuses,
+        'form': form,
     }
 
     return render(request, 'crm/orders.html', context)
@@ -314,15 +387,13 @@ def user_order_edit(request, order_id):
 @server_error_decorator
 @is_superuser_decorator
 def user_permissions(request):
-        profile = Profile.objects.get(client_id=request.user)
-        users = User.objects.all().order_by('-is_staff')
-
-        context = {
-            'profile': profile,
-            'users': users,
-        }
-
-        return render(request, 'crm/user_permissions.html', context)
+    profile = Profile.objects.get(client_id=request.user)
+    users = User.objects.all().order_by('-is_staff')
+    context = {
+        'profile': profile,
+        'users': users,
+    }
+    return render(request, 'crm/user_permissions.html', context)
 
 
 @server_error_decorator

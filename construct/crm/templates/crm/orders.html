@@ -12,32 +12,32 @@
 {% endblock %}
 
 {% block crm %}
-<div class="title"><a>Редактирование заказов пользователей</a></div>
+<div class="title">
+    <a>Редактирование заказов пользователей</a>
+        <div class="d1">
+            <form action="." method="get">
+                {{ form.query }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+</div>
     {% for user_profile in profiles %}
         {% for one in users %}
         {% if forloop.counter0 == forloop.parentloop.counter0 %}
             <hr>
             <div class="user_orders">
                 <div class="user_block">
-                    <a>{{ one.username|upper }}</a>
-                    {% if user_profile.profile_picture %}
-                        <img style="border-radius: 50%;" src="{{ user_profile.profile_picture.url }}">
-                    {% else %}
-                        <img style="border-radius: 50%;" src="{% static 'dashboard/img/user.png' %}">
+                    <a style="color: green;">{{ one.username|upper }}</a>
+                    {% if one.first_name %}
+                        {% if one.last_name %}
+                            <a> {{ one.first_name }} {{ one.last_name }}</a>
+                        {% endif %}
                     {% endif %}
-                {% if one.first_name %}
-                {% if one.last_name %}
-                    <a> {{ one.first_name }} {{ one.last_name }}</a>
-                {% endif %}
-                {% endif %}
 
-                {% if one.email %}
-                    <a> {{ one.email }} </a>
-                {% endif %}
+                    {% if one.email %}
+                        <a> {{ one.email }} </a>
+                    {% endif %}
 
-                {% if user_profile.profile_status %}
-                    <a> {{ user_profile.profile_status }} </a>
-                {% endif %}
                 </div>
                 <div class="orders_list">
                     {% for order in orders_list %}

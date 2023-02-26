@@ -13,8 +13,8 @@ def index(request):
         current_new = News.objects.get(id=int(filter))
         news_id = int(filter)
     else:
-        current_new = News.objects.last()
-        news_id = int(News.objects.last().id)
+        current_new = News.objects.filter(is_active=True).last()
+        news_id = int(News.objects.filter(is_active=True).last().id)
     context = {
         'latest_news': latest_news,
         'current_new': current_new,
@@ -24,4 +24,3 @@ def index(request):
         profile = Profile.objects.get(client_id=request.user)
         context['profile'] = profile
     return render(request, 'news/index.html', context)
-
