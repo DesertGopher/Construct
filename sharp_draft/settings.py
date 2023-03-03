@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     database_url: str
 
 
-CONF_DIR = Path(__file__).resolve().parent.parent.parent.parent
+CONF_DIR = Path(__file__).resolve().parent.parent
 
 settings = Settings(
     _env_file=os.path.abspath(CONF_DIR / 'config' / '.env'),

@@ -41,7 +41,7 @@ logger.add(
     rotation="1 MB",
     retention='7 days',
     compression="zip",
-    filter=lambda record: "api" in record["extra"]
+    filter=lambda record: "routers" in record["extra"]
 )
 api_view_logger = logger.bind(view=True)
 

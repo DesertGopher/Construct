@@ -190,16 +190,16 @@ class Products(APIView):
 def index(request):
     """Метод для отображения главной страницы"""
     models_list = []
-    app_models = apps.all_models['api']
+    app_models = apps.all_models['routers']
     for model in app_models:
         models_list.append(model)
-    print(apps.all_models['api'])
+    print(apps.all_models['routers'])
 
     context = {
         'models_list': app_models,
     }
-    return render(request, 'api/index.html', context)
+    return render(request, 'routers/index.html', context)
 
 
 def lists(request):
-    return render(request, 'api/model_list.html')
+    return render(request, 'routers/model_list.html')

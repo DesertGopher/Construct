@@ -138,7 +138,7 @@ class UsersTests(APITestCase):
 
     def test_get_all_users(self):
         """Метод получения всех пользователей"""
-        response = self.client.get(reverse('api:user'))
+        response = self.client.get(reverse('routers:user'))
         users = User.objects.all()
         serializer = UsersSerializer(users, many=True)
         self.assertEqual(response.data, serializer.data)
@@ -146,7 +146,7 @@ class UsersTests(APITestCase):
 
     def test_get_single_user(self):
         """Метод получения пользователя по id"""
-        response = self.client.get(reverse('api:user_detail', kwargs={'id': 1}))
+        response = self.client.get(reverse('routers:user_detail', kwargs={'id': 1}))
         user = User.objects.get(pk=1)
         serializer = UsersSerializer(user)
         assert(response.data, serializer.data)
@@ -154,13 +154,13 @@ class UsersTests(APITestCase):
 
     def test_get_single_invalid_user(self):
         """Метод получения несуществующего пользователя"""
-        response = self.client.get(reverse('api:user_detail', kwargs={'id': 6}))
+        response = self.client.get(reverse('routers:user_detail', kwargs={'id': 6}))
         self.assertEqual(response.data, ER.get_err_message(6, 'Пользователь'))
 
     def test_create_user(self):
         """Метод создания нового пользователя"""
         response = self.client.post(
-            reverse('api:user'),
+            reverse('routers:user'),
             data=json.dumps(self.valid_field_payload),
             content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -168,7 +168,7 @@ class UsersTests(APITestCase):
     def test_create_invalid_user(self):
         """Метод создания нового пользователя с неправильно введенными полями"""
         response = self.client.post(
-            reverse('api:user'),
+            reverse('routers:user'),
             data=json.dumps(self.invalid_field_payload),
             content_type='application/json')
         self.assertEqual(response.data, ER.get_err_message(4))
@@ -176,7 +176,7 @@ class UsersTests(APITestCase):
     def test_create_invalid_user_data(self):
         """Метод создания нового пользователя с неправильно введенными данными"""
         response = self.client.post(
-            reverse('api:user'),
+            reverse('routers:user'),
             data=json.dumps(self.invalid_field_payload_data),
             content_type='application/json')
         self.assertEqual(response.data, ER.get_err_message(4))
@@ -185,7 +185,7 @@ class UsersTests(APITestCase):
         """Метод изменения пользователя"""
         data = User.objects.get(pk=1)
         response = self.client.put(
-            reverse('api:user_detail',
+            reverse('routers:user_detail',
             kwargs={'id': 1}),
             data=json.dumps(self.valid_field_payload_put),
             content_type='application/json')
@@ -200,7 +200,7 @@ class UsersTests(APITestCase):
     def test_invalid_update_user(self):
         """Метод неправильного изменения региона"""
         response = self.client.put(
-            reverse('api:user_detail',
+            reverse('routers:user_detail',
                     kwargs={'id': 1}),
             data=json.dumps(self.invalid_field_payload_data),
             content_type='application/json')
@@ -208,7 +208,7 @@ class UsersTests(APITestCase):
 
     def test_is_user_active(self):
         """Метод получения активного пользователя по id"""
-        response = self.client.get(reverse('api:user_detail', kwargs={'id': 1}))
+        response = self.client.get(reverse('routers:user_detail', kwargs={'id': 1}))
         user = User.objects.get(pk=1, is_active=True)
         serializer = UsersSerializer(user)
         assert(response.data, serializer.data)
@@ -216,7 +216,7 @@ class UsersTests(APITestCase):
 
     def test_is_user_client(self):
         """Метод получения пользователя-клиента по id"""
-        response = self.client.get(reverse('api:user_detail', kwargs={'id': 1}))
+        response = self.client.get(reverse('routers:user_detail', kwargs={'id': 1}))
         user = User.objects.get(pk=1, is_superuser=False)
         serializer = UsersSerializer(user)
         assert(response.data, serializer.data)
@@ -309,7 +309,7 @@ class ProductsTests(APITestCase):
 
     def test_get_all_products(self):
         """Метод получения всех продуктах"""
-        response = self.client.get(reverse('api:product'))
+        response = self.client.get(reverse('routers:product'))
         products = Product.objects.all()
         serializer = ProductsSerializer(products, many=True)
         self.assertEqual(response.data, serializer.data)
@@ -317,7 +317,7 @@ class ProductsTests(APITestCase):
 
     def test_get_single_product(self):
         """Метод получения продукта по id"""
-        response = self.client.get(reverse('api:product_detail', kwargs={'id': 1}))
+        response = self.client.get(reverse('routers:product_detail', kwargs={'id': 1}))
         product = Product.objects.get(pk=1)
         serializer = ProductsSerializer(product)
         assert(response.data, serializer.data)
@@ -325,13 +325,13 @@ class ProductsTests(APITestCase):
 
     def test_get_single_invalid_product(self):
         """Метод получения несуществующего продукта"""
-        response = self.client.get(reverse('api:product_detail', kwargs={'id': 6}))
+        response = self.client.get(reverse('routers:product_detail', kwargs={'id': 6}))
         self.assertEqual(response.data, ER.get_err_message(6, 'Продукт'))
 
     def test_create_product(self):
         """Метод создания нового продукта"""
         response = self.client.post(
-            reverse('api:product'),
+            reverse('routers:product'),
             data=json.dumps(self.valid_field_payload),
             content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -339,7 +339,7 @@ class ProductsTests(APITestCase):
     def test_create_invalid_product(self):
         """Метод создания нового продукта с неправильно введенными полями"""
         response = self.client.post(
-            reverse('api:product'),
+            reverse('routers:product'),
             data=json.dumps(self.invalid_field_payload),
             content_type='application/json')
         self.assertEqual(response.data, ER.get_err_message(4))
@@ -347,7 +347,7 @@ class ProductsTests(APITestCase):
     def test_create_invalid_product_data(self):
         """Метод создания нового продукта с неправильно введенными данными"""
         response = self.client.post(
-            reverse('api:product'),
+            reverse('routers:product'),
             data=json.dumps(self.invalid_field_payload_data),
             content_type='application/json')
         self.assertEqual(response.data, ER.get_err_message(4))
@@ -356,7 +356,7 @@ class ProductsTests(APITestCase):
         """Метод изменения продукта"""
         data = Product.objects.get(pk=1)
         response = self.client.put(
-            reverse('api:product_detail',
+            reverse('routers:product_detail',
             kwargs={'id': 1}),
             data=json.dumps(self.valid_field_payload_put),
             content_type='application/json')
@@ -371,7 +371,7 @@ class ProductsTests(APITestCase):
     def test_invalid_update_product(self):
         """Метод неправильного изменения продукта"""
         response = self.client.put(
-            reverse('api:product_detail',
+            reverse('routers:product_detail',
                     kwargs={'id': 1}),
             data=json.dumps(self.invalid_field_payload_data),
             content_type='application/json')
@@ -458,7 +458,7 @@ class OrdersTests(APITestCase):
 
     def test_get_all_orders(self):
         """Метод получения всех заказов"""
-        response = self.client.get(reverse('api:orders'))
+        response = self.client.get(reverse('routers:orders'))
         orders = Order.objects.all()
         serializer = OrderSerializer(orders, many=True)
         self.assertEqual(response.data, serializer.data)
@@ -466,7 +466,7 @@ class OrdersTests(APITestCase):
 
     def test_get_single_order(self):
         """Метод получения заказа по id"""
-        response = self.client.get(reverse('api:order_detail', kwargs={'id': 1}))
+        response = self.client.get(reverse('routers:order_detail', kwargs={'id': 1}))
         order = Order.objects.get(pk=1)
         serializer = OrderSerializer(order)
         assert(response.data, serializer.data)
@@ -474,5 +474,5 @@ class OrdersTests(APITestCase):
 
     def test_get_single_invalid_order(self):
         """Метод получения несуществующего заказа"""
-        response = self.client.get(reverse('api:order_detail', kwargs={'id': 6}))
+        response = self.client.get(reverse('routers:order_detail', kwargs={'id': 6}))
         self.assertEqual(response.data, ER.get_err_message(6, 'Заказ'))

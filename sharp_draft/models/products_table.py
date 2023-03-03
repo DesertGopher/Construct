@@ -1,22 +1,21 @@
 from sqlalchemy import (
     Column,
-    Date,
     Boolean,
     Integer,
     String,
-    DateTime,
 )
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
 
-class News(Base):
-    __tablename__ = 'news'
+class Products(Base):
+    __tablename__ = 'product'
 
     id = Column(Integer, primary_key=True)
-    title = Column(String)
-    news = Column(String)
-    pub_date = Column(DateTime)
-    picture = Column(String)
+    name = Column(String)
+    price = Column(Integer)
+    prod_pic = Column(String)
     is_active = Column(Boolean)
+    category_class_id = Column(Integer)
+    measure_id = Column(Integer)

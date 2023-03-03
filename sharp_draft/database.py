@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from settings import settings
-import os
 
 
 engine = create_engine(
@@ -14,3 +13,11 @@ Session = sessionmaker(
     autocommit=False,
     autoflush=False,
 )
+
+
+def get_session():
+    session = Session()
+    try:
+        yield session
+    finally:
+        session.close()
