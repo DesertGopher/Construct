@@ -31,3 +31,4 @@ cranko.exe
 /construct/api/old migrations/
 /construct/modules/__pycache__/
 *.pyc
+media_files/

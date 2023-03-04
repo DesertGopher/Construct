@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = "routers"
+app_name = "api"
 
 # Рабочие моменты
 manage_urls = [
