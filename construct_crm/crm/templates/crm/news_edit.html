@@ -1,0 +1,33 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}CRM Редактирование новости{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/news_edit.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+    <style>
+    </style>
+{% endblock %}
+
+{% block crm %}
+<div class="but">
+    <a type="button" class="log btn btn-info" href="{% url 'crm:news_list' %}">
+        <i class="fa fa-long-arrow-alt-left"></i> Назад</a>
+</div>
+<div class="profileform">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form">
+            {% csrf_token %}
+            {{ form.title }} <br>
+            {{ form.news }} <br>
+            {{ form.picture }} <br>
+            <br><button  type="submit" class="btn btn-info" style="margin-bottom: 2%;"> Обновить </button>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}

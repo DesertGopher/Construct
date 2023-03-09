@@ -1,0 +1,67 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}CRM Новости{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/news_list.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+    <style>
+    </style>
+{% endblock %}
+
+{% block crm %}
+
+    <div class="add_news">
+        <a><i>Добавить новость</i></a>
+        <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_news' %}">
+            <i class="fa fa-plus"></i> </a>
+        <div class="d1">
+            <form action="." method="get">
+                {{ form.query }}
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="list">
+        {% if news %}
+            {% for new in news %}
+                <div class="news_item">
+
+                    <div class="description">
+                        <a style="margin: 0 3% 0 0;"><i>{{ new.id }}</i></a>
+                        <a href="{% url 'news:index' %}?newsId={{ new.id }}"><i>{{ new.title }}</i></a>
+                    </div>
+
+                    <div class="is_active">
+                        {% if new.is_active %}
+                            <a style="color: green;">Active</a>
+                        {% else %}
+                            <a style="color: red;">Deleted</a>
+                        {% endif %}
+                    </div>
+
+                    <div class="date">
+                        <a style="font-size: 18px;">{{ new.pub_date }}</a>
+                    </div>
+
+                    <div class="buttons">
+                        <a type="button" class="log btn btn-warning" href="{% url 'crm:news_edit' new.id %}">
+                            <i class="fa fa-pen"></i> </a>
+                        <a type="button" class="log btn btn-danger"
+                           href="{% url 'crm:news_list' %}?deleted={{ new.id }}">
+                            <i class="fa fa-trash"></i></a>
+                        <a type="button" class="log btn btn-info"
+                           href="{% url 'crm:news_list' %}?restored={{ new.id }}">
+                            <i class="fa fa-redo"></i></a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        {% else %}
+            Новостей нет
+        {% endif %}
+    </div>
+{% endblock %}

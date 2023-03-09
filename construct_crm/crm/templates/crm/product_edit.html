@@ -1,0 +1,32 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}CRM Редактирование товара{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'crm/css/news_edit.css' %}">
+{% endblock %}
+
+{% block style %}
+    <style>
+    </style>
+{% endblock %}
+
+{% block crm %}
+<div class="but">
+    <a type="button" class="log btn btn-info" href="{% url 'crm:products_list' %}">
+        <i class="fa fa-long-arrow-alt-left"></i> Назад</a>
+</div>
+<div class="profileform">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form">
+            {% csrf_token %}
+            {{ form.as_p }} <br>
+
+            <br><button  type="submit" class="btn btn-info" style="margin-bottom: 2%;"> Обновить </button>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}

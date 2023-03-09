@@ -1,0 +1,49 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}CRM Права доспупа{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/permissions.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+    <style>
+    </style>
+{% endblock %}
+
+{% block crm %}
+<div class="title"><a>Настройка прав доступа для пользователей</a></div>
+    <div class="permissions">
+        {% for user in users %}
+            <div class="user_block">
+                <a style="margin: 5% 0 0 0;">{{ user.username|upper }}</a>
+                {% if not user.username == 'igor' %}
+                    {% if user.is_staff %}
+                        {% if user.is_superuser %}
+                            <a style="color: red;"><b>Администратор</b></a>
+                        {% else %}
+                            <a style="color: blue;"><b>Менеджер</b></a>
+                        {% endif %}
+                    {% else %}
+                        <a style="color: green;"><b>Клиент</b></a>
+                    {% endif %}
+
+                <div class="buttons">
+                    <a class="btn btn-danger" href="{% url 'crm:make_user_superuser' user.id %}">
+                        <i class="fa fa-user-shield"></i></a>
+                    <a class="btn btn-primary" href="{% url 'crm:make_user_manager' user.id %}">
+                        <i class="fa fa-user-tie"></i></a>
+                    <a class="btn btn-success" href="{% url 'crm:make_user_client' user.id %}">
+                        <i class="fa fa-user"></i></a>
+                </div>
+                {% else %}
+                    {% if user.is_superuser %}
+                            <a style="color: red"><b>Главный</b></a>
+                            <a style="color: red"><b>администратор</b></a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

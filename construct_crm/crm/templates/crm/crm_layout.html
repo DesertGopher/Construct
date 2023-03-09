@@ -1,0 +1,52 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}CRM{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'crm/css/nav.css' %}">
+    {% block crm-static %}
+    {% endblock %}
+{% endblock %}
+
+{% block style %}
+    <style>
+    </style>
+    {% block crm-style %}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+
+<div class="main_nav">
+
+    <div class="crm_nav">
+        <div class="buts">
+            <a class="btn btn-info" href="{% url 'crm:home' %}">Главная страница</a>
+            <a class="btn btn-info" href="{% url 'crm:products_list' %}">Управление товарами</a>
+            <a class="btn btn-info" href="{% url 'crm:news_list' %}">Управление новостями</a>
+            <a class="btn btn-info" href="{% url 'crm:orders' %}">Управление заказами</a>
+            <a class="btn btn-info" href="{% url 'crm:permissions' %}">Управление правами</a>
+
+            <a class="btn btn-outline-warning" href="">Шаблоны пользователей</a>
+            <a class="btn btn-outline-warning" href="">Список чертежей</a>
+            <a class="btn btn-outline-warning" href="">XML файлы</a>
+            <a class="btn btn-outline-warning" href="">Вопросы Тех. поддержки</a>
+
+            <a class="btn btn-primary" href="{% url 'dashboard:terms_of_service' %}">Terms of service</a>
+            <a class="btn btn-primary" href="{% url 'dashboard:privacy_policy' %}">Privacy policy</a>
+            <a class="btn btn-primary" href="../../../swagger/">Swagger</a>
+            <a class="btn btn-primary" href="../../../redoc/">Redoc</a>
+            <a class="btn btn-outline-primary" href="">Sphinx</a>
+            {% if user.is_superuser %}
+                <a class="btn btn-success" href="{% url 'admin:index' %}">Панель администратора</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content">
+        {% block crm %}
+        {% endblock %}
+    </div>
+</div>
+
+{% endblock %}

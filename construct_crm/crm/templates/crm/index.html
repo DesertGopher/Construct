@@ -1,0 +1,149 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}CRM{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/index.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+<style>
+
+</style>
+{% endblock %}
+{% block crm %}
+<div class="pads">
+    <div class="main_page">
+
+        <div class="drf_window">
+            <div class="d1">
+                <form action="." method="get">
+                    {{ form.query }}
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+
+            <ul class="nav search-tabs">
+                <li><a class="nav-link p-tab active" data-toggle="tab" href="#products">Товары</a></li>
+                <li><a class="nav-link n-tab" data-toggle="tab" href="#news">Новости</a></li>
+                <li><a class="nav-link o-tab" data-toggle="tab" href="#order">Заказы</a></li>
+                <li><a class="nav-link u-tab" data-toggle="tab" href="#users">Пользователи</a></li>
+            </ul>
+
+            <div class="box" id="box">
+            {% if "query" in request.GET %}
+                <div class="tab-content">
+                    <div id="products" class="tab-pane fade in active">
+                        {% if prod_results %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">Найдено </a>
+                                <a style="font-size: 20px; color: green;">{{ prod_total_results }}</a>
+                                <a style="font-size: 20px;">результатов.</a>
+                            </div>
+                            {% for result in prod_results %}
+                                <div class="search_element">
+                                    <a href="{{ result.get_absolute_url }}">{{ result.name }}</a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">По вашему запросу ничего не найдено.</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div id="news" class="tab-pane fade">
+                        {% if news_results %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">Найдено </a>
+                                <a style="font-size: 20px; color: green;">{{ news_total_results }}</a>
+                                <a style="font-size: 20px;">результатов.</a>
+                            </div>
+                            {% for result in news_results %}
+                                <div class="search_element">
+                                    <a href="{{ result.get_absolute_url }}">{{ result.title }}</a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">По вашему запросу ничего не найдено.</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div id="order" class="tab-pane fade">
+                        {% if orders_results %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">Найдено </a>
+                                <a style="font-size: 20px; color: green;">{{ orders_total_results }}</a>
+                                <a style="font-size: 20px;">результатов.</a>
+                            </div>
+                            {% for result in orders_results %}
+                                <div class="search_element">
+                                    <a href="{{ result.get_absolute_url }}">{{ result }}</a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">По вашему запросу ничего не найдено.</a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div id="users" class="tab-pane fade">
+                        {% if users_results %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">Найдено </a>
+                                <a style="font-size: 20px; color: green;">{{ users_total_results }}</a>
+                                <a style="font-size: 20px;">результатов.</a>
+                            </div>
+                            {% for result in users_results %}
+                                <div class="search_element">
+                                    <a href="{{ result.get_absolute_url }}">{{ result.username }}</a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="inner_box">
+                                <a style="font-size: 20px;">По вашему запросу ничего не найдено.</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+
+        <div class="logs">
+            <ul class="nav nav-tabs">
+                <li><a class="nav-link api-tab active" data-toggle="tab" href="#api">АПИ</a></li>
+                <li><a class="nav-link orders-tab" data-toggle="tab" href="#orders">Заказы</a></li>
+                <li><a class="nav-link server-tab" data-toggle="tab" href="#server">Сервер</a></li>
+                <li><a class="nav-link logs-tab" data-toggle="tab" href="#logs">Общие логи</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="api" class="tab-pane fade in active">
+                    <div class="logs_content">
+                        <a>{{ api_logs|linebreaks }}</a>
+                    </div>
+                </div>
+                <div id="orders" class="tab-pane fade">
+                    <div class="logs_content">
+                        <a>{{ order_logs|linebreaks }}</a>
+                    </div>
+                </div>
+                <div id="server" class="tab-pane fade">
+                    <div class="logs_content">
+                        <a>{{ server_logs|linebreaks }}</a>
+                    </div>
+                </div>
+                <div id="logs" class="tab-pane fade">
+                    <div class="logs_content">
+                        <a>{{ logs|linebreaks }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
