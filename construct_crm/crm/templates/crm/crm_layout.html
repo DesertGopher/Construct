@@ -1,45 +1,62 @@
-{% extends 'dashboard/layout.html' %}
 {% load static %}
-{% block title %}CRM{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
 
-{% block static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css"
+          integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="{% static 'crm/css/nav.css' %}">
     {% block crm-static %}
     {% endblock %}
-{% endblock %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js"
+            integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'crm/favicon.ico' %}">
 
-{% block style %}
-    <style>
-    </style>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
     {% block crm-style %}
     {% endblock %}
-{% endblock %}
 
-{% block content %}
-
+</head>
+<body>
+<div class="up_nav">
+    <div class="left_one">
+        <a href="{% url 'crm:home' %}" style="margin-left: 3%;">
+            <img src="{% static 'crm/img/LOGO.png' %}" width="35" height="35"></a>
+        <a class="btn btn-outline-primary" href=""><i class="fas fa-user"></i> Администрирование</a>
+        <a class="btn btn-outline-primary" href=""><i class="fas fa-clock"></i> Логи</a>
+    </div>
+    <div class="right_one">
+        <a class="btn btn-outline-primary" href=""><i class="fas fa-bell"></i> Уведомления</a>
+        <a class="btn btn-outline-primary" href=""><i class="fa fa-logout"></i> Выйти</a>
+    </div>
+</div>
 <div class="main_nav">
 
     <div class="crm_nav">
         <div class="buts">
-            <a class="btn btn-info" href="{% url 'crm:home' %}">Главная страница</a>
-            <a class="btn btn-info" href="{% url 'crm:products_list' %}">Управление товарами</a>
-            <a class="btn btn-info" href="{% url 'crm:news_list' %}">Управление новостями</a>
-            <a class="btn btn-info" href="{% url 'crm:orders' %}">Управление заказами</a>
-            <a class="btn btn-info" href="{% url 'crm:permissions' %}">Управление правами</a>
 
-            <a class="btn btn-outline-warning" href="">Шаблоны пользователей</a>
-            <a class="btn btn-outline-warning" href="">Список чертежей</a>
-            <a class="btn btn-outline-warning" href="">XML файлы</a>
-            <a class="btn btn-outline-warning" href="">Вопросы Тех. поддержки</a>
-
-            <a class="btn btn-primary" href="{% url 'dashboard:terms_of_service' %}">Terms of service</a>
-            <a class="btn btn-primary" href="{% url 'dashboard:privacy_policy' %}">Privacy policy</a>
             <a class="btn btn-primary" href="../../../swagger/">Swagger</a>
             <a class="btn btn-primary" href="../../../redoc/">Redoc</a>
             <a class="btn btn-outline-primary" href="">Sphinx</a>
-            {% if user.is_superuser %}
-                <a class="btn btn-success" href="{% url 'admin:index' %}">Панель администратора</a>
-            {% endif %}
+
         </div>
     </div>
 
@@ -49,4 +66,5 @@
     </div>
 </div>
 
-{% endblock %}
+</body>
+</html>

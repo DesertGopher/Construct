@@ -1,0 +1,21 @@
+.profileform {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 84 vh;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.but {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1% 0 0 0;
+}
