@@ -33,6 +33,8 @@ Python 3.9
   - uvicorn==0.20.0 (fastapi running)
   - pydantic==1.10.4 (models)
   - sqlalchemy==2.0.0 (ORM)
+- Bot
+  - aiogram==2.25.1 (telegram)
 ---
 ## Logs
 - api_view_logs.txt (API methods logs)
