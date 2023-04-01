@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import Depends, HTTPException, status
 
 from ..database import get_session
@@ -25,3 +27,15 @@ class ProductsService:
     def get(self, product_id: int) -> Products:
         """ Получение продукта по id """
         return self._get(product_id)
+
+    def get_by_category(self, category: int) -> dict:
+        """ Метод получения списка товаров по категории"""
+        operations = (
+            self.session
+            .query(Products)
+            .filter_by(category_class_id=category)
+            .all()
+        )
+        if not operations:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        return operations
