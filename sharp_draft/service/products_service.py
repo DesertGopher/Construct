@@ -17,7 +17,7 @@ class ProductsService:
         operation = (
             self.session
             .query(Products)
-            .filter_by(id=product_id)
+            .filter_by(id=product_id, is_active=True)
             .first()
         )
         if not operation:
@@ -28,12 +28,12 @@ class ProductsService:
         """ Получение продукта по id """
         return self._get(product_id)
 
-    def get_by_category(self, category: int) -> dict:
+    def get_by_category(self, category: int) -> List:
         """ Метод получения списка товаров по категории"""
         operations = (
             self.session
             .query(Products)
-            .filter_by(category_class_id=category)
+            .filter_by(category_class_id=category, is_active=True)
             .all()
         )
         if not operations:

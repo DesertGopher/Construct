@@ -23,7 +23,7 @@ dp = Dispatcher(bot)
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = ["Показать товар", "Без пюрешки"]
+    buttons = ["Категории товаров", "Что новенького?"]
     keyboard.add(*buttons)
     await message.answer("Как подавать котлеты?", reply_markup=keyboard)
 
