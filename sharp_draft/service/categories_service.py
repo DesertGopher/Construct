@@ -18,3 +18,12 @@ class CategoriesService:
         if not operation:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
         return operation
+
+    def is_exist(self, name: str):
+        query = self.session.query(Categories)
+        query = query.filter_by(name=name).first()
+        print(query)
+        if not query:
+            return False
+        else:
+            return True
