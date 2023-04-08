@@ -2,6 +2,7 @@ import os
 import logging
 import asyncio
 import requests
+from datetime import date
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -28,10 +29,16 @@ async def cmd_start(message: types.Message):
     await message.answer("Как подавать котлеты?", reply_markup=keyboard)
 
 
-@dp.message_handler(Text(equals="Показать товар"))
+@dp.message_handler(Text(equals="Что новенького?"))
 async def with_puree(message: types.Message):
-    result = requests.get('http://127.0.0.1:8005/products/10/')
-    await message.reply(str(result.json()['id']))
+    result = requests.get('http://127.0.0.1:8005/news/get_last')
+    reply = str(
+        "Из последних новостей:" + '\n' +
+        '<b>' + str(result.json()['title']) + '</b>' + '\n' +
+        '<i>' + str(result.json()['news']) + '</i>' + '\n' +
+        '<u>' + 'от ' + str(result.json()['pub_date'][:10]) + '</u>'
+    )
+    await message.reply(str(reply), parse_mode="html")
 
 
 @dp.message_handler(lambda message: message.text == "Категории товаров")
