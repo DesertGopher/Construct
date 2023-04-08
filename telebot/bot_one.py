@@ -34,7 +34,7 @@ async def with_puree(message: types.Message):
     await message.reply(str(result.json()['id']))
 
 
-@dp.message_handler(lambda message: message.text == "Без пюрешки")
+@dp.message_handler(lambda message: message.text == "Категории товаров")
 async def without_puree(message: types.Message):
     await message.reply("Так невкусно!")
 

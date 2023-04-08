@@ -5,7 +5,8 @@ from typing import List
 from sharp_draft.service.news_service import NewsService
 
 router = APIRouter(
-    prefix='/news'
+    prefix='/news',
+    tags=["News"],
 )
 
 

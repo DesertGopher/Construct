@@ -1,15 +1,16 @@
 from fastapi import APIRouter, Depends
-from sharp_draft.schemas.products import ProductBase
+from sharp_draft.schemas.products import ProductBase, ProductList
 from typing import List
 
 from sharp_draft.service.products_service import ProductsService
 
 router = APIRouter(
-    prefix='/products'
+    prefix='/products',
+    tags=["Products"],
 )
 
 
-@router.get("/category/{category}/", response_model=List[ProductBase])
+@router.get("/category/{category}/", response_model=List[ProductList])
 async def get_product_category_list(
         category: int,
         service: ProductsService = Depends()
@@ -23,4 +24,3 @@ async def get_product_id(
         service: ProductsService = Depends()
 ):
     return service.get(product_id)
-
