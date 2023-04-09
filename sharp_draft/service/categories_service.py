@@ -22,8 +22,7 @@ class CategoriesService:
     def is_exist(self, name: str):
         query = self.session.query(Categories)
         query = query.filter_by(name=name).first()
-        print(query)
-        if not query:
-            return False
-        else:
-            return True
+        if query:
+            query.is_exist = True
+        return query
+

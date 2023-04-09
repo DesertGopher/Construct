@@ -8,3 +8,11 @@ class CategoryBase(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class CategoryExistence(BaseModel):
+    id: int = 999
+    is_exist: bool = False
+
+    class Config:
+        orm_mode = True

@@ -16,9 +16,9 @@ class ProductsService:
         """ Метод получения продукта по id выносим для использования в других методах """
         operation = (
             self.session
-            .query(Products)
-            .filter_by(id=product_id, is_active=True)
-            .first()
+                .query(Products)
+                .filter_by(id=product_id, is_active=True)
+                .first()
         )
         if not operation:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
@@ -32,9 +32,21 @@ class ProductsService:
         """ Метод получения списка товаров по категории"""
         operations = (
             self.session
-            .query(Products)
-            .filter_by(category_class_id=category, is_active=True)
-            .all()
+                .query(Products)
+                .filter_by(category_class_id=category, is_active=True)
+                .all()
+        )
+        if not operations:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        return operations
+
+    def get_list_by_name(self, search: str) -> List:
+        """ Метод получения списка товаров по совпадению в имени"""
+        operations = (
+            self.session
+                .query(Products)
+                .filter(Products.name.icontains(search))
+                .all()
         )
         if not operations:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)

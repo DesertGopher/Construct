@@ -7,6 +7,7 @@ class ProductList(BaseModel):
     price: float
     is_active: int
     measure_id: int
+    category_class_id: int
 
     class Config:
         orm_mode = True
@@ -14,4 +15,3 @@ class ProductList(BaseModel):
 
 class ProductBase(ProductList):
     prod_pic: str
-    category_class_id: int

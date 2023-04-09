@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from sharp_draft.schemas.categories import CategoryBase
+from sharp_draft.schemas.categories import CategoryBase, CategoryExistence
 from typing import List
 
 from sharp_draft.service.categories_service import CategoriesService
