@@ -4,9 +4,7 @@ from pydantic import BaseModel
 class ProductList(BaseModel):
     id: int
     name: str
-    price: float
     is_active: int
-    measure_id: int
     category_class_id: int
 
     class Config:
@@ -15,3 +13,9 @@ class ProductList(BaseModel):
 
 class ProductBase(ProductList):
     prod_pic: str
+    price: float
+    measure_id: int
+    about: str
+    is_stock: int
+    vendor: str
+    discount: int

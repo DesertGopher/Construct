@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 
-@router.get("/name-search/", response_model=List[ProductList])
+@router.get("/name-search/", response_model=List[ProductBase])
 async def get_by_name(
         search: str,
         service: ProductsService = Depends()
