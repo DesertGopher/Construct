@@ -30,6 +30,41 @@ async def cmd_start(message: types.Message):
                          reply_markup=keyboard)
 
 
+@dp.message_handler(commands="info")
+async def cmd_start(message: types.Message):
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ["/start", "/info"]
+    keyboard.add(*buttons)
+    await message.answer("Я - бот системы завода по изготовлению металлоконструкций компании Construct.\n"
+                         "Чтобы узнать, что я могу, спроси у меня \"Что ты умеешь?\", или нажмите на соответствующую"
+                         "кнопку, нажав команду /start",
+                         reply_markup=keyboard)
+
+
+@dp.message_handler(Text(equals="Что новенького?"))
+async def cmd_start(message: types.Message):
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ["/start", "/info"]
+    keyboard.add(*buttons)
+    await message.answer("Я могу оповестить вас о последних новостях предприятия."
+                         "Также, я могу найти любую категорию и товар с полной информацией о нем.\n"
+                         "Если вы хотите посмотреть категории и относящиеся к ней товары, "
+                         "попросите меня показать категории,"
+                         "а если хотите найти товар, также попросите меня помочь его найти.\n"
+                         "Поиск товара происходит по ключевым словам ключевым словами в его наименовании."
+                         "\nДля начала, введите команду /start",
+                         reply_markup=keyboard)
+
+
+@dp.message_handler(Text(equals="Помоги найти товар"))
+async def cmd_start(message: types.Message):
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ["/start", "/info"]
+    keyboard.add(*buttons)
+    await message.answer("Введите полное или частичное название товара, или ключевые слова/слово для поиска.",
+                         reply_markup=keyboard)
+
+
 @dp.message_handler(Text(equals="Что новенького?"))
 async def whats_new(message: types.Message):
     result = requests.get('http://127.0.0.1:8005/news/get_last')
@@ -39,9 +74,12 @@ async def whats_new(message: types.Message):
         '<i>' + str(result.json()['news']) + '</i>' + '\n' +
         '<u>' + 'от ' + str(result.json()['pub_date'][:10]) + '</u>'
     )
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ["/start", "/info"]
+    keyboard.add(*buttons)
     pic = open((str(_NP_PHOTO_PATH) + '/' + str(result.json()['picture'])).replace('\\', '/'), 'rb')
     await bot.send_photo(message.from_user.id, photo=pic, caption=str(reply),
-                         reply_to_message_id=message.message_id, parse_mode='html')
+                         reply_to_message_id=message.message_id, parse_mode='html', reply_markup=keyboard)
 
 
 @dp.message_handler(Text(equals="Покажи категории"))
@@ -97,7 +135,10 @@ async def echo_message(msg: types.Message):
                         reply_detail += '<b>' + str(i['price']) + '₽</b>\n'
                     reply_detail += '<i>' + str(i['about']) + '</i>\n'
                     pic = open((str(_NP_PHOTO_PATH) + '/' + str(i['prod_pic'])).replace('\\', '/'), 'rb')
-                    await bot.send_photo(msg.from_user.id, photo=pic, caption=str(reply_detail), parse_mode='html')
+                    buttons = ["/start", "/info"]
+                    keyboard.add(*buttons)
+                    await bot.send_photo(msg.from_user.id, photo=pic, caption=str(reply_detail),
+                                         parse_mode='html', reply_markup=keyboard)
             else:
                 raise Exception
     except:
