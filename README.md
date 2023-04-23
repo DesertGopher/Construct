@@ -36,14 +36,14 @@ Python 3.9
 - Bot
   - aiogram==2.25.1 (telegram)
 - Sort
-  - black==23.3.0 (Реформат кода по профайлу black)
-  - isort==5.12.0 (Выравнивание импортов)
+  - black==23.3.0 (code reformat by black profile)
+  - isort==5.12.0 (imports reformatting)
 ---
 ## Logs
-- api_view_logs.txt (API methods logs)
-- server_logs.txt (server work)
-- orders_logs.txt (logs for orders)
-
+- api_view_logs.log (API methods logs)
+- server_logs.log (server work)
+- orders_logs.log (logs for orders)
+- logs.log
 ---
 ## Example of file config/secret.json
 ```json
