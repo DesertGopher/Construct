@@ -12,10 +12,10 @@ from aiogram.dispatcher.filters import Text
 logging.basicConfig(level=logging.INFO)
 CONF_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.abspath(CONF_DIR / 'config' / '.env'))
-token = os.getenv('bot_token')
+_token = os.getenv('bot_token')
+_url = os.getenv('bot_host_url')
 
-
-bot = Bot(token=token)
+bot = Bot(token=_token)
 dp = Dispatcher(bot)
 
 _NP_PHOTO_PATH = os.path.abspath(CONF_DIR / 'construct' / 'media')
@@ -67,7 +67,7 @@ async def cmd_start(message: types.Message):
 
 @dp.message_handler(Text(equals="Что новенького?"))
 async def whats_new(message: types.Message):
-    result = requests.get('http://127.0.0.1:8005/news/get_last')
+    result = requests.get(f'{_url}/news/get_last')
     reply = str(
         "Из последних новостей:" + '\n' +
         '<b>' + str(result.json()['title']) + '</b>' + '\n' +
@@ -84,7 +84,7 @@ async def whats_new(message: types.Message):
 
 @dp.message_handler(Text(equals="Покажи категории"))
 async def show_categories(message: types.Message):
-    result = requests.get('http://127.0.0.1:8005/categories/get-list')
+    result = requests.get(f'{_url}/categories/get-list')
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = []
     reply = str('Вот что мы имеем...' + '\n')
@@ -98,15 +98,15 @@ async def show_categories(message: types.Message):
 
 @dp.message_handler()
 async def echo_message(msg: types.Message):
-    get_category = requests.get(f'http://127.0.0.1:8005/categories/exist/?name={msg.text}')
-    get_product = requests.get(f'http://127.0.0.1:8005/products/name-search/?search={msg.text}')
+    get_category = requests.get(f'{_url}/categories/exist/?name={msg.text}')
+    get_product = requests.get(f'{_url}/products/name-search/?search={msg.text}')
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = []
     try:
         try:
             if get_category.json()['is_exist']:
                 product_id = get_category.json()['id']
-                products_list = requests.get(f'http://127.0.0.1:8005/products/category/{product_id}/')
+                products_list = requests.get(f'{_url}/products/category/{product_id}/')
                 reply = str('В данной категории есть следующие товары:' + '\n')
                 for i in products_list.json():
                     reply += ' - <i>' + str(i['name']) + '</i>\n'

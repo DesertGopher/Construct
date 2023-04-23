@@ -35,6 +35,9 @@ Python 3.9
   - sqlalchemy==2.0.0 (ORM)
 - Bot
   - aiogram==2.25.1 (telegram)
+- Sort
+  - black==23.3.0 (Реформат кода по профайлу black)
+  - isort==5.12.0 (Выравнивание импортов)
 ---
 ## Logs
 - api_view_logs.txt (API methods logs)
