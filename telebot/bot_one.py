@@ -41,7 +41,7 @@ async def cmd_start(message: types.Message):
                          reply_markup=keyboard)
 
 
-@dp.message_handler(Text(equals="Что новенького?"))
+@dp.message_handler(Text(equals="Что ты умеешь?"))
 async def cmd_start(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = ["/start", "/info"]
@@ -115,7 +115,7 @@ async def echo_message(msg: types.Message):
         except:
             if get_product.json() and 'detail' not in get_product.json():
                 if len(get_product.json()) > 1:
-                    reply = str('По запросу было найдены следующие товары:' + '\n')
+                    reply = str('По запросу были найдены следующие товары:' + '\n')
                     for i in get_product.json():
                         reply += ' - <i>' + str(i['name']) + '</i>\n'
                         buttons.append(i['name'])
