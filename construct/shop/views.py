@@ -56,7 +56,7 @@ def category(request):
         product_list = Product.objects.filter(is_active=True).order_by('-discount')
         title = 'Все товары'
         context = {
-            **get_params(),
+            **get_params(request),
             'product_list': product_list,
             'title': title
         }

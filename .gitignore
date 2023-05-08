@@ -32,3 +32,8 @@ cranko.exe
 /construct/modules/__pycache__/
 *.pyc
 media_files/
+*.json
+*.json
+*.sql
+construct/db.json
+construct/db.json
