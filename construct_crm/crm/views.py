@@ -244,7 +244,7 @@ def create_product(request):
 @server_error_decorator
 @is_staff_decorator
 def news_list(request):
-    profile = Profile.objects.get(client_id=request.user)
+    # profile = Profile.objects.get(client_id=request.user)
     news = News.objects.all().order_by("id")
     filter = str(request.GET.get("deleted"))
     restore = str(request.GET.get("restored"))
@@ -259,7 +259,7 @@ def news_list(request):
             )
 
             context = {
-                "profile": profile,
+                # "profile": profile,
                 "news": news,
                 "form": form,
                 "cd": cd,
@@ -267,7 +267,7 @@ def news_list(request):
             return render(request, "crm/news_list.html", context)
 
     context = {
-        "profile": profile,
+        # "profile": profile,
         "news": news,
         "form": form,
     }
@@ -294,7 +294,7 @@ def user_orders(request):
     users = User.objects.all()
     profiles = Profile.objects.all()
     orders_list = Order.objects.all().order_by("-id")
-    profile = Profile.objects.get(client_id=request.user)
+    # profile = Profile.objects.get(client_id=request.user)
     status1 = OrderStatus.objects.get(status_name="В сборке")
     status2 = OrderStatus.objects.get(status_name="В доставке")
     status3 = OrderStatus.objects.get(status_name="Доставлен")
@@ -328,7 +328,7 @@ def user_orders(request):
             context = {
                 "users": users,
                 "profiles": profiles,
-                "profile": profile,
+                # "profile": profile,
                 "orders_list": orders_list,
                 **statuses,
                 **search_params,
@@ -340,7 +340,7 @@ def user_orders(request):
     context = {
         "users": users,
         "profiles": profiles,
-        "profile": profile,
+        # "profile": profile,
         "orders_list": orders_list,
         **statuses,
         "form": form,
