@@ -22,7 +22,8 @@ Python 3.9
   - myst-parser==0.18.1 (for sphinx interaction with md)
   - furo==2022.12.7 (sphinx theme)
 - DB
-  - mysqlclient==2.1.1 (for connecting to mysql db)
+  - mysqlclient==2.1.1 (for connecting to mysql db) (??? FOR NO USAGE)
+  - psycopg2==2.9.6 (for connecting to postgres db)
 - PYTHON
   - pillow==9.3 (images work)
   - loguru==0.6.0 (logging)

@@ -1,0 +1,53 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}Новости{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/news-detail.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+<style>
+.newspost {
+    background: linear-gradient(to left, transparent, rgb(201, 240, 236));
+}
+</style>
+{% endblock %}
+{% block crm %}
+
+<div class="news">
+
+        <div class="newspost">
+
+            <a type="button" class="btn btn-outline-info" style="align-self:flex-start"
+               href="{% url 'crm:news_list' %}">Назад</a>
+
+            <div class="title">
+                <a style=><b><i>{{ current_new.title }}</i></b></a>
+            </div>
+
+            <div class="newpost_detail">
+                <figure>
+                    <a><img src="{{ current_new.picture.url }}"></a>
+                </figure>
+
+                <div class="block2">
+                    <a style="align-self:flex-start;">{{ current_new.news|linebreaks }}</a>
+                    <a style="align-self:flex-end; color: green">{{ current_new.pub_date }}</a>
+                    <div class="buttons">
+                        <a type="button" class="log btn btn-warning" href="{% url 'crm:news_edit' current_new.id %}">
+                            <i class="fa fa-pen"></i> </a>
+                        <a type="button" class="log btn btn-danger"
+                           href="{% url 'crm:news_list' %}?deleted={{ current_new.id }}">
+                            <i class="fa fa-trash"></i></a>
+                        <a type="button" class="log btn btn-info"
+                           href="{% url 'crm:news_list' %}?restored={{ current_new.id }}">
+                            <i class="fa fa-redo"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+</div>
+{% endblock %}

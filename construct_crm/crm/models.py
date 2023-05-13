@@ -16,6 +16,9 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return f'/news-detail/{self.id}/'
+
     class Meta:
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
@@ -69,7 +72,7 @@ class Product(models.Model):
         return salePrice
 
     def get_absolute_url(self):
-        return f'/shop/{self.id}/'
+        return f'/product-detail/{self.id}/'
 
     class Meta:
         verbose_name = 'Товар'

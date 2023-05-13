@@ -40,7 +40,7 @@
     <div class="left_one">
         <a href="{% url 'crm:home' %}" style="margin-left: 3%;">
             <img src="{% static 'crm/img/LOGO.png' %}" width="35" height="35"></a>
-        <a class="btn btn-outline-primary" href=""><i class="fas fa-user"></i> Администрирование</a>
+        <a class="btn btn-outline-primary" href="{% url 'admin:index' %}"><i class="fas fa-user"></i> Администрирование</a>
         <a> | </a>
         <a class="btn btn-outline-primary" href=""><i class="fas fa-clock"></i> Логи</a>
     </div>
@@ -53,10 +53,17 @@
 
     <div class="crm_nav">
         <div class="buts">
+            <a class="btn btn-primary" href="../../../swagger/">Главная страница</a>
+            <a class="btn btn-primary" href="{% url 'crm:products_list' %}">Управление товарами</a>
+            <a class="btn btn-primary" href="{% url 'crm:news_list' %}">Управление новостями</a>
+            <a class="btn btn-primary" href="../../../swagger/">Управление заказами</a>
+            <a class="btn btn-primary" href="../../../swagger/">Вопросы тех. поддержки</a>
+            <a class="btn btn-primary" href="../../../swagger/">Шаблоны пользователей</a>
 
-            <a class="btn btn-primary" href="../../../swagger/">Swagger</a>
-            <a class="btn btn-primary" href="../../../redoc/">Redoc</a>
-            <a class="btn btn-outline-primary" href="">Sphinx</a>
+            <a class="btn btn-primary" target="_blank" href="http://127.0.0.1:8000/swagger/">Swagger</a>
+            <a class="btn btn-primary" target="_blank" href="http://127.0.0.1:8005/docs">Docs</a>
+            <a class="btn btn-primary" target="_blank" href="http://127.0.0.1:8000/redoc/">Redoc</a>
+            <a class="btn btn-primary" target="_blank" href="">Sphinx</a>
 
         </div>
     </div>

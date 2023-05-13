@@ -1,19 +1,24 @@
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpRequest
+from django.conf import settings
+from modules.serializers import OrderProducts
 
-from construct.modules.serializers import OrderProducts
-from construct.cart.cart import Cart
-
-from construct.modules.exceptions import *
+from modules.exceptions import *
 from .forms import *
+
+
+def get_shop_params(request):
+    categories = ProductCategory.objects.all()
+    params = {
+    }
+    return params
 
 
 @server_error_decorator
 @is_staff_decorator
 def index(request):
-    profile = Profile.objects.get(client_id=request.user)
     with open(settings.PATH_LOG / f"api_view_logs.log", encoding="utf-8") as file:
         api_logs = file.read()
     with open(settings.PATH_LOG / f"orders_logs.log", encoding="utf-8") as file:
@@ -24,7 +29,6 @@ def index(request):
         logs = file.read()
 
     params = {
-        "profile": profile,
         "api_logs": api_logs,
         "order_logs": order_logs,
         "server_logs": server_logs,
@@ -92,7 +96,7 @@ def news_edit(request, news_id):
     except News.DoesNotExist:
         message = "Такой новости не существует."
         return render(request, "dashboard/404.html", {"message": message})
-    profile = Profile.objects.get(client_id=request.user)
+    # profile = Profile.objects.get(client_id=request.user)
 
     if request.method == "POST":
         form = NewsEdit(request.POST, request.FILES, instance=new_item)
@@ -108,7 +112,7 @@ def news_edit(request, news_id):
         "crm/news_edit.html",
         {
             "form": form,
-            "profile": profile,
+            # "profile": profile,
             "new_item": new_item,
         },
     )
@@ -117,14 +121,12 @@ def news_edit(request, news_id):
 @server_error_decorator
 @is_staff_decorator
 def products_list(request):
-    profile = Profile.objects.get(client_id=request.user)
     products = Product.objects.all().order_by("id")
     categories = ProductCategory.objects.all().order_by("id")
     filter = str(request.GET.get("deleted"))
     restore = str(request.GET.get("restored"))
 
     params = {
-        "profile": profile,
         "categories": categories,
     }
 
@@ -176,7 +178,6 @@ def product_edit(request, product_id):
     except Product.DoesNotExist:
         message = "Такого продукта нет."
         return render(request, "dashboard/404.html", {"message": message})
-    profile = Profile.objects.get(client_id=request.user)
     if request.method == "POST":
         form = ProductEdit(request.POST, request.FILES, instance=product_item)
         if form.is_valid():
@@ -190,7 +191,6 @@ def product_edit(request, product_id):
         "crm/product_edit.html",
         {
             "form": form,
-            "profile": profile,
             "product_item": product_item,
         },
     )
@@ -223,7 +223,6 @@ def create_news(request):
 @server_error_decorator
 @is_staff_decorator
 def create_product(request):
-    profile = Profile.objects.get(client_id=request.user)
     assert isinstance(request, HttpRequest)
     form = ProductEdit(request.POST, request.FILES)
     if request.method == "POST":
@@ -238,7 +237,6 @@ def create_product(request):
         "crm/create_product.html",
         {
             "form": form,
-            "profile": profile,
         },
     )
 
@@ -366,9 +364,7 @@ def user_order_edit(request, order_id):
         if form.is_valid():
             order_form = form.save(commit=False)
             order_form.save()
-            # for prod in cart:
-            #     prod['product'].is_stock = int(prod['product'].is_stock) - int(prod['quantity'])
-            #     prod['product'].save()
+
             return HttpResponseRedirect(reverse("crm:orders"))
     else:
         form = OrderEdit(instance=order)
@@ -452,3 +448,43 @@ def make_user_superuser(request, user_id):
         return redirect("crm:permissions")
     except target_user.username == "igor":
         return redirect("crm:permissions")
+
+
+@server_error_decorator
+def product_detail(request, product_id):
+    # profile = Profile.objects.get(client_id=request.user)
+    reviews = Review.objects.order_by('-pub_date')
+    try:
+        product = Product.objects.get(pk=product_id, is_active=True)
+    except Product.DoesNotExist:
+        message = 'Такого товара не существует.'
+        return render(request, 'dashboard/404.html', {'message': message})
+    title = str(product.name)
+
+    params = {
+        # 'profile': profile,
+        'product': product,
+        'title': title,
+        'reviews': reviews,
+    }
+
+    context = {**get_shop_params(request),
+               **params}
+    return render(request, 'crm/product_detail.html', context)
+
+
+@server_error_decorator
+def news_detail(request, news_id):
+    try:
+        new = News.objects.get(pk=news_id, is_active=True)
+    except News.DoesNotExist:
+        message = 'Такой новости не существует.'
+        return render(request, 'dashboard/404.html', {'message': message})
+
+    context = {
+        'current_new': new,
+    }
+    if request.user.is_active:
+        profile = Profile.objects.get(client_id=request.user)
+        context['profile'] = profile
+    return render(request, 'crm/news_detail.html', context)

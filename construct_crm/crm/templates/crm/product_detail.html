@@ -1,0 +1,82 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}Магазин{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/product-detail.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block crm %}
+<div style="height: 50px"></div>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<div>
+        <a type="button" class="btn btn-outline-info"
+       href="{% url 'crm:products_list' %}">Назад</a>
+</div>
+<div class="cont">
+    <figure>
+        <img src="{{ product.prod_pic.url }}">
+    </figure>
+    <div class="block4">
+        {{ product.about|linebreaks }}
+        <p align="left" style="font-size: 24px; margin-right:2%">
+            {% if product.discount > 0 %}
+                <a style="align-self:flex-start;font-size: 24px;">Цена: <s>{{ product.price }} ₽</s> →
+                <b>{{ product.get_sale }} ₽/ {{ product.measure }}</b></a>
+            {% else %}
+                <a style="align-self:flex-start;font-size: 24px;"><b>Цена: {{ product.price }} ₽/ {{ product.measure }}</b></a>
+            {% endif %}<br>
+            Производитель: {{ product.vendor }}<br>
+            Категория: {{ product.category_class }}<br>
+            {% if product.is_stock > 0 %}
+                <a style="align-self:flex-end; color: green;"><i class="fa fa-check"></i> В наличии {{ product.is_stock }} {{ product.measure }}</a><br>
+            {% else %}
+                <a style="align-self:flex-end; color: red;"><i class="fa fa-times"></i> Нет в наличии</a><br>
+            {% endif %}
+        </p>
+        <div class="buttons">
+    <a type="button" class="log btn btn-warning" href="{% url 'crm:product_edit' product.id %}">
+        <i class="fa fa-pen"></i> </a>
+    <a type="button" class="log btn btn-danger"
+       href="{% url 'crm:products_list' %}?deleted={{ product.id }}">
+        <i class="fa fa-trash"></i></a>
+    <a type="button" class="log btn btn-info"
+       href="{% url 'crm:products_list' %}?restored={{ product.id }}">
+        <i class="fa fa-redo"></i></a>
+</div>
+    </div>
+</div>
+
+
+
+<hr style="width: 90%;">
+
+<div class="reviews">
+    {% if reviews %}
+        {% for review in reviews %}
+            {% if review in product.review_set.all %}
+                 <div class="block_com">
+                     <a style="margin: 1% 2% 0 1%;">
+                         {% if review.profile_picture %}
+                           <img style="border-radius: 50%; width: 30px;" src="{{ review.profile_picture.url }}">
+                         {% else %}
+                           <img src="{% static 'dashboard/img/user.png' %}" style="width: 30px">
+                         {% endif %}
+                         <strong>  {{ review.author }}</strong> {{ review.pub_date }}</a>
+                     <a style="font-size: 18px; margin: 0 2% 1% 2%;"><i>{{ review.text|linebreaks }}</i></a>
+                     <a></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p style="margin-left: 2%;">У товара пока нет отзывов.</p>
+    {% endif %}
+</div>
+{% endblock %}

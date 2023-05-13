@@ -32,7 +32,7 @@
 
                     <div class="description">
                         <a style="margin: 0 3% 0 0;"><i>{{ new.id }}</i></a>
-                        <a href="{% url 'news:index' %}?newsId={{ new.id }}"><i>{{ new.title }}</i></a>
+                        <a href="{{ new.get_absolute_url }}"><i>{{ new.title }}</i></a>
                     </div>
 
                     <div class="is_active">

@@ -1,7 +1,8 @@
+import re
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from api.models import Order, OrderStatus, UserCart, Measure, Product, ProductCategory, News
+from crm.models import Order, OrderStatus, UserCart, Measure, Product, ProductCategory, News
 
 
 class OrderSerializer(serializers.ModelSerializer):

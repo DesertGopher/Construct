@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_DIR = Path(__file__).resolve().parent.parent.parent
 CONF_DIR = Path(__file__).resolve().parent.parent.parent
 
 load_dotenv(os.path.abspath(CONF_DIR / 'config' / '.env'))
@@ -33,7 +34,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'rest_framework',
     'crm',
+    'drf_yasg',
+    'rest_framework_api_key',
 ]
 
 MIDDLEWARE = [
@@ -70,24 +75,24 @@ WSGI_APPLICATION = 'construct_crm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': CONF_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': os.getenv('DB_NAME'),
-#         'USER': os.getenv('DB_USER'),
-#         'HOST': os.getenv('DB_HOST'),
-#         'PASSWORD': os.getenv('DB_PASSWORD'),
-#         'PORT': os.getenv('DB_PORT'),
-#         'default-character-set': 'utf8',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': CONF_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'HOST': os.getenv('DB_HOST'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'PORT': os.getenv('DB_PORT'),
+        'default-character-set': 'utf8',
+    }
+}
 
 
 # Password validation
@@ -130,8 +135,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'F:/Education/University/GitHub/Construct/construct/media/'
+MEDIA_ROOT = os.path.join(MEDIA_DIR, 'construct', 'media')
 
 
 # Default primary key field type
