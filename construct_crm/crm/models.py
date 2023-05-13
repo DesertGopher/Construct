@@ -194,6 +194,9 @@ class Order(models.Model):
     def __str__(self):
         return str('Заказ № ' + str(self.id))
 
+    def get_absolute_url(self):
+        return f'/order-edit/{self.id}/'
+
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'

@@ -4,7 +4,7 @@
 
 {% block crm-static %}
     <link rel="stylesheet" href="{% static 'crm/css/order_edit.css' %}">
-    <link rel="stylesheet" href="{% static 'shop/css/order_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'crm/css/order_detail.css' %}">
 {% endblock %}
 
 {% block crm-style %}
@@ -62,7 +62,7 @@
                 {% csrf_token %}
                 {{ form.payment_type }}<br>
                 {{ form.status }}<br>
-                <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Обновить профиль </button>
+                <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Обновить заказ </button>
             </div>
         </form>
     </div>

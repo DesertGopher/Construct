@@ -42,7 +42,7 @@
             <img src="{% static 'crm/img/LOGO.png' %}" width="35" height="35"></a>
         <a class="btn btn-outline-primary" href="{% url 'admin:index' %}"><i class="fas fa-user"></i> Администрирование</a>
         <a> | </a>
-        <a class="btn btn-outline-primary" href=""><i class="fas fa-clock"></i> Логи</a>
+        <a class="btn btn-outline-primary" href="{% url 'crm:home' %}"><i class="fas fa-clock"></i> Логи</a>
     </div>
     <div class="right_one">
         <a class="btn btn-outline-primary" href=""><i class="fas fa-bell"></i> Уведомления</a>
@@ -53,10 +53,10 @@
 
     <div class="crm_nav">
         <div class="buts">
-            <a class="btn btn-primary" href="../../../swagger/">Главная страница</a>
+            <a class="btn btn-primary" href="{% url 'crm:home' %}">Главная страница</a>
             <a class="btn btn-primary" href="{% url 'crm:products_list' %}">Управление товарами</a>
             <a class="btn btn-primary" href="{% url 'crm:news_list' %}">Управление новостями</a>
-            <a class="btn btn-primary" href="../../../swagger/">Управление заказами</a>
+            <a class="btn btn-primary" href="{% url 'crm:orders' %}">Управление заказами</a>
             <a class="btn btn-primary" href="../../../swagger/">Вопросы тех. поддержки</a>
             <a class="btn btn-primary" href="../../../swagger/">Шаблоны пользователей</a>
 

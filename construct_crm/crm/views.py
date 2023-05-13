@@ -352,7 +352,6 @@ def user_orders(request):
 @server_error_decorator
 @is_staff_decorator
 def user_order_edit(request, order_id):
-    cart = Cart(request)
     try:
         order = Order.objects.get(pk=order_id)
     except Order.DoesNotExist:
@@ -393,7 +392,6 @@ def user_order_edit(request, order_id):
         "title": title,
         "profile": profile,
         "order": order,
-        "cart": cart,
         "total": total,
     }
     return render(request, "crm/order_edit.html", context)

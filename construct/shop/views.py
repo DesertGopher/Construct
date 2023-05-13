@@ -109,7 +109,7 @@ def detail(request, product_id):
     return render(request, 'shop/detail.html', context)
 
 
-@orders_decorator
+# @orders_decorator
 @is_active_decorator
 def create_order(request):
     product_list = UserCart.objects.get(client_id=request.user)
@@ -121,6 +121,7 @@ def create_order(request):
     cart_products = Product.objects.filter(id__in=get_keys)
     addresses = Address.objects.filter(client_id=request.user, is_active=True)
 
+    cart = Cart(request)
     user = User.objects.get(username=request.user)
     profile = Profile.objects.get(client_id=request.user)
     address_list = Address.objects.filter(client_id=request.user, is_active=True)
