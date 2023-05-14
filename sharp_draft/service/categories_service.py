@@ -25,4 +25,3 @@ class CategoriesService:
         if query:
             query.is_exist = True
         return query
-
