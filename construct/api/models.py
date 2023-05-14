@@ -195,3 +195,21 @@ class Order(models.Model):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
         db_table = 'order'
+
+
+class Support(models.Model):
+    cd = datetime.now()
+
+    client_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    client_mail = models.EmailField(null=False)
+    date_created = models.DateTimeField(default=cd, verbose_name="Time sent")
+    appeal = models.TextField(null=False)
+    checked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str('Обращение № ' + str(self.id) + ' от ' + str(self.client_id))
+
+    class Meta:
+        verbose_name = 'Обращение'
+        verbose_name_plural = 'Обращения'
+        db_table = 'support'

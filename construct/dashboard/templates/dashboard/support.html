@@ -1,0 +1,33 @@
+{% extends 'dashboard/layout.html' %}
+{% load static %}
+{% block title %}Тех. Поддержка{% endblock %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/support.css' %}">
+{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+{% block content %}
+    <p>
+        Опишите проблему, или иной повод обращения в поддержку.<br>
+        Вашу заявку рассмотрят и при необходимости ответ поступит на указанную почту.
+    </p>
+
+    <div class="profileform">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form">
+                {% csrf_token %}
+                {{ form.client_mail }}<br>
+                {{ form.appeal }}<br>
+                <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Отправить </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="message">{{ message }}</div>
+{% endblock %}

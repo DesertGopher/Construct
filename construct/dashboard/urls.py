@@ -12,4 +12,5 @@ urlpatterns = [
     path('update-profile/', views.update_profile, name='update_profile'),
     path('terms-of-service/', views.terms_of_service, name='terms_of_service'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
+    path('support/', views.support, name='support'),
 ]

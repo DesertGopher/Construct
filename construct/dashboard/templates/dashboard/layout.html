@@ -52,7 +52,7 @@
             <a type="button" style="font-size: 22px;" class="btn btn-link"
                href="{% url 'sharp_draft:home' %}">Sharp Draft</a>
             <a type="button" style="font-size: 22px" class="btn btn-link"
-               href="">Тех. поддержка</a>
+               href="{% url 'dashboard:support' %}">Тех. поддержка</a>
         </div>
         <div class="user">
             {% if not user.is_authenticated %}
