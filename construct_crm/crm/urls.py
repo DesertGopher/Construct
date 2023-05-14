@@ -25,4 +25,7 @@ urlpatterns = [
     path('product-edit/<int:product_id>/', views.product_edit, name='product_edit'),
     path('create-product/', views.create_product, name='create_product'),
     path('product-detail/<int:product_id>/', views.product_detail, name='product_detail'),
+
+    # Тех. поддержка
+    path('support-list/', views.support_list, name='support_list'),
 ]

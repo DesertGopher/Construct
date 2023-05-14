@@ -1,0 +1,69 @@
+{% extends 'crm/crm_layout.html' %}
+{% load static %}
+{% block title %}Вопросы тех. поддержки{% endblock %}
+
+{% block crm-static %}
+    <link rel="stylesheet" href="{% static 'crm/css/support_list.css' %}">
+{% endblock %}
+
+{% block crm-style %}
+    <style>
+    </style>
+{% endblock %}
+
+{% block crm %}
+<div>
+<a href="{% url 'crm:support_list' %}" class="btn btn-success">Все</a>
+<a href="{% url 'crm:support_list' %}?get_r=1"
+               class="btn btn-success">Только прочитанные</a>
+<a href="{% url 'crm:support_list' %}?get_r=0"
+               class="btn btn-success">Только не прочитанные</a>
+</div>
+<div class="sup_main">
+    <div class="sup_list">
+        {% if sup_list %}
+            {% for sup in sup_list %}
+                <div class="support_item">
+
+                    <div class="description">
+                        <a href="{% url 'crm:support_list' %}?current_question={{ sup.id }}">
+                            <i>{{ sup }}</i>
+                        </a>
+                    </div>
+
+                    <div class="is_active">
+                        {% if sup.checked %}
+                            <a style="color: green;">Прочитано</a>
+                        {% else %}
+                            <a style="color: red;">Не прочитано</a>
+                        {% endif %}
+                    </div>
+
+                    <div class="date">
+                        <a>{{ sup.date_created }}</a>
+                    </div>
+
+                </div>
+            <div><hr></div>
+            {% endfor %}
+        {% else %}
+            Обращений в поддержку нет
+        {% endif %}
+    </div>
+    <div class="sup_detail">
+        {% if current_question %}
+            <p style="align-self: center;"><b>{{ current_question }}</b></p>
+            <p><i>{{ current_question.appeal }}</i></p>
+            <p style="align-self: flex-end;"><u>Эл. почта - {{ current_question.client_mail }}</u></p>
+            <p style="align-self: flex-end;">От {{ current_question.date_created }}</p>
+            {% if current_question.checked %}
+                <a style="color: green;">Прочитано</a>
+            {% else %}
+                <a style="color: red;">Не прочитано</a>
+                <a href="{% url 'crm:support_list' %}?current_question={{ current_question.id }}&read=1"
+                   class="btn btn-success">Отметить прочитанным</a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

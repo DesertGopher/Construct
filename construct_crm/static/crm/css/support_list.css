@@ -1,0 +1,44 @@
+.sup_main {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sup_detail {
+    display:flex;
+    width: 45%;
+    margin: 2% 3% 0 0;
+    flex-direction: column;
+}
+
+.sup_list {
+    display:flex;
+    width: 45%;
+    margin: 2% 0 0 3%;
+    flex-direction: column;
+}
+.support_item {
+   display:flex;
+   width: 100%;
+   flex-direction: row;
+   justify-content: space-between;
+   font-size: 12px;
+   padding: 1%;
+}
+.description {
+    margin: 0 3% 0 0;
+    display:flex;
+    width: 40%;
+    justify-content: space-start;
+}
+.date {
+    display:flex;
+    width: 35%;
+    justify-content: flex-end;
+
+}
+.is_active {
+    display:flex;
+    width:20%;
+    justify-content: center;
+}

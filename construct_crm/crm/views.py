@@ -486,3 +486,36 @@ def news_detail(request, news_id):
         profile = Profile.objects.get(client_id=request.user)
         context['profile'] = profile
     return render(request, 'crm/news_detail.html', context)
+
+
+@server_error_decorator
+# @is_staff_decorator
+def support_list(request):
+    get_r = str(request.GET.get("get_r"))
+    read = str(request.GET.get("read"))
+    cq = str(request.GET.get("current_question"))
+    # profile = Profile.objects.get(client_id=request.user)
+
+    sup_list = Support.objects.all().order_by("-id")
+
+    if get_r != "None":
+        if isinstance(int(get_r), int):
+            sup_list = Support.objects.filter(checked=get_r).order_by("-id")
+
+    try:
+        current_question = Support.objects.get(id=cq)
+    except:
+        current_question = sup_list.first()
+
+    context = {
+        # "profile": profile,
+        "sup_list": sup_list,
+        "current_question": current_question,
+    }
+
+    if read != "None":
+        if isinstance(int(read), int):
+            current_question.checked = True
+            current_question.save()
+            return render(request, "crm/support_list.html", context)
+    return render(request, "crm/support_list.html", context)
