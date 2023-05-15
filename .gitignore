@@ -37,3 +37,4 @@ media_files/
 *.sql
 construct/db.json
 construct/db.json
+/construct/sharp_draft/profiles/

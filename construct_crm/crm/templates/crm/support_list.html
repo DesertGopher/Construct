@@ -13,11 +13,11 @@
 
 {% block crm %}
 <div>
-<a href="{% url 'crm:support_list' %}" class="btn btn-success">Все</a>
-<a href="{% url 'crm:support_list' %}?get_r=1"
-               class="btn btn-success">Только прочитанные</a>
-<a href="{% url 'crm:support_list' %}?get_r=0"
-               class="btn btn-success">Только не прочитанные</a>
+    <a href="{% url 'crm:support_list' %}" class="btn btn-success">Все</a>
+    <a href="{% url 'crm:support_list' %}?get_r=1"
+                   class="btn btn-success">Только прочитанные</a>
+    <a href="{% url 'crm:support_list' %}?get_r=0"
+                   class="btn btn-success">Только не прочитанные</a>
 </div>
 <div class="sup_main">
     <div class="sup_list">

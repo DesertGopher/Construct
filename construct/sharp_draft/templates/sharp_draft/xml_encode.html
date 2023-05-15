@@ -12,6 +12,14 @@
 </style>
 {% endblock %}
 {% block content %}
-    <a href="{% url 'sharp_draft:create_plate' %}">Пластины</a>
-    <a href="{% url 'sharp_draft:xml_encode' %}">Шифрование</a>
+XML!
+<form method="POST">
+    {% csrf_token %}
+    {{ form.length }}
+    {{ form.project_name }}
+    {{ form.element_name }}
+    {{ form.profile }}
+    {{ form.material }}
+    <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Создать файл </button>
+</form>
 {% endblock %}
