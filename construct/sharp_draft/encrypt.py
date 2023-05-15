@@ -25,10 +25,11 @@ def create_xml(length: int, material: str, project_name: str, element_name: str,
     minute = '{:02d}'.format(current_time.minute)
     second = '{:02d}'.format(current_time.second)
     hms = '{}:{}:{}'.format(hour, minute, second)
+    hms_n = '{}-{}-{}'.format(hour, minute, second)
 
-    file_name = str(f'{project_name}_{element_name}_{user}_{hms}')
+    file_name = str(f'{project_name}_{element_name}_{user}_{hms_n}')
 
-    f = open(f'{profile_dir}{file_name}.xml', 'w')
+    f = open(profile_dir.replace("\\", "/") + file_name + '.xml', 'w')
     f.write('<?xml version="1.0" encoding="utf-8"?>')
     f.write("\n\n")
     f.write('<BatchDataSet>')
@@ -182,3 +183,8 @@ def create_xml(length: int, material: str, project_name: str, element_name: str,
 
     f.write('</BatchDataSet>')
     f.close()
+
+    return {
+        "path": str(profile_dir.replace("/", "\\") + file_name + '.xml'),
+        "name": str(file_name + '.xml')
+    }
