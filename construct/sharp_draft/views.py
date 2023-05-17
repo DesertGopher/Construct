@@ -26,26 +26,39 @@ def create_plate(request):
 @is_staff_decorator
 def xml_encode(request):
     profile = Profile.objects.get(client_id=request.user)
+    kir = ('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
     if request.method == "POST":
         form = EncodeForm(request.POST)
         if form.is_valid():
-            p_profile = form["profile"].value()
-            p_length = form["length"].value()
-            p_material = form["material"].value()
-            p_proj_name = form["project_name"].value()
-            p_elem_name = form["element_name"].value()
-            obj = create_xml(
-                length=p_length,
-                profile=p_profile,
-                material=p_material,
-                project_name=p_proj_name,
-                element_name=p_elem_name,
-                user=request.user,
-            )
-            print(obj["name"])
-            return FileResponse(
-                open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
-            )
+            find_kir = [x for x in kir if x in form["project_name"].value().lower()]
+            if int(form["length"].value()) < 150 or find_kir:
+                if int(form["length"].value()) < 150:
+                    message = 'Длина профиля должна быть больше 150 мм'
+                    return render(
+                        request, "sharp_draft/xml_encode.html", {"profile": profile,
+                                                                 "form": form,
+                                                                 "message": message}
+                    )
+                if find_kir:
+                    message = 'Имя проекта должно содержать только латинские символы и цифры'
+                    return render(
+                        request, "sharp_draft/xml_encode.html", {"profile": profile,
+                                                                 "form": form,
+                                                                 "message": message}
+                    )
+            else:
+                obj = create_xml(
+                    length=form["length"].value(),
+                    profile=form["profile"].value(),
+                    material=form["material"].value(),
+                    project_name=form["project_name"].value(),
+                    element_name=form["element_name"].value(),
+                    user=request.user,
+                )
+                print(obj["name"])
+                return FileResponse(
+                    open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
+                )
     else:
         form = EncodeForm()
     return render(
