@@ -13,14 +13,14 @@
 {% endblock %}
 {% block content %}
 
-<form method="POST">
+<form style="margin: 3% 0 0 3%" method="POST">
     {% csrf_token %}
     {{ form.length }}
     {{ form.project_name }}
     {{ form.element_name }}
     {{ form.profile }}
     {{ form.material }}
-    <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Создать файл </button>
+    <button type="submit" class="btn btn-info"> Создать файл </button>
 </form><br>
 {% if message %}
 {{ message }}
