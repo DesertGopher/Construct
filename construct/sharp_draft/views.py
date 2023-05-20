@@ -1,11 +1,11 @@
 from django.http.response import FileResponse
 from django.shortcuts import render
 
-from api.models import Profile
+from api.models import Profile, Templates
 from modules.exceptions import *
 
 from .encrypt import create_xml
-from .forms import EncodeForm
+from .forms import EncodeForm, CreateTemplate
 
 
 @server_error_decorator
@@ -13,13 +13,6 @@ from .forms import EncodeForm
 def index(request):
     profile = Profile.objects.get(client_id=request.user)
     return render(request, "sharp_draft/index.html", {"profile": profile})
-
-
-@server_error_decorator
-@is_staff_decorator
-def create_plate(request):
-    profile = Profile.objects.get(client_id=request.user)
-    return render(request, "sharp_draft/create_plate.html", {"profile": profile})
 
 
 @server_error_decorator
@@ -64,3 +57,27 @@ def xml_encode(request):
     return render(
         request, "sharp_draft/xml_encode.html", {"profile": profile, "form": form}
     )
+
+
+@server_error_decorator
+@is_staff_decorator
+def create_plate(request):
+    profile = Profile.objects.get(client_id=request.user)
+    return render(request, "sharp_draft/create_plate.html", {"profile": profile})
+
+
+@server_error_decorator
+@is_staff_decorator
+def create_template(request):
+    profile = Profile.objects.get(client_id=request.user)
+    return render(request, "sharp_draft/create_template.html", {"profile": profile})
+
+
+@server_error_decorator
+@is_staff_decorator
+def templates(request):
+    profile = Profile.objects.get(client_id=request.user)
+    temp_list = Templates.objects.filter(client_id=request.user)
+    return render(request, "sharp_draft/templates.html",
+                  {"profile": profile,
+                   "temp_list": temp_list})

@@ -1,0 +1,29 @@
+{% extends 'sharp_draft/index.html' %}
+{% load static %}
+{% block title %}Sharp Draft{% endblock %}
+
+{% block SD-static %}
+    <link rel="stylesheet" href="{% static 'sharp_draft/css/templates.css' %}">
+{% endblock %}
+
+{% block SD-style %}
+<style>
+
+</style>
+{% endblock %}
+{% block SD %}
+<div class="main">
+    <div class="temp_list">
+        {% if temp_list %}
+            {% for temp in temp_list %}
+                {{temp.name}}
+            {% endfor %}
+        {% else %}
+        У вас пока нет штампов. Создайте новый!
+        {% endif %}
+    </div>
+    <div class="temp_detail">
+
+    </div>
+</div>
+{% endblock %}

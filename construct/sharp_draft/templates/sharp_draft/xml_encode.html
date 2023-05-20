@@ -1,19 +1,19 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'sharp_draft/index.html' %}
 {% load static %}
 {% block title %}Sharp Draft{% endblock %}
 
-{% block static %}
+{% block SD-static %}
     <link rel="stylesheet" href="{% static 'sharp_draft/css/index.css' %}">
 {% endblock %}
 
-{% block style %}
+{% block SD-style %}
 <style>
 
 </style>
 {% endblock %}
-{% block content %}
+{% block SD %}
 
-<form style="margin: 3% 0 0 3%" method="POST">
+<form style="margin: 2% 0 0 3%" method="POST">
     {% csrf_token %}
     {{ form.length }}
     {{ form.project_name }}

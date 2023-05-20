@@ -4,14 +4,31 @@
 
 {% block static %}
     <link rel="stylesheet" href="{% static 'sharp_draft/css/index.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'sharp_draft/img/OLOGO.ico' %}">
+
+    {% block SD-static %}
+    {% endblock %}
+
 {% endblock %}
 
 {% block style %}
 <style>
-
 </style>
+
+    {% block SD-style %}
+    {% endblock %}
+
 {% endblock %}
+
 {% block content %}
-    <a href="{% url 'sharp_draft:create_plate' %}">Пластины</a>
-    <a href="{% url 'sharp_draft:xml_encode' %}">Шифрование</a>
+<div class="SD-nav">
+    <a class="btn btn-warning" href="{% url 'sharp_draft:xml_encode' %}">XML</a>
+    <a class="btn btn-warning" href="{% url 'sharp_draft:templates' %}">Список штампов</a>
+    <a class="btn btn-warning" href="{% url 'sharp_draft:create_template' %}">Создать штамп</a>
+
+</div>
+<div style="height: 50px"></div>
+{% block SD %}
+{% endblock %}
+
 {% endblock %}
