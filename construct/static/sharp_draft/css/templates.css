@@ -3,4 +3,32 @@
     flex-direction: row;
     width: 94%;
     margin: 0 3% 0 3%;
+
+}
+.temp_list {
+    width: 20%;
+    height: 100%;
+}
+.temp_detail {
+    width: 80%;
+}
+.name {
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 0 0;
+    font-size: 22px;
+}
+ul {
+    margin-top: 20px;
+}
+
+li {
+    padding-left: 20px;
+    margin-top: 10px;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    font-size: 20px;
+}
+li:hover {
+    background: LightSalmon;
 }

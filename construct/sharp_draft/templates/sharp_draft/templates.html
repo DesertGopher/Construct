@@ -4,26 +4,119 @@
 
 {% block SD-static %}
     <link rel="stylesheet" href="{% static 'sharp_draft/css/templates.css' %}">
+    <link rel="stylesheet" href="{% static 'sharp_draft/css/table.css' %}">
 {% endblock %}
 
 {% block SD-style %}
-<style>
 
-</style>
 {% endblock %}
+
 {% block SD %}
 <div class="main">
     <div class="temp_list">
         {% if temp_list %}
+        <ul>
             {% for temp in temp_list %}
-                {{temp.name}}
+                <li><a href="{% url 'sharp_draft:templates' %}?tid={{ temp.id }}">{{ temp.name }}</a></li>
             {% endfor %}
+        </ul>
         {% else %}
-        У вас пока нет штампов. Создайте новый!
+            У вас пока нет штампов. Создайте новый!
         {% endif %}
     </div>
     <div class="temp_detail">
-
+        {% if template %}
+        <div class="name">Штамп "{{ template.name }}"</div>
+        <table class="mt">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="4" rowspan="2" width="70%">{{ template.code }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colspan="4" rowspan="3">{{ template.project }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Изм.</td>
+                <td>Кол. уч</td>
+                <td>Лист</td>
+                <td>№ док.</td>
+                <td>Подпись</td>
+                <td>Дата</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left;">Нач. отдела</td>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+                <td rowspan="3" width="45%">{{ template.object }}</td>
+                <td>Стадия</td>
+                <td>Лист</td>
+                <td>Листов</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left;">ГИП</td>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+                <td rowspan="2">{{ template.stage }}</td>
+                <td rowspan="2">{{ template.page }}</td>
+                <td rowspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left;">Проверил</td>
+                <td colspan="2" style="text-align: left;">{{ template.checker }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left;">Нач. группы</td>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+                <td rowspan="3">{{ template.schema }}</td>
+                <td colspan="3" rowspan="3">{{ template.company }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left;">Разработал</td>
+                <td colspan="2" style="text-align: left;">{{ template.author }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: left;">Н. контроль</td>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

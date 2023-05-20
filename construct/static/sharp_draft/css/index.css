@@ -5,6 +5,25 @@
     height: 50px;
     position: fixed;
     background: Moccasin;
-    justify-content:space-between;
+    justify-content: flex-start;
     margin-bottom: 20px;
+}
+
+body {
+   // background: linear-gradient(to bottom, LightSalmon, White);
+}
+
+.nav1, nav2, nav3 {
+    display: flex;
+}
+
+.nav1, nav3 {
+    width: 35%;
+    justify-content: space-around;
+}
+
+.nav2 {
+    background: radial-gradient(white, Moccasin);
+    text-align: center;
+    width: 30%;
 }

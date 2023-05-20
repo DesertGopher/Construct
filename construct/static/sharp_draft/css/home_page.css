@@ -1,0 +1,9 @@
+.page_title {
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-size: 100px;
+    text-shadow: 4px 4px 7px orange;
+    transition: transform .10s ease;
+    transform: translateY(-10px);
+}

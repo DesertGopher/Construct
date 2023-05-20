@@ -12,7 +12,7 @@ from .forms import EncodeForm, CreateTemplate
 @is_staff_decorator
 def index(request):
     profile = Profile.objects.get(client_id=request.user)
-    return render(request, "sharp_draft/index.html", {"profile": profile})
+    return render(request, "sharp_draft/home_page.html", {"profile": profile})
 
 
 @server_error_decorator
@@ -76,8 +76,15 @@ def create_template(request):
 @server_error_decorator
 @is_staff_decorator
 def templates(request):
+    tid = str(request.GET.get('tid'))
     profile = Profile.objects.get(client_id=request.user)
+    context = {
+        "profile": profile,
+    }
+    if tid and tid.isnumeric():
+        template = Templates.objects.get(id=int(tid))
+        context["template"] = template
+
     temp_list = Templates.objects.filter(client_id=request.user)
-    return render(request, "sharp_draft/templates.html",
-                  {"profile": profile,
-                   "temp_list": temp_list})
+    context["temp_list"] = temp_list
+    return render(request, "sharp_draft/templates.html", context)

@@ -5,6 +5,7 @@
 {% block static %}
     <link rel="stylesheet" href="{% static 'sharp_draft/css/index.css' %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'sharp_draft/img/OLOGO.ico' %}">
+    <link href="https://fonts.cdnfonts.com/css/gost-type-a" rel="stylesheet">
 
     {% block SD-static %}
     {% endblock %}
@@ -13,22 +14,29 @@
 
 {% block style %}
 <style>
-</style>
-
+    @import url('https://fonts.cdnfonts.com/css/gost-type-a');
     {% block SD-style %}
     {% endblock %}
-
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="SD-nav">
-    <a class="btn btn-warning" href="{% url 'sharp_draft:xml_encode' %}">XML</a>
-    <a class="btn btn-warning" href="{% url 'sharp_draft:templates' %}">Список штампов</a>
-    <a class="btn btn-warning" href="{% url 'sharp_draft:create_template' %}">Создать штамп</a>
-
+    <div class="nav1">
+        <a class="btn btn-warning" href="{% url 'sharp_draft:templates' %}">Список штампов</a>
+        <a class="btn btn-warning" href="{% url 'sharp_draft:create_template' %}">Создать штамп</a>
+        <a class="btn btn-warning" href="{% url 'sharp_draft:xml_encode' %}">XML</a>
+    </div>
+    <div class="nav2">
+        <a type="button" style="font-size: 22px; color: black;"
+           class="btn btn-link" href="{% url 'sharp_draft:home' %}">Sharp
+           <img src="{% static 'sharp_draft/img/OLOGO.png' %}" width="35" height="35"> Draft</a>
+    </div>
+    <div class="nav3"></div>
 </div>
 <div style="height: 50px"></div>
-{% block SD %}
-{% endblock %}
+
+    {% block SD %}
+    {% endblock %}
 
 {% endblock %}
