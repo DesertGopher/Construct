@@ -3,36 +3,21 @@
 {% block title %}Sharp Draft{% endblock %}
 
 {% block SD-static %}
-    <link rel="stylesheet" href="{% static 'sharp_draft/css/templates.css' %}">
+    <link rel="stylesheet" href="{% static 'sharp_draft/css/create.css' %}">
     <link rel="stylesheet" href="{% static 'sharp_draft/css/table.css' %}">
 {% endblock %}
 
 {% block SD-style %}
+<style>
 
+</style>
 {% endblock %}
-
 {% block SD %}
-<div class="main">
-    <div class="temp_list">
-        {% if temp_list %}
-        <ul>
-            {% for temp in temp_list %}
-                <li><a href="{% url 'sharp_draft:templates' %}?tid={{ temp.id }}">{{ temp.name }}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            У вас пока нет штампов. Создайте новый!
-        {% endif %}
-    </div>
-    <div class="temp_detail">
-        {% if template %}
-        <div class="name">Штамп "{{ template.name }}"
-        <a type="button" class="log btn btn-warning"
-           href="{% url 'sharp_draft:edit_template' template.id %}">
-            <i class="fa fa-pen"></i> </a>
-        <a type="button" class="log btn btn-danger"
-           href="">
-            <i class="fa fa-trash"></i></a>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="create">
+            {{ form.name }}
+            <button  type="submit" class="btn btn-outline-primary"> Обновить штамп </button>
         </div>
         <table class="mt">
             <tr>
@@ -42,7 +27,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td colspan="4" rowspan="2" width="70%">{{ template.code }}</td>
+                <td colspan="4" rowspan="2" width="70%">{{ form.code }}</td>
             </tr>
             <tr>
                 <td></td>
@@ -59,7 +44,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td colspan="4" rowspan="3">{{ template.project }}</td>
+                <td colspan="4" rowspan="3">{{ form.project }}</td>
             </tr>
             <tr>
                 <td></td>
@@ -82,7 +67,7 @@
                 <td colspan="2"></td>
                 <td></td>
                 <td></td>
-                <td rowspan="3" width="45%">{{ template.object }}</td>
+                <td rowspan="3" width="45%">{{ form.object }}</td>
                 <td>Стадия</td>
                 <td>Лист</td>
                 <td>Листов</td>
@@ -92,13 +77,13 @@
                 <td colspan="2"></td>
                 <td></td>
                 <td></td>
-                <td rowspan="2">{{ template.stage }}</td>
-                <td rowspan="2">{{ template.page }}</td>
+                <td rowspan="2">{{ form.stage }}</td>
+                <td rowspan="2">{{ form.page }}</td>
                 <td rowspan="2"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: left;">Проверил</td>
-                <td colspan="2" style="text-align: left;">{{ template.checker }}</td>
+                <td colspan="2" style="text-align: left;">{{ form.checker }}</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -107,12 +92,12 @@
                 <td colspan="2"></td>
                 <td></td>
                 <td></td>
-                <td rowspan="3">{{ template.schema }}</td>
-                <td colspan="3" rowspan="3">{{ template.company }}</td>
+                <td rowspan="3">{{ form.schema }}</td>
+                <td colspan="3" rowspan="3">{{ form.company }}</td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: left;">Разработал</td>
-                <td colspan="2" style="text-align: left;">{{ template.author }}</td>
+                <td colspan="2" style="text-align: left;">{{ form.author }}</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -123,7 +108,5 @@
                 <td></td>
             </tr>
         </table>
-        {% endif %}
-    </div>
-</div>
+    </form>
 {% endblock %}

@@ -51,18 +51,19 @@ class CreateTemplate(ModelForm):
         self.fields['name'].widget = forms.Textarea(attrs={'placeholder': 'Название штампа',
                                                            'cols': 8,
                                                            'rows': 1,
-                                                           'class': 'form-control', })
+                                                           'class': 'form-control',
+                                                           'resize': None})
         self.fields['author'].help_text = ''
         self.fields['author'].label = ''
         self.fields['author'].widget = forms.Textarea(attrs={'placeholder': 'Исполнитель',
                                                              'cols': 8,
-                                                             'rows': 5,
+                                                             'rows': 1,
                                                              'class': 'form-control', })
         self.fields['checker'].help_text = ''
         self.fields['checker'].label = ''
         self.fields['checker'].widget = forms.Textarea(attrs={'placeholder': 'Проверил',
                                                               'cols': 8,
-                                                              'rows': 5,
+                                                              'rows': 1,
                                                               'class': 'form-control', })
         self.fields['company'].help_text = ''
         self.fields['company'].label = ''
@@ -74,7 +75,7 @@ class CreateTemplate(ModelForm):
         self.fields['code'].label = ''
         self.fields['code'].widget = forms.Textarea(attrs={'placeholder': 'Код проекта',
                                                            'cols': 8,
-                                                           'rows': 5,
+                                                           'rows': 1,
                                                            'class': 'form-control', })
         self.fields['schema'].help_text = ''
         self.fields['schema'].label = ''
@@ -86,13 +87,13 @@ class CreateTemplate(ModelForm):
         self.fields['stage'].label = ''
         self.fields['stage'].widget = forms.Textarea(attrs={'placeholder': 'Стадия',
                                                             'cols': 8,
-                                                            'rows': 5,
+                                                            'rows': 4,
                                                             'class': 'form-control', })
         self.fields['page'].help_text = ''
         self.fields['page'].label = ''
         self.fields['page'].widget = forms.Textarea(attrs={'placeholder': 'Лист',
                                                            'cols': 8,
-                                                           'rows': 5,
+                                                           'rows': 4,
                                                            'class': 'form-control', })
         self.fields['object'].help_text = ''
         self.fields['object'].label = ''
@@ -104,5 +105,5 @@ class CreateTemplate(ModelForm):
         self.fields['project'].label = ''
         self.fields['project'].widget = forms.Textarea(attrs={'placeholder': 'Проект',
                                                               'cols': 8,
-                                                              'rows': 5,
+                                                              'rows': 2,
                                                               'class': 'form-control', })

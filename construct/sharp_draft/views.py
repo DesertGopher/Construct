@@ -1,5 +1,5 @@
-from django.http.response import FileResponse
-from django.shortcuts import render
+from django.http.response import FileResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
 
 from api.models import Profile, Templates
 from modules.exceptions import *
@@ -70,7 +70,43 @@ def create_plate(request):
 @is_active_decorator
 def create_template(request):
     profile = Profile.objects.get(client_id=request.user)
-    return render(request, "sharp_draft/create_template.html", {"profile": profile})
+    form = CreateTemplate(request.POST)
+    if request.method == "POST":
+        if form.is_valid():
+            temp_f = form.save(commit=False)
+            temp_f.client_id = request.user
+            temp_f.save()
+            return redirect('sharp_draft:templates')
+        else:
+            form = CreateTemplate()
+
+    return render(request, "sharp_draft/create_template.html", {'form': form, "profile": profile})
+
+
+@server_error_decorator
+@is_active_decorator
+def edit_template(request, temp_id):
+    profile = Profile.objects.get(client_id=request.user)
+    try:
+        temp_item = Templates.objects.get(pk=temp_id, client_id=request.user)
+    except Templates.DoesNotExist:
+        message = 'Такого штампа нет.'
+        return render(request, 'dashboard/404.html', {'message': message})
+
+    if request.method == "POST":
+        form = CreateTemplate(request.POST, instance=temp_item)
+        if form.is_valid():
+            temp_f = form.save(commit=False)
+            temp_f.client_id = request.user
+            temp_f.save()
+            return redirect('sharp_draft:templates')
+    else:
+        form = CreateTemplate(instance=temp_item)
+
+    return render(request, "sharp_draft/edit_template.html", {"form": form,
+                                                              "profile": profile,
+                                                              "temp_item": temp_item
+                                                              })
 
 
 @server_error_decorator

@@ -183,9 +183,9 @@ def product_edit(request, product_id):
     else:
         form = ProductEdit(instance=product_item)
     return render(request, 'crm/product_edit.html', {'form': form,
-                                                           'profile': profile,
-                                                           'product_item': product_item,
-                                                           })
+                                                     'profile': profile,
+                                                     'product_item': product_item,
+                                                     })
 
 
 @server_error_decorator
