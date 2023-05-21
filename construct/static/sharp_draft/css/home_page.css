@@ -1,9 +1,19 @@
 .page_title {
     width: 100%;
+    margin: 10% 0 0 0;
     text-align: center;
+}
+
+.sd-text, .c-text {
     color: black;
-    font-size: 100px;
     text-shadow: 4px 4px 7px orange;
     transition: transform .10s ease;
     transform: translateY(-10px);
+}
+.sd-text {
+    font-size: 100px;
+}
+
+.c-text {
+    font-size: 20px;
 }

@@ -7,11 +7,15 @@
 {% endblock %}
 
 {% block SD-style %}
-
+body {
+    background: linear-gradient(to left, transparent, white),
+    url(/static/sharp_draft/img/bg.jpg) no-repeat;
+}
 {% endblock %}
 
 {% block SD %}
 <div class="page_title">
-    <div class="construct-text animate__animated animate__fadeInUp">Sharp Draft</div>
+    <div class="sd-text animate__animated animate__fadeInUp">Sharp Draft</div>
+    <div class="c-text">Construct inc.</div>
 </div>
 {% endblock %}

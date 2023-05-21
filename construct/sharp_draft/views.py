@@ -9,14 +9,14 @@ from .forms import EncodeForm, CreateTemplate
 
 
 @server_error_decorator
-@is_staff_decorator
+@is_active_decorator
 def index(request):
     profile = Profile.objects.get(client_id=request.user)
     return render(request, "sharp_draft/home_page.html", {"profile": profile})
 
 
 @server_error_decorator
-@is_staff_decorator
+@is_active_decorator
 def xml_encode(request):
     profile = Profile.objects.get(client_id=request.user)
     kir = ('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
@@ -60,21 +60,21 @@ def xml_encode(request):
 
 
 @server_error_decorator
-@is_staff_decorator
+@is_active_decorator
 def create_plate(request):
     profile = Profile.objects.get(client_id=request.user)
     return render(request, "sharp_draft/create_plate.html", {"profile": profile})
 
 
 @server_error_decorator
-@is_staff_decorator
+@is_active_decorator
 def create_template(request):
     profile = Profile.objects.get(client_id=request.user)
     return render(request, "sharp_draft/create_template.html", {"profile": profile})
 
 
 @server_error_decorator
-@is_staff_decorator
+@is_active_decorator
 def templates(request):
     tid = str(request.GET.get('tid'))
     profile = Profile.objects.get(client_id=request.user)
