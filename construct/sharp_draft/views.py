@@ -111,6 +111,17 @@ def edit_template(request, temp_id):
 
 @server_error_decorator
 @is_active_decorator
+def delete_template(request, temp_id):
+    try:
+        Templates.objects.get(pk=temp_id, client_id=request.user).delete()
+    except Templates.DoesNotExist:
+        message = 'Такого штампа нет.'
+        return render(request, 'dashboard/404.html', {'message': message})
+    return redirect('sharp_draft:templates')
+
+
+@server_error_decorator
+@is_active_decorator
 def templates(request):
     tid = str(request.GET.get('tid'))
     profile = Profile.objects.get(client_id=request.user)
