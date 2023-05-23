@@ -6,6 +6,7 @@ from modules.exceptions import *
 
 from .encrypt import create_xml
 from .forms import EncodeForm, CreateTemplate
+from .plate_scheme import generate_pdf
 
 
 @server_error_decorator
@@ -48,7 +49,6 @@ def xml_encode(request):
                     element_name=form["element_name"].value(),
                     user=request.user,
                 )
-                print(obj["name"])
                 return FileResponse(
                     open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
                 )
@@ -61,13 +61,6 @@ def xml_encode(request):
 
 @server_error_decorator
 @is_active_decorator
-def create_plate(request):
-    profile = Profile.objects.get(client_id=request.user)
-    return render(request, "sharp_draft/create_plate.html", {"profile": profile})
-
-
-@server_error_decorator
-@is_active_decorator
 def create_template(request):
     profile = Profile.objects.get(client_id=request.user)
     form = CreateTemplate(request.POST)
@@ -76,6 +69,7 @@ def create_template(request):
             temp_f = form.save(commit=False)
             temp_f.client_id = request.user
             temp_f.save()
+
             return redirect('sharp_draft:templates')
         else:
             form = CreateTemplate()
@@ -99,6 +93,7 @@ def edit_template(request, temp_id):
             temp_f = form.save(commit=False)
             temp_f.client_id = request.user
             temp_f.save()
+            generate_pdf(temp_f)
             return redirect('sharp_draft:templates')
     else:
         form = CreateTemplate(instance=temp_item)
@@ -125,13 +120,20 @@ def delete_template(request, temp_id):
 def templates(request):
     tid = str(request.GET.get('tid'))
     profile = Profile.objects.get(client_id=request.user)
+    temp_list = Templates.objects.filter(client_id=request.user)
     context = {
         "profile": profile,
+        "temp_list": temp_list
     }
     if tid and tid.isnumeric():
         template = Templates.objects.get(id=int(tid))
         context["template"] = template
 
-    temp_list = Templates.objects.filter(client_id=request.user)
-    context["temp_list"] = temp_list
     return render(request, "sharp_draft/templates.html", context)
+
+
+@server_error_decorator
+@is_active_decorator
+def create_plate(request):
+    profile = Profile.objects.get(client_id=request.user)
+    return render(request, "sharp_draft/create_plate.html", {"profile": profile})
