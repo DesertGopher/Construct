@@ -40,8 +40,8 @@ Python 3.9
   - black==23.3.0 (code reformat by black profile)
   - isort==5.12.0 (imports reformatting)
 - PDF
-  - fpdf==1.7.2 (to geterate plate scheme) (???)
-  - aspose-pdf==23.4.0 (to geterate plate scheme)
+  - fpdf==1.7.2 (to geterate plate scheme)
+  - aspose-pdf==23.4.0 (to geterate plate scheme) (FOR NO USAGE)
 ---
 ## Logs
 - api_view_logs.log (API methods logs)
