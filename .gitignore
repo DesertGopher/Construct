@@ -36,6 +36,5 @@ media_files/
 *.json
 *.sql
 construct/db.json
-construct/db.json
 /construct/sharp_draft/profiles/
 /construct/sharp_draft/scheme/
