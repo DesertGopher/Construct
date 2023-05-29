@@ -48,6 +48,7 @@ Python 3.9
 - server_logs.log (server work)
 - orders_logs.log (logs for orders)
 - logs.log
+- bot_logs.log (in plans)
 ---
 ## Example of file config/secret.json
 ```json
@@ -56,7 +57,8 @@ Python 3.9
   "HasAPIKey": "permission_api_key",
   "user_host": "sender_mail_address",
   "user_host_password": "sender_mail_address_password_for_localhost",
-  "recipients_email": ["list_of_recipients_emails"]
+  "recipients_email": ["list_of_recipients_emails"],
+  "TOKEN": "telegram_bot_secret_token"
 }
 ```
 ---
@@ -65,11 +67,11 @@ Python 3.9
 SECRET_KEY=django-secret_key
 ALLOWED_HOSTS=allowed_hosts_list
 
-DB_NAME=mysql_database_name
-DB_USER=mysql_database_user
-DB_HOST=mysql_database_host
-DB_PASSWORD=mysql_database_password
-DB_PORT=mysql_database_port
+DB_NAME=database_name
+DB_USER=database_user
+DB_HOST=database_host
+DB_PASSWORD=database_password
+DB_PORT=database_port
 
 SERVER_HOST=fastapi_server_host
 ```
