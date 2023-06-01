@@ -3,7 +3,6 @@ django==4.1.4
 # django-ckeditor==6.5.1
 pillow==9.3.0
 djangorestframework==3.14
-# pdoc3==0.10
 sphinx==5.3.0
 Pallets-Sphinx-Themes==2.0.3
 sphinx-rtd-theme==1.1.1
