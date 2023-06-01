@@ -222,9 +222,6 @@ class Templates(models.Model):
     checker = models.CharField(max_length=50, null=True, blank=True)
     company = models.CharField(max_length=50, null=True, blank=True)
     code = models.CharField(max_length=50, null=True, blank=True)
-    schema = models.CharField(max_length=50, null=True, blank=True)
-    stage = models.CharField(max_length=50, null=True, default="Р", blank=True)
-    page = models.CharField(max_length=50, null=True, blank=True)
     object = models.CharField(max_length=50, null=True, blank=True)
     project = models.CharField(max_length=50, null=True, blank=True)
 

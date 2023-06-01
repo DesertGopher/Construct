@@ -42,7 +42,7 @@ class EncodeForm(forms.Form):
 class CreateTemplate(ModelForm):
     class Meta:
         model = Templates
-        fields = ['name', 'author', 'checker', 'company', 'code', 'schema', 'stage', 'page', 'object', 'project']
+        fields = ['name', 'author', 'checker', 'company', 'code', 'object', 'project']
 
     def __init__(self, *args, **kwargs):
         super(CreateTemplate, self).__init__(*args, **kwargs)
@@ -76,24 +76,6 @@ class CreateTemplate(ModelForm):
         self.fields['code'].widget = forms.Textarea(attrs={'placeholder': 'Код проекта',
                                                            'cols': 8,
                                                            'rows': 1,
-                                                           'class': 'form-control', })
-        self.fields['schema'].help_text = ''
-        self.fields['schema'].label = ''
-        self.fields['schema'].widget = forms.Textarea(attrs={'placeholder': 'Имя сборки',
-                                                             'cols': 8,
-                                                             'rows': 5,
-                                                             'class': 'form-control', })
-        self.fields['stage'].help_text = ''
-        self.fields['stage'].label = ''
-        self.fields['stage'].widget = forms.Textarea(attrs={'placeholder': 'Стадия',
-                                                            'cols': 8,
-                                                            'rows': 4,
-                                                            'class': 'form-control', })
-        self.fields['page'].help_text = ''
-        self.fields['page'].label = ''
-        self.fields['page'].widget = forms.Textarea(attrs={'placeholder': 'Лист',
-                                                           'cols': 8,
-                                                           'rows': 4,
                                                            'class': 'form-control', })
         self.fields['object'].help_text = ''
         self.fields['object'].label = ''
