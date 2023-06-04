@@ -1,17 +1,146 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'sharp_draft/index.html' %}
 {% load static %}
 {% block title %}Sharp Draft{% endblock %}
 
-{% block static %}
-    <link rel="stylesheet" href="{% static 'sharp_draft/css/index.css' %}">
+{% block SD-static %}
+    <link rel="stylesheet" href="{% static 'sharp_draft/css/table.css' %}">
+    <link rel="stylesheet" href="{% static 'sharp_draft/css/create_plate.css' %}">
 {% endblock %}
 
-{% block style %}
-<style>
+{% block SD-style %}
 
-</style>
 {% endblock %}
-{% block content %}
-    <a href="{% url 'sharp_draft:templates' %}">Список</a>
-    <a href="{% url 'sharp_draft:create_template' %}">Создать</a>
+
+{% block SD %}
+{{message}}
+    {% if not template %}
+    <form method="GET" >
+        {{ setform.as_p }}<br>
+        <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Сгенерировать </button>
+    </form>
+
+    {% else %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="temp_form">
+            {{ temp_form.position }}
+            {{ temp_form.name }}
+            {{ temp_form.amount }}<br>
+        </div>
+
+        <div class="verst">
+            <div class="plate_pic">
+                <div>{{ plate_form.as_p }}</div>
+
+                {% if plate == 'square' %}
+                    <img src="{% static 'sharp_draft/img/square.png' %}">
+                {% elif plate == 'triangle' %}
+                    <img src="{% static 'sharp_draft/img/triangle.png' %}">
+                {% elif plate == 'slicedtriangle' %}
+                    <img src="{% static 'sharp_draft/img/slicedtriangle.png' %}">
+                {% elif plate == 'rect' %}
+                    <img src="{% static 'sharp_draft/img/rect.png' %}">
+                {% elif plate == 'angle' %}
+                    <img src="{% static 'sharp_draft/img/angle.png' %}">
+                {% else %}
+                    <a>NOT FOUND!</a>
+                {% endif %}
+            </div>
+            <table class="mt">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="4" rowspan="2" width="70%" style="font-size: 18px">{{ template.code }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="4" rowspan="3" style="font-size: 18px">{{ template.project }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Изм.</td>
+                    <td>Кол. уч</td>
+                    <td>Лист</td>
+                    <td>№ док.</td>
+                    <td>Подпись</td>
+                    <td>Дата</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Нач. отдела</td>
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                    <td rowspan="3" width="45%" style="font-size: 18px">{{ template.object }}</td>
+                    <td>Стадия</td>
+                    <td>Лист</td>
+                    <td>Листов</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">ГИП</td>
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                    <td rowspan="2" style="font-size: 18px">P</td>
+                    <td rowspan="2">{{ temp_form.page }}</td>
+                    <td rowspan="2">{{ temp_form.pages }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Проверил</td>
+                    <td colspan="2" style="text-align: left;">{{ template.checker }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Нач. группы</td>
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="3" rowspan="3" style="font-size: 18px">{{ temp_form.schema }}</td>
+                    <td colspan="3" rowspan="3" style="font-size: 14px">{{ template.company }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Разработал</td>
+                    <td colspan="2" style="text-align: left;">{{ template.author }}</td>
+                    <td></td>
+                    <td></td>
+
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left;">Н. контроль</td>
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="suc_but">
+            <button type="submit" class="btn btn-success" style="" > Создать чертеж </button>
+        </div>
+    </form>
+
+    {% endif %}
 {% endblock %}

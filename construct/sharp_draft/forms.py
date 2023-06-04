@@ -22,6 +22,15 @@ _STEEL_CHOICES = (
 )
 
 
+_PLATES_CHOICES = (
+    ("square", "Квадрат"),
+    ("triangle", "Треугольник"),
+    ("slicedtriangle", "Треугольник с вырезом"),
+    ("rect", "Прямоугольник"),
+    ("angle", "Уголок"),
+)
+
+
 class EncodeForm(forms.Form):
     length = forms.CharField()
     project_name = forms.CharField()
@@ -89,3 +98,114 @@ class CreateTemplate(ModelForm):
                                                               'cols': 8,
                                                               'rows': 2,
                                                               'class': 'form-control', })
+
+
+class PlatePDF(forms.Form):
+    page = forms.IntegerField()
+    pages = forms.IntegerField()
+    schema = forms.CharField()
+    position = forms.CharField()
+    name = forms.CharField()
+    amount = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(PlatePDF, self).__init__(*args, **kwargs)
+        self.fields['page'].label = ''
+        self.fields['page'].widget = forms.TextInput(attrs={'placeholder': 'Лист'})
+        self.fields['pages'].label = ''
+        self.fields['pages'].widget = forms.TextInput(attrs={'placeholder': 'Листов'})
+        self.fields['schema'].label = ''
+        self.fields['schema'].widget = forms.TextInput(attrs={'placeholder': 'Имя элемента'})
+        self.fields['position'].label = ''
+        self.fields['position'].widget = forms.TextInput(attrs={'placeholder': 'Позиция детали'})
+        self.fields['name'].label = ''
+        self.fields['name'].widget = forms.TextInput(attrs={'placeholder': 'Обозначение'})
+        self.fields['amount'].label = ''
+        self.fields['amount'].widget = forms.TextInput(attrs={'placeholder': 'Количество'})
+
+
+class SettingPlateForm(forms.Form):
+    plate = forms.ChoiceField(
+        choices=_PLATES_CHOICES,
+        label='Выберите форму пластины'
+    )
+
+    user_template = forms.ModelChoiceField(
+        queryset=Templates.objects.all(),
+        label='Выберите штамп для чертежа',
+    )
+
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if user is not None:
+            self.fields['user_template'].queryset = Templates.objects.filter(
+                client_id=user
+            )
+
+    class Meta:
+        fields = ['payment_type', 'address_id']
+
+
+class SquarePlate(forms.Form):
+    side = forms.IntegerField()
+    width = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(SquarePlate, self).__init__(*args, **kwargs)
+        self.fields['side'].label = ''
+        self.fields['side'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
+        self.fields['width'].label = ''
+        self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})
+
+
+class TrapezoidPlate(forms.Form):
+    side1 = forms.IntegerField()
+    side2 = forms.IntegerField()
+    slice = forms.IntegerField()
+    width = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(TrapezoidPlate, self).__init__(*args, **kwargs)
+        self.fields['side1'].label = ''
+        self.fields['side1'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
+        self.fields['side2'].label = ''
+        self.fields['side2'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны B, мм'})
+        self.fields['slice'].label = ''
+        self.fields['slice'].widget = forms.TextInput(attrs={'placeholder': 'Длина среза C, мм'})
+        self.fields['width'].label = ''
+        self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})
+
+
+class TrianglePlate(forms.Form):
+    """Fits for rectangle shaped plates too"""
+    side1 = forms.IntegerField()
+    side2 = forms.IntegerField()
+    width = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(TrianglePlate, self).__init__(*args, **kwargs)
+        self.fields['side1'].label = ''
+        self.fields['side1'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
+        self.fields['side2'].label = ''
+        self.fields['side2'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны B, мм'})
+        self.fields['width'].label = ''
+        self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})
+
+
+class Angle(forms.Form):
+    """Fits for rectangle shaped plates too"""
+    side1 = forms.IntegerField()
+    side2 = forms.IntegerField()
+    side3 = forms.IntegerField()
+    width = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(Angle, self).__init__(*args, **kwargs)
+        self.fields['side1'].label = ''
+        self.fields['side1'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
+        self.fields['side2'].label = ''
+        self.fields['side2'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны B, мм'})
+        self.fields['side3'].label = ''
+        self.fields['side3'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны C, мм'})
+        self.fields['width'].label = ''
+        self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})

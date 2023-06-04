@@ -1,0 +1,35 @@
+.verst {
+    display: flex;
+    flex-direction: row;
+    width 98%;
+    height: 70vh;
+    margin: 1% 1% 0 1%;
+    padding: 2%;
+    align-items: center;
+    // border: 3px solid blue;
+}
+
+.plate_pic {
+    display: flex;
+    width: 40%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+table {
+   height: 100px;
+}
+table.mt {
+   font-size: 0.8em;
+}
+
+.plate_pic > img {
+    max-height: 60vh;
+}
+
+.temp_form, .suc_but {
+    display: flex;
+    width: 50%;
+    margin: 1% 25% 0 25%;
+    justify-content: space-around;
+}

@@ -1,17 +1,19 @@
-from django.http.response import FileResponse, HttpResponseRedirect
+from django.http.response import FileResponse
 from django.shortcuts import render, redirect
 
 from api.models import Profile, Templates
 from modules.exceptions import *
 
 from .encrypt import create_xml
-from .forms import EncodeForm, CreateTemplate
+from .forms import EncodeForm, CreateTemplate, PlatePDF, SettingPlateForm
+from .forms import Angle, TrianglePlate, TrapezoidPlate, SquarePlate
 from .plate_scheme import generate_pdf
 
 
 @server_error_decorator
 @is_active_decorator
 def index(request):
+    """Возвращение главной страницы модуля Sharp Draft"""
     profile = Profile.objects.get(client_id=request.user)
     return render(request, "sharp_draft/home_page.html", {"profile": profile})
 
@@ -19,6 +21,7 @@ def index(request):
 @server_error_decorator
 @is_active_decorator
 def xml_encode(request):
+    """Метод создание XML-файла"""
     profile = Profile.objects.get(client_id=request.user)
     kir = ('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
     if request.method == "POST":
@@ -62,6 +65,7 @@ def xml_encode(request):
 @server_error_decorator
 @is_active_decorator
 def create_template(request):
+    """Метод создания пользовательского штампа"""
     profile = Profile.objects.get(client_id=request.user)
     form = CreateTemplate(request.POST)
     if request.method == "POST":
@@ -79,7 +83,8 @@ def create_template(request):
 
 @server_error_decorator
 @is_active_decorator
-def edit_template(request, temp_id):
+def edit_template(request, temp_id: int):
+    """Метод редактирования пользовательского штампа"""
     profile = Profile.objects.get(client_id=request.user)
     try:
         temp_item = Templates.objects.get(pk=temp_id, client_id=request.user)
@@ -93,7 +98,6 @@ def edit_template(request, temp_id):
             temp_f = form.save(commit=False)
             temp_f.client_id = request.user
             temp_f.save()
-            generate_pdf(temp_f)
             return redirect('sharp_draft:templates')
     else:
         form = CreateTemplate(instance=temp_item)
@@ -107,6 +111,7 @@ def edit_template(request, temp_id):
 @server_error_decorator
 @is_active_decorator
 def delete_template(request, temp_id):
+    """Метод удаления пользовательского штампа"""
     try:
         Templates.objects.get(pk=temp_id, client_id=request.user).delete()
     except Templates.DoesNotExist:
@@ -118,6 +123,7 @@ def delete_template(request, temp_id):
 @server_error_decorator
 @is_active_decorator
 def templates(request):
+    """Страница со списком пользовательских штампов"""
     tid = str(request.GET.get('tid'))
     profile = Profile.objects.get(client_id=request.user)
     temp_list = Templates.objects.filter(client_id=request.user)
@@ -135,5 +141,58 @@ def templates(request):
 @server_error_decorator
 @is_active_decorator
 def create_plate(request):
+    """Метод создания чертежа типовой ЛСТК пластины"""
     profile = Profile.objects.get(client_id=request.user)
-    return render(request, "sharp_draft/create_plate.html", {"profile": profile})
+    plate = str(request.GET.get('plate'))
+    user_template = str(request.GET.get('user_template'))
+    setform = SettingPlateForm()
+    temp_form = PlatePDF()
+
+    context = {
+        "profile": profile,
+        "setform": setform,
+        "temp_form": temp_form,
+    }
+
+    if plate == "square":
+        plate_form = SquarePlate()
+        context["plate_form"] = plate_form
+        context["plate"] = plate
+    elif plate == "triangle":
+        plate_form = TrianglePlate()
+        context["plate_form"] = plate_form
+        context["plate"] = plate
+    elif plate == "slicedtriangle":
+        plate_form = TrapezoidPlate()
+        context["plate_form"] = plate_form
+        context["plate"] = plate
+    elif plate == "rect":
+        plate_form = TrianglePlate()
+        context["plate_form"] = plate_form
+        context["plate"] = plate
+    elif plate == "angle":
+        plate_form = Angle()
+        context["plate_form"] = plate_form
+        context["plate"] = plate
+        context["plate_url"] = f"sharp_draft/img/{plate}.png"
+
+    if user_template != "None":
+        template = Templates.objects.get(id=user_template)
+        context["template"] = template
+
+    if request.method == "POST":
+        setform = SettingPlateForm(request.POST)
+        temp_form = PlatePDF(request.POST)
+        data = request.POST
+        if temp_form.is_valid():
+            generate_pdf(
+                template=context["template"],
+                setform=setform,
+                temp_form=temp_form,
+                plate_form=data
+            )
+            # return redirect("sharp_draft:home")
+        else:
+            context["message"] = 'ОШИБКА'
+
+    return render(request, "sharp_draft/create_plate.html", context)
