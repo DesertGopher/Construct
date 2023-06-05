@@ -152,9 +152,9 @@ class SquarePlate(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SquarePlate, self).__init__(*args, **kwargs)
-        self.fields['side'].label = ''
+        self.fields['side'].label = 'A'
         self.fields['side'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
-        self.fields['width'].label = ''
+        self.fields['width'].label = 'Толщина'
         self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})
 
 
@@ -166,13 +166,13 @@ class TrapezoidPlate(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(TrapezoidPlate, self).__init__(*args, **kwargs)
-        self.fields['side1'].label = ''
+        self.fields['side1'].label = 'A'
         self.fields['side1'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
-        self.fields['side2'].label = ''
+        self.fields['side2'].label = 'B'
         self.fields['side2'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны B, мм'})
-        self.fields['slice'].label = ''
+        self.fields['slice'].label = 'C'
         self.fields['slice'].widget = forms.TextInput(attrs={'placeholder': 'Длина среза C, мм'})
-        self.fields['width'].label = ''
+        self.fields['width'].label = 'Толщина'
         self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})
 
 
@@ -184,11 +184,11 @@ class TrianglePlate(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(TrianglePlate, self).__init__(*args, **kwargs)
-        self.fields['side1'].label = ''
+        self.fields['side1'].label = 'A'
         self.fields['side1'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
-        self.fields['side2'].label = ''
+        self.fields['side2'].label = 'B'
         self.fields['side2'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны B, мм'})
-        self.fields['width'].label = ''
+        self.fields['width'].label = 'Толщина'
         self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})
 
 
@@ -201,11 +201,11 @@ class Angle(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(Angle, self).__init__(*args, **kwargs)
-        self.fields['side1'].label = ''
+        self.fields['side1'].label = 'A'
         self.fields['side1'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны A, мм'})
-        self.fields['side2'].label = ''
+        self.fields['side2'].label = 'B'
         self.fields['side2'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны B, мм'})
-        self.fields['side3'].label = ''
+        self.fields['side3'].label = 'C'
         self.fields['side3'].widget = forms.TextInput(attrs={'placeholder': 'Длина стороны C, мм'})
-        self.fields['width'].label = ''
+        self.fields['width'].label = 'Толщина'
         self.fields['width'].widget = forms.TextInput(attrs={'placeholder': 'Толщина металла, мм'})

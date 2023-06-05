@@ -181,17 +181,18 @@ def create_plate(request):
         context["template"] = template
 
     if request.method == "POST":
-        setform = SettingPlateForm(request.POST)
         temp_form = PlatePDF(request.POST)
         data = request.POST
         if temp_form.is_valid():
-            generate_pdf(
+            obj = generate_pdf(
                 template=context["template"],
-                setform=setform,
+                plate=plate,
                 temp_form=temp_form,
-                plate_form=data
+                data=data
             )
-            # return redirect("sharp_draft:home")
+            return FileResponse(
+                open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
+            )
         else:
             context["message"] = 'ОШИБКА'
 
