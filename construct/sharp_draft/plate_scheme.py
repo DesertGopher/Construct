@@ -100,7 +100,10 @@ def top_template_text(pdf: FPDF, temp_form: PlatePDF, data: Any, plate: str):
     pdf.set_font("GOST type A", size=12)
     pdf.text(23, 27, str(temp_form["position"].value()))
     pdf.text(55, 27, str(temp_form["name"].value()))
-    pdf.text(108, 27, f"PL{str(data['width'])}")
+    if plate != "angle":
+        pdf.text(108, 27, f"PL{str(data['width'])}")
+    else:
+        pdf.text(108, 27, f"L {str(data['side1'])}x{str(data['side3'])}*{str(data['width'])}")
     pdf.text(145, 27, str(temp_form["amount"].value()))
     pdf.text(170, 27, str(mass))
     pdf.text(192, 27, str(int(temp_form["amount"].value())*mass))
