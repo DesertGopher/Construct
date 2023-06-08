@@ -187,6 +187,19 @@ class Products(APIView):
                          'message': 'Товар успешно добавлен.'})
 
 
+class UserProfile(APIView):
+    @swagger_auto_schema(operation_id="UserProfile",
+                         operation_summary="Возвращает профиль пользователя",
+                         tags=['Профиль'])
+    @exception_handler('Профиль')
+    def get(self, request, client):
+        """Возвращает информацию о профиле пользователя."""
+        data = Profile.objects.get(client_id=client)
+        if not data:
+            raise EmptyResultSet
+        return data
+
+
 def index(request):
     """Метод для отображения главной страницы"""
     models_list = []

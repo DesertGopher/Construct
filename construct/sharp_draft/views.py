@@ -2,6 +2,7 @@ from django.http.response import FileResponse
 from django.shortcuts import render, redirect
 
 from api.models import Profile, Templates
+from api.views import UserProfile
 from modules.exceptions import *
 
 from .encrypt import create_xml
@@ -14,7 +15,7 @@ from .plate_scheme import generate_pdf
 @is_active_decorator
 def index(request):
     """Возвращение главной страницы модуля Sharp Draft"""
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     return render(request, "sharp_draft/home_page.html", {"profile": profile})
 
 
@@ -22,7 +23,7 @@ def index(request):
 @is_active_decorator
 def xml_encode(request):
     """Метод создание XML-файла"""
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     kir = ('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
     if request.method == "POST":
         form = EncodeForm(request.POST)
@@ -66,7 +67,7 @@ def xml_encode(request):
 @is_active_decorator
 def create_template(request):
     """Метод создания пользовательского штампа"""
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     form = CreateTemplate(request.POST)
     if request.method == "POST":
         if form.is_valid():
@@ -85,7 +86,7 @@ def create_template(request):
 @is_active_decorator
 def edit_template(request, temp_id: int):
     """Метод редактирования пользовательского штампа"""
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     try:
         temp_item = Templates.objects.get(pk=temp_id, client_id=request.user)
     except Templates.DoesNotExist:
@@ -125,7 +126,7 @@ def delete_template(request, temp_id):
 def templates(request):
     """Страница со списком пользовательских штампов"""
     tid = str(request.GET.get('tid'))
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     temp_list = Templates.objects.filter(client_id=request.user)
     context = {
         "profile": profile,
@@ -142,11 +143,13 @@ def templates(request):
 @is_active_decorator
 def create_plate(request):
     """Метод создания чертежа типовой ЛСТК пластины"""
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
+    # profile = Profile.objects.get(client_id=request.user)
     plate = str(request.GET.get('plate'))
     user_template = str(request.GET.get('user_template'))
     setform = SettingPlateForm()
     temp_form = PlatePDF()
+    plate_form = SquarePlate()
 
     context = {
         "profile": profile,
@@ -156,25 +159,16 @@ def create_plate(request):
 
     if plate == "square":
         plate_form = SquarePlate()
-        context["plate_form"] = plate_form
-        context["plate"] = plate
     elif plate == "triangle":
         plate_form = TrianglePlate()
-        context["plate_form"] = plate_form
-        context["plate"] = plate
     elif plate == "slicedtriangle":
         plate_form = TrapezoidPlate()
-        context["plate_form"] = plate_form
-        context["plate"] = plate
     elif plate == "rect":
         plate_form = TrianglePlate()
-        context["plate_form"] = plate_form
-        context["plate"] = plate
     elif plate == "angle":
         plate_form = Angle()
-        context["plate_form"] = plate_form
-        context["plate"] = plate
-        context["plate_url"] = f"sharp_draft/img/{plate}.png"
+    context["plate_form"] = plate_form
+    context["plate"] = plate
 
     if user_template != "None":
         template = Templates.objects.get(id=user_template)

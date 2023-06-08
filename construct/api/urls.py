@@ -12,6 +12,7 @@ manage_urls = [
 # Клиенты
 user_urls = [
     path('user-detail/<int:id>/', views.UserDetail.as_view(), name="user_detail"),
+    path('profile/<str:client>/', views.UserProfile.as_view(), name="profile")
 ]
 
 # Товары

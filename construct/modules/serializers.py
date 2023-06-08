@@ -1,7 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from api.models import Order, OrderStatus, UserCart, Measure, Product, ProductCategory, News
+from api.models import Profile, Order, OrderStatus, UserCart, Measure, Product, ProductCategory, News
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
