@@ -24,25 +24,27 @@ def index(request):
 def xml_encode(request):
     """Метод создание XML-файла"""
     profile = UserProfile().get(request=request, client=request.user)
-    kir = ('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
+    kir = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
     if request.method == "POST":
         form = EncodeForm(request.POST)
         if form.is_valid():
             find_kir = [x for x in kir if x in form["project_name"].value().lower()]
             if int(form["length"].value()) < 150 or find_kir:
                 if int(form["length"].value()) < 150:
-                    message = 'Длина профиля должна быть больше 150 мм'
+                    message = "Длина профиля должна быть больше 150 мм"
                     return render(
-                        request, "sharp_draft/xml_encode.html", {"profile": profile,
-                                                                 "form": form,
-                                                                 "message": message}
+                        request,
+                        "sharp_draft/xml_encode.html",
+                        {"profile": profile, "form": form, "message": message},
                     )
                 if find_kir:
-                    message = 'Имя проекта должно содержать только латинские символы и цифры'
+                    message = (
+                        "Имя проекта должно содержать только латинские символы и цифры"
+                    )
                     return render(
-                        request, "sharp_draft/xml_encode.html", {"profile": profile,
-                                                                 "form": form,
-                                                                 "message": message}
+                        request,
+                        "sharp_draft/xml_encode.html",
+                        {"profile": profile, "form": form, "message": message},
                     )
             else:
                 obj = create_xml(
@@ -75,11 +77,13 @@ def create_template(request):
             temp_f.client_id = request.user
             temp_f.save()
 
-            return redirect('sharp_draft:templates')
+            return redirect("sharp_draft:templates")
         else:
             form = CreateTemplate()
 
-    return render(request, "sharp_draft/create_template.html", {'form': form, "profile": profile})
+    return render(
+        request, "sharp_draft/create_template.html", {"form": form, "profile": profile}
+    )
 
 
 @server_error_decorator
@@ -90,8 +94,8 @@ def edit_template(request, temp_id: int):
     try:
         temp_item = Templates.objects.get(pk=temp_id, client_id=request.user)
     except Templates.DoesNotExist:
-        message = 'Такого штампа нет.'
-        return render(request, 'dashboard/404.html', {'message': message})
+        message = "Такого штампа нет."
+        return render(request, "dashboard/404.html", {"message": message})
 
     if request.method == "POST":
         form = CreateTemplate(request.POST, instance=temp_item)
@@ -99,14 +103,15 @@ def edit_template(request, temp_id: int):
             temp_f = form.save(commit=False)
             temp_f.client_id = request.user
             temp_f.save()
-            return redirect('sharp_draft:templates')
+            return redirect("sharp_draft:templates")
     else:
         form = CreateTemplate(instance=temp_item)
 
-    return render(request, "sharp_draft/edit_template.html", {"form": form,
-                                                              "profile": profile,
-                                                              "temp_item": temp_item
-                                                              })
+    return render(
+        request,
+        "sharp_draft/edit_template.html",
+        {"form": form, "profile": profile, "temp_item": temp_item},
+    )
 
 
 @server_error_decorator
@@ -116,22 +121,19 @@ def delete_template(request, temp_id):
     try:
         Templates.objects.get(pk=temp_id, client_id=request.user).delete()
     except Templates.DoesNotExist:
-        message = 'Такого штампа нет.'
-        return render(request, 'dashboard/404.html', {'message': message})
-    return redirect('sharp_draft:templates')
+        message = "Такого штампа нет."
+        return render(request, "dashboard/404.html", {"message": message})
+    return redirect("sharp_draft:templates")
 
 
 @server_error_decorator
 @is_active_decorator
 def templates(request):
     """Страница со списком пользовательских штампов"""
-    tid = str(request.GET.get('tid'))
+    tid = str(request.GET.get("tid"))
     profile = UserProfile().get(request=request, client=request.user)
     temp_list = Templates.objects.filter(client_id=request.user)
-    context = {
-        "profile": profile,
-        "temp_list": temp_list
-    }
+    context = {"profile": profile, "temp_list": temp_list}
     if tid and tid.isnumeric():
         template = Templates.objects.get(id=int(tid))
         context["template"] = template
@@ -145,8 +147,8 @@ def create_plate(request):
     """Метод создания чертежа типовой ЛСТК пластины"""
     profile = UserProfile().get(request=request, client=request.user)
     # profile = Profile.objects.get(client_id=request.user)
-    plate = str(request.GET.get('plate'))
-    user_template = str(request.GET.get('user_template'))
+    plate = str(request.GET.get("plate"))
+    user_template = str(request.GET.get("user_template"))
     setform = SettingPlateForm()
     temp_form = PlatePDF()
     plate_form = SquarePlate()
@@ -182,12 +184,12 @@ def create_plate(request):
                 template=context["template"],
                 plate=plate,
                 temp_form=temp_form,
-                data=data
+                data=data,
             )
             return FileResponse(
                 open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
             )
         else:
-            context["message"] = 'ОШИБКА'
+            context["message"] = "ОШИБКА"
 
     return render(request, "sharp_draft/create_plate.html", context)

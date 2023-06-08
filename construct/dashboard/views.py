@@ -195,7 +195,7 @@ def update_profile(request):
 @is_active_decorator
 def support(request):
     profile = UserProfile().get(request=request, client=request.user)
-    message = ''
+    message = ""
     if request.method == "POST":
         form = WriteSupport(request.POST, request.FILES)
         if form.is_valid():
@@ -205,13 +205,17 @@ def support(request):
             sup_f.checked = False
             sup_f.checked = False
             sup_f.save()
-            message = 'Ваше обращение отправлено!'
+            message = "Ваше обращение отправлено!"
             return render(
-                request, "dashboard/support.html", {"form": form, "profile": profile, "message": message}
+                request,
+                "dashboard/support.html",
+                {"form": form, "profile": profile, "message": message},
             )
     else:
         form = WriteSupport()
 
     return render(
-        request, "dashboard/support.html", {"form": form, "profile": profile, "message": message}
+        request,
+        "dashboard/support.html",
+        {"form": form, "profile": profile, "message": message},
     )

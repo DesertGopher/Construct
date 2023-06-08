@@ -7,8 +7,24 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse
 
-from api.models import Product, Review, ProductCategory, Profile, UserCart, User, Address, Order, OrderStatus
-from api.views import UserProfile, Products, CategoryProducts, ProductDetail, SameProducts
+from api.models import (
+    Product,
+    Review,
+    ProductCategory,
+    Profile,
+    UserCart,
+    User,
+    Address,
+    Order,
+    OrderStatus,
+)
+from api.views import (
+    UserProfile,
+    Products,
+    CategoryProducts,
+    ProductDetail,
+    SameProducts,
+)
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
 from .forms import ReviewForm, OrderCreate
@@ -21,70 +37,59 @@ def get_params(request):
     cart_product_form = CartAddProductForm()
     cart = Cart(request)
     params = {
-        'categories': categories,
-        'cart_product_form': cart_product_form,
-        'cart': cart,
+        "categories": categories,
+        "cart_product_form": cart_product_form,
+        "cart": cart,
     }
     return params
 
 
 @server_error_decorator
 def index(request):
-    title = 'Каталоги'
-    context = {
-        **get_params(request),
-        'title': title
-    }
+    title = "Каталоги"
+    context = {**get_params(request), "title": title}
     if request.user.is_active:
         profile = UserProfile().get(request=request, client=request.user)
-        context['profile'] = profile
+        context["profile"] = profile
 
-    return render(request, 'shop/index.html', context)
+    return render(request, "shop/index.html", context)
 
 
 @server_error_decorator
 def category(request):
-    filter = str(request.GET.get('name'))
+    filter = str(request.GET.get("name"))
     if filter:
         product_list = CategoryProducts().get(request=request, filter=int(filter))
         title = ProductCategory.objects.get(id=int(filter)).name
-        context = {
-            **get_params(request),
-            'product_list': product_list,
-            'title': title
-        }
+        context = {**get_params(request), "product_list": product_list, "title": title}
     else:
         product_list = Products().get(request=request)
-        title = 'Все товары'
-        context = {
-            **get_params(request),
-            'product_list': product_list,
-            'title': title
-        }
+        title = "Все товары"
+        context = {**get_params(request), "product_list": product_list, "title": title}
     if request.user.is_active:
         profile = UserProfile().get(request=request, client=request.user)
-        context['profile'] = profile
-    return render(request, 'shop/CategoryLSTK.html', context)
+        context["profile"] = profile
+    return render(request, "shop/CategoryLSTK.html", context)
 
 
 @server_error_decorator
 @is_active_decorator
 def detail(request, product_id):
     profile = UserProfile().get(request=request, client=request.user)
-    reviews = Review.objects.order_by('-pub_date')
+    reviews = Review.objects.order_by("-pub_date")
     try:
         product = ProductDetail().get(request=request, id=product_id)
     except Product.DoesNotExist:
-        message = 'Такого товара не существует.'
-        return render(request, 'dashboard/404.html', {'message': message})
+        message = "Такого товара не существует."
+        return render(request, "dashboard/404.html", {"message": message})
     title = str(product.name)
     same_products = SameProducts().get(request=request, filter=product.category_class)
     params = {
-        'profile': profile,
-        'product': product,
-        'title': title,
-        'same_products': same_products,
-        'reviews': reviews,
+        "profile": profile,
+        "product": product,
+        "title": title,
+        "same_products": same_products,
+        "reviews": reviews,
     }
 
     if request.method == "POST":
@@ -94,19 +99,17 @@ def detail(request, product_id):
             comment_f.author = request.user
             comment_f.pub_date = datetime.now()
             comment_f.post = Product.objects.get(pk=product_id)
-            comment_f.profile_picture = Profile.objects.get(client_id=request.user).profile_picture
+            comment_f.profile_picture = Profile.objects.get(
+                client_id=request.user
+            ).profile_picture
             comment_f.save()
             form = ReviewForm()
-            context = {**get_params(request),
-                       **params,
-                       'form': form}
-            return render(request, 'shop/detail.html', context)
+            context = {**get_params(request), **params, "form": form}
+            return render(request, "shop/detail.html", context)
 
     form = ReviewForm()
-    context = {**get_params(request),
-               **params,
-               'form': form}
-    return render(request, 'shop/detail.html', context)
+    context = {**get_params(request), **params, "form": form}
+    return render(request, "shop/detail.html", context)
 
 
 # @orders_decorator
@@ -114,7 +117,7 @@ def detail(request, product_id):
 def create_order(request):
     product_list = UserCart.objects.get(client_id=request.user)
     serializer = LoadCartSerializer(product_list, many=False)
-    keys = serializer.data['product_list'].keys()
+    keys = serializer.data["product_list"].keys()
     get_keys = []
     for key in keys:
         get_keys.append(int(key))
@@ -125,43 +128,45 @@ def create_order(request):
     user = User.objects.get(username=request.user)
     profile = UserProfile().get(request=request, client=request.user)
     address_list = Address.objects.filter(client_id=request.user, is_active=True)
-    title = 'Оформление заказа'
+    title = "Оформление заказа"
 
     if not cart.get_all_products():
-        message = 'Оформление заказа с пустой корзиной невозможно.\n Добавьте товары в корзину.'
-        return render(request, 'dashboard/error_page.html', {'message': message})
+        message = "Оформление заказа с пустой корзиной невозможно.\n Добавьте товары в корзину."
+        return render(request, "dashboard/error_page.html", {"message": message})
 
     if not addresses:
-        message = 'Для оформления заказа, у вас должен быть хотя бы один активный адрес.' \
-                  '\n Добавьте адрес доставки на странице профиля.'
-        return render(request, 'dashboard/error_page.html', {'message': message})
+        message = (
+            "Для оформления заказа, у вас должен быть хотя бы один активный адрес."
+            "\n Добавьте адрес доставки на странице профиля."
+        )
+        return render(request, "dashboard/error_page.html", {"message": message})
 
     for item in cart:
-        prod = Product.objects.get(name=item['product'])
-        if int(item['quantity']) > int(prod.is_stock):
-            message = 'Заказываемые товары превышают количество на складе'
-            return render(request, 'dashboard/error_page.html', {'message': message})
+        prod = Product.objects.get(name=item["product"])
+        if int(item["quantity"]) > int(prod.is_stock):
+            message = "Заказываемые товары превышают количество на складе"
+            return render(request, "dashboard/error_page.html", {"message": message})
 
     if request.method == "POST":
         form = OrderCreate(request.POST, user=request.user)
         if form.is_valid():
             order_form = form.save(commit=False)
             order_form.client_id = request.user
-            order_form.status = OrderStatus.objects.get(status_name='В сборке')
+            order_form.status = OrderStatus.objects.get(status_name="В сборке")
             order_form.date_created = datetime.now()
             order_form.product_list = cart.get_all_products()
             order_form.total_cost = cart.get_total_price_cart()
             order_form.save()
 
-            subject = f'Пользователь {request.user} сделал заказ.'
+            subject = f"Пользователь {request.user} сделал заказ."
             message = (
-                f'Номер заказа: {order_form.id}\n'
-                f'Клиент: {request.user}\n'
-                f'Адрес: {order_form.address_id}\n'
-                f'Дата создания заказа клиентом: {order_form.date_created}\n'
-                f'Тип оплаты: {order_form.payment_type}\n'
-                f'Сумма заказа: {order_form.total_cost} руб\n'
-                f'Статус заказа: {order_form.status}'
+                f"Номер заказа: {order_form.id}\n"
+                f"Клиент: {request.user}\n"
+                f"Адрес: {order_form.address_id}\n"
+                f"Дата создания заказа клиентом: {order_form.date_created}\n"
+                f"Тип оплаты: {order_form.payment_type}\n"
+                f"Сумма заказа: {order_form.total_cost} руб\n"
+                f"Статус заказа: {order_form.status}"
             )
 
             send_mail(
@@ -171,49 +176,51 @@ def create_order(request):
                 settings.RECIPIENTS_EMAIL,
             )
             for prod in cart:
-                prod['product'].is_stock = int(prod['product'].is_stock) - int(prod['quantity'])
-                prod['product'].save()
+                prod["product"].is_stock = int(prod["product"].is_stock) - int(
+                    prod["quantity"]
+                )
+                prod["product"].save()
             # order_logger.debug(str('Пользователь ' + str(request.user) + ' сделал заказ №' + str(order_form.id)))
-            return HttpResponseRedirect(reverse('shop:orders'))
+            return HttpResponseRedirect(reverse("shop:orders"))
     form = OrderCreate(user=request.user)
 
     context = {
         **get_params(request),
-        'cart_products': cart_products,
-        'user': user,
-        'form': form,
-        'profile': profile,
-        'address_list': address_list,
-        'title': title
+        "cart_products": cart_products,
+        "user": user,
+        "form": form,
+        "profile": profile,
+        "address_list": address_list,
+        "title": title,
     }
 
-    return render(request, 'shop/OrderCreate.html', context)
+    return render(request, "shop/OrderCreate.html", context)
 
 
 @server_error_decorator
 @is_active_decorator
 def orders(request):
-    orders_list = Order.objects.filter(client_id=request.user).order_by('-id')
+    orders_list = Order.objects.filter(client_id=request.user).order_by("-id")
     status1 = OrderStatus.objects.get(status_name="В сборке")
     status2 = OrderStatus.objects.get(status_name="В доставке")
     status3 = OrderStatus.objects.get(status_name="Доставлен")
     status4 = OrderStatus.objects.get(status_name="Отменен")
     profile = Profile.objects.get(client_id=request.user)
     statuses = {
-        'status1': status1,
-        'status2': status2,
-        'status3': status3,
-        'status4': status4,
+        "status1": status1,
+        "status2": status2,
+        "status3": status3,
+        "status4": status4,
     }
-    title = 'Мои заказы'
+    title = "Мои заказы"
     context = {
         **get_params(request),
         **statuses,
-        'orders_list': orders_list,
-        'title': title,
-        'profile': profile,
+        "orders_list": orders_list,
+        "title": title,
+        "profile": profile,
     }
-    return render(request, 'shop/orders.html', context)
+    return render(request, "shop/orders.html", context)
 
 
 @server_error_decorator
@@ -222,16 +229,16 @@ def order_detail(request, order_id):
     try:
         order = Order.objects.get(pk=order_id, client_id=request.user)
     except Order.DoesNotExist:
-        message = 'У вас нет такого заказа'
-        return render(request, 'dashboard/404.html', {'message': message})
+        message = "У вас нет такого заказа"
+        return render(request, "dashboard/404.html", {"message": message})
 
     serializer = OrderProducts(order, many=False)
-    keys = serializer.data['product_list'].keys()
+    keys = serializer.data["product_list"].keys()
     get_keys = []
     amount = []
     for key in keys:
         get_keys.append(int(key))
-        amount.append(int(serializer.data['product_list'].get(key)))
+        amount.append(int(serializer.data["product_list"].get(key)))
     order_products = Product.objects.filter(id__in=get_keys)
 
     profile = UserProfile().get(request=request, client=request.user)
@@ -243,12 +250,12 @@ def order_detail(request, order_id):
         len += 1
     context = {
         **get_params(request),
-        'keys': keys,
-        'amount': amount,
-        'order_products': order_products,
-        'title': title,
-        'profile': profile,
-        'order': order,
-        'total': total,
+        "keys": keys,
+        "amount": amount,
+        "order_products": order_products,
+        "title": title,
+        "profile": profile,
+        "order": order,
+        "total": total,
     }
-    return render(request, 'shop/order_detail.html', context)
+    return render(request, "shop/order_detail.html", context)

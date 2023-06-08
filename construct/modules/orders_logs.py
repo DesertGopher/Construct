@@ -10,7 +10,7 @@ logger.add(
     format="{time:YYYY-MM-DD HH:mm:ss.SSS} [{level}] {message}",
     level="DEBUG",
     rotation="1 MB",
-    retention='7 days',
+    retention="7 days",
     compression="zip",
 )
 logger.bind(view=True)
@@ -24,29 +24,29 @@ logger.add(
     format="{time:YYYY-MM-DD HH:mm:ss.SSS} [{level}] {message}",
     level="DEBUG",
     rotation="1 MB",
-    retention='7 days',
+    retention="7 days",
     compression="zip",
-    filter=lambda record: "view" in record["extra"]
+    filter=lambda record: "view" in record["extra"],
 )
 orders_logger = logger.bind(view=True)
 
 
 def log_request_created(base_logger, request, *args, **kwargs):
     """Логирование информации о созданном запросе"""
-    method_name = f'{request.method} {request.get_full_path()}'
+    method_name = f"{request.method} {request.get_full_path()}"
     try:
-        body = f'{request.data}'
+        body = f"{request.data}"
     except Exception as e:
-        body = f'{e}'
+        body = f"{e}"
     # query = f'{dict(request.query_params)}'
-    base_logger.info(f'Request: {method_name} Path kwargs:{kwargs} Body: {body}')
+    base_logger.info(f"Request: {method_name} Path kwargs:{kwargs} Body: {body}")
 
 
 def log_request_completed(base_logger, response, request, *args, **kwargs):
     """Логирование информации об успешно выполненном запросе"""
-    base_logger.success(f'Response: {response}')
+    base_logger.success(f"Response: {response}")
 
 
 def log_request_error(base_logger, exception, *args, **kwargs):
     """Логирование информации о неудачно выполненном запросе"""
-    base_logger.error(f'Error: {exception}')
+    base_logger.error(f"Error: {exception}")
