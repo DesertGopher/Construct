@@ -9,9 +9,10 @@ class CartAddProductForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(CartAddProductForm, self).__init__(*args, **kwargs)
-        self.fields['quantity'].label = ''
-        self.fields['quantity'].widget = forms.TextInput(
-            attrs={'class': 'form-control'})
+        self.fields["quantity"].label = ""
+        self.fields["quantity"].widget = forms.TextInput(
+            attrs={"class": "form-control"}
+        )
 
 
 class CartRemoveProductForm(forms.Form):
@@ -20,6 +21,7 @@ class CartRemoveProductForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(CartRemoveProductForm, self).__init__(*args, **kwargs)
-        self.fields['quantity'].label = ''
-        self.fields['quantity'].widget = forms.TextInput(
-            attrs={'class': 'form-control'})
+        self.fields["quantity"].label = ""
+        self.fields["quantity"].widget = forms.TextInput(
+            attrs={"class": "form-control"}
+        )

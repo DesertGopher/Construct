@@ -5,32 +5,38 @@ app_name = "api"
 
 # Рабочие моменты
 manage_urls = [
-    path('', views.index, name='index'),
-    path('lists/', views.lists, name='lists'),
+    path("", views.index, name="index"),
+    path("lists/", views.lists, name="lists"),
 ]
 
 # Клиенты
 user_urls = [
-    path('user-detail/<int:id>/', views.UserDetail.as_view(), name="user_detail"),
-    path('profile/<str:client>/', views.UserProfile.as_view(), name="profile")
+    path("user-detail/<int:id>/", views.UserDetail.as_view(), name="user_detail"),
+    path("profile/<str:client>/", views.UserProfile.as_view(), name="profile"),
 ]
 
 # Товары
 products_urls = [
-    path('category-product/<int:category_class>/', views.CategoryProducts.as_view(), name="category_product"),
-    path('product-detail/<int:id>/', views.ProductDetail.as_view(), name="product_detail"),
+    path(
+        "category-product/<int:category_class>/",
+        views.CategoryProducts.as_view(),
+        name="category_product",
+    ),
+    path(
+        "product-detail/<int:id>/", views.ProductDetail.as_view(), name="product_detail"
+    ),
 ]
 
 # Новости
 news_urls = [
-    path('news/', views.NewsList.as_view(), name="news"),
-    path('news-detail/<int:id>/', views.NewsDetail.as_view(), name="news_detail"),
+    path("news/", views.NewsList.as_view(), name="news"),
+    path("news-detail/<int:id>/", views.NewsDetail.as_view(), name="news_detail"),
 ]
 
 # Заказы
 orders_urls = [
-    path('orders/', views.Orders.as_view(), name="orders"),
-    path('order-detail/<int:id>/', views.OrderDetail.as_view(), name="order_detail"),
+    path("orders/", views.Orders.as_view(), name="orders"),
+    path("order-detail/<int:id>/", views.OrderDetail.as_view(), name="order_detail"),
 ]
 
 urlpatterns = [

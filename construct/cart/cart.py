@@ -8,7 +8,7 @@ global total
 
 class Cart(object):
     def __init__(self, request):
-        """ Инициализация корзины """
+        """Инициализация корзины"""
         # хранение сессии корзины для доступа в других классах
         self.session = request.session
         # получаем сессию корзины
@@ -19,35 +19,37 @@ class Cart(object):
         self.cart = cart
 
     def add(self, product, quantity=1, update_quantity=False):
-        """ Добавить продукт в корзину или обновить его количество"""
+        """Добавить продукт в корзину или обновить его количество"""
         product_id = str(product.id)
 
         if int(quantity) > int(product.is_stock):
-            print('Нельзя добавить чтобы было больше чем в наличии изначально')
+            print("Нельзя добавить чтобы было больше чем в наличии изначально")
 
         elif not update_quantity:
             if int(quantity) > int(product.is_stock):
-                print('Нельзя добавить чтобы было больше')
+                print("Нельзя добавить чтобы было больше")
 
             if product_id not in self.cart:
-                self.cart[product_id] = {'quantity': 0,
-                                         'price': str(product.price),
-                                         'discount': str(product.discount)}
-            self.cart[product_id]['quantity'] += quantity
+                self.cart[product_id] = {
+                    "quantity": 0,
+                    "price": str(product.price),
+                    "discount": str(product.discount),
+                }
+            self.cart[product_id]["quantity"] += quantity
 
-            if not self.cart[product_id]['quantity'] > int(product.is_stock):
+            if not self.cart[product_id]["quantity"] > int(product.is_stock):
                 self.save()
             else:
-                print('Не поулчится так')
+                print("Не поулчится так")
 
     def reduce(self, product, quantity=-1, update_quantity=False):
-        """ Уменьшить количество продукта в корзине"""
+        """Уменьшить количество продукта в корзине"""
         product_id = str(product.id)
-        if int(quantity) > self.cart[product_id]['quantity']-1:
+        if int(quantity) > self.cart[product_id]["quantity"] - 1:
             self.remove(product)
 
         elif not update_quantity:
-            self.cart[product_id]['quantity'] -= quantity
+            self.cart[product_id]["quantity"] -= quantity
             self.save()
 
     def save(self):
@@ -69,37 +71,42 @@ class Cart(object):
         # получение объектов product и добавление их в корзину
         products = Product.objects.filter(id__in=product_ids)
         for product in products:
-            self.cart[str(product.id)]['product'] = product
+            self.cart[str(product.id)]["product"] = product
 
         for item in self.cart.values():
-            item['priceU'] = Decimal(item['price'])
-            item['total_priceU'] = item['priceU'] * item['quantity']
+            item["priceU"] = Decimal(item["price"])
+            item["total_priceU"] = item["priceU"] * item["quantity"]
 
-            if item['discount'] == 0:
-                item['price'] = Decimal(item['price'])
+            if item["discount"] == 0:
+                item["price"] = Decimal(item["price"])
             else:
-                item['price'] = Decimal(Decimal(item['price']) * (100 - Decimal(item['discount']))/100)
-            item['total_price'] = item['price'] * item['quantity']
-            item['total_discount'] = item['total_priceU'] - item['total_price']
+                item["price"] = Decimal(
+                    Decimal(item["price"]) * (100 - Decimal(item["discount"])) / 100
+                )
+            item["total_price"] = item["price"] * item["quantity"]
+            item["total_discount"] = item["total_priceU"] - item["total_price"]
             yield item
 
     def __len__(self):
         """Подсчет всех товаров в корзине."""
-        return sum(item['quantity'] for item in self.cart.values())
+        return sum(item["quantity"] for item in self.cart.values())
 
     def get_total_price(self):
         """Подсчет стоимости товаров в корзине."""
-        return sum(Decimal(Decimal(item['price']) * (100 - Decimal(item['discount']))/100) * item['quantity']
-                   for item in self.cart.values())
+        return sum(
+            Decimal(Decimal(item["price"]) * (100 - Decimal(item["discount"])) / 100)
+            * item["quantity"]
+            for item in self.cart.values()
+        )
 
     def get_total_price_cart(self):
-        return sum(Decimal(item['price']) * item['quantity'] for item in
-                   self.cart.values())
+        return sum(
+            Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
+        )
 
     def get_total_discount(self):
         """Подсчет скидки всех товаров"""
-        return sum(Decimal(item['total_discount']) for item in
-                   self.cart.values())
+        return sum(Decimal(item["total_discount"]) for item in self.cart.values())
 
     def get_all_products(self):
         """Вывод всех продуктов корзины"""
@@ -114,7 +121,7 @@ class Cart(object):
 
         # stringprod = str(prod_list) + str(prod_price)
         for item in self.cart.values():
-            prod_amount.append(str(item['quantity']))
+            prod_amount.append(str(item["quantity"]))
 
         product_list = dict(zip(prod_list, prod_amount))
         return product_list
