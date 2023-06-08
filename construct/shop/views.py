@@ -1,35 +1,21 @@
 from datetime import datetime
-from loguru import logger
 
+from api.models import (Address, Order, OrderStatus, Product, ProductCategory,
+                        Profile, Review, User, UserCart)
+from api.views import (CategoryProducts, ProductDetail, Products, SameProducts,
+                       UserProfile)
+from cart.cart import Cart
+from cart.forms import CartAddProductForm
+from django.conf import settings
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.core.mail import send_mail
-from django.conf import settings
 from django.urls import reverse
-
-from api.models import (
-    Product,
-    Review,
-    ProductCategory,
-    Profile,
-    UserCart,
-    User,
-    Address,
-    Order,
-    OrderStatus,
-)
-from api.views import (
-    UserProfile,
-    Products,
-    CategoryProducts,
-    ProductDetail,
-    SameProducts,
-)
-from cart.forms import CartAddProductForm
-from cart.cart import Cart
-from .forms import ReviewForm, OrderCreate
-from modules.serializers import LoadCartSerializer, OrderProducts
+from loguru import logger
 from modules.exceptions import *
+from modules.serializers import LoadCartSerializer, OrderProducts
+
+from .forms import OrderCreate, ReviewForm
 
 
 def get_params(request):

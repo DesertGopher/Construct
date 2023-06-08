@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
-from django.forms import ModelForm, TextInput, Textarea, DateTimeField
-from api.models import Review, Order, Address, OrderPayment, Product, OrderStatus
+from api.models import (Address, Order, OrderPayment, OrderStatus, Product,
+                        Review)
 from django import forms
+from django.contrib.auth.models import User
+from django.forms import DateTimeField, ModelForm, Textarea, TextInput
 
 
 class ReviewForm(ModelForm):

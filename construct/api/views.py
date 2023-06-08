@@ -1,13 +1,13 @@
-from django.shortcuts import render
 from django.apps import apps
 from django.core.exceptions import EmptyResultSet
+from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
+from modules.ex_handler import ex_handler, exception_handler
+from modules.serializers import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_api_key.permissions import HasAPIKey
 
-from modules.serializers import *
-from modules.ex_handler import ex_handler, exception_handler
 from .models import *
 
 

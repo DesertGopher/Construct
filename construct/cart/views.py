@@ -1,15 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from api.models import Measure, Product, ProductCategory, Profile, UserCart
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-
-from api.models import UserCart
-from modules.serializers import (
-    LoadCartSerializer,
-    GetProductMeasure,
-    GetMeasure,
-    UpdateCart,
-)
 from modules.exceptions import *
-from api.models import Product, Measure, ProductCategory, Profile
+from modules.serializers import (GetMeasure, GetProductMeasure,
+                                 LoadCartSerializer, UpdateCart)
+
 from .cart import Cart
 from .forms import CartAddProductForm, CartRemoveProductForm
 

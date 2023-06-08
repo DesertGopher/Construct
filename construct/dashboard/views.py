@@ -1,26 +1,18 @@
 from datetime import datetime
 
+from api.models import (Address, Order, OrderStatus, Product, ProductCategory,
+                        Profile, UserCart)
+from api.views import LastNews, NewsDetail, NewsList, UserProfile
 from django.contrib.auth import login
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
-
-from api.models import (
-    UserCart,
-    Product,
-    Profile,
-    Address,
-    Order,
-    OrderStatus,
-    ProductCategory,
-)
-
-from api.views import NewsList, NewsDetail, UserProfile, LastNews
-from .forms import *
-from .forms import UserCreationForm, AddAddress, UserUpdate, WriteSupport
-from modules.serializers import LoadCartSerializer, OrderProducts
 from modules.exceptions import *
+from modules.serializers import LoadCartSerializer, OrderProducts
+
+from .forms import *
+from .forms import AddAddress, UserCreationForm, UserUpdate, WriteSupport
 
 
 @server_error_decorator

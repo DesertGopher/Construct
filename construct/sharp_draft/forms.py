@@ -1,6 +1,6 @@
+from api.models import Templates
 from django import forms
 from django.forms import ModelForm
-from api.models import Templates
 
 _PROFILE_CHOICES = (
     ("SA-152-15-U-OUT", "SA-152-15-U-OUT"),

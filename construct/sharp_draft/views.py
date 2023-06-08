@@ -1,13 +1,13 @@
-from django.http.response import FileResponse
-from django.shortcuts import render, redirect
-
 from api.models import Profile, Templates
 from api.views import UserProfile
+from django.http.response import FileResponse
+from django.shortcuts import redirect, render
 from modules.exceptions import *
 
 from .encrypt import create_xml
-from .forms import EncodeForm, CreateTemplate, PlatePDF, SettingPlateForm
-from .forms import Angle, TrianglePlate, TrapezoidPlate, SquarePlate
+from .forms import (Angle, CreateTemplate, EncodeForm, PlatePDF,
+                    SettingPlateForm, SquarePlate, TrapezoidPlate,
+                    TrianglePlate)
 from .plate_scheme import generate_pdf
 
 
