@@ -156,9 +156,10 @@ class ProductDetail(APIView):
     @exception_handler('Товар')
     def get(self, request, id):
         """Получает информацию о продукте по id"""
-        data = Product.objects.get(id=id)
-        serializer = ProductsSerializer(data, many=False)
-        return Response(serializer.data)
+        data = Product.objects.get(id=id, is_active=True)
+        if not data:
+            raise EmptyResultSet
+        return data
 
     @swagger_auto_schema(operation_id="ProductDetail",
                          operation_summary="Изменяет товар по id",
@@ -174,6 +175,38 @@ class ProductDetail(APIView):
                         'message': 'Запись о товаре успешно изменена.'})
 
 
+class CategoryProducts(APIView):
+    """Класс для работы с таблицей продуктов."""
+    permission_classes = [HasAPIKey]
+
+    @swagger_auto_schema(operation_id="CategoryProducts",
+                         operation_summary="Выводит список всех активных товаров по категории",
+                         tags=['Товары'])
+    @exception_handler('Товар')
+    def get(self, request, filter):
+        """Возвращает информацию о продуктах из категории."""
+        data = Product.objects.filter(category_class=filter, is_active=True).order_by('-is_stock')
+        if not data:
+            raise EmptyResultSet
+        return data
+
+
+class SameProducts(APIView):
+    """Класс для работы с таблицей продуктов."""
+    permission_classes = [HasAPIKey]
+
+    @swagger_auto_schema(operation_id="SameProducts",
+                         operation_summary="Выводит список рекомендуемых продуктов",
+                         tags=['Товары'])
+    @exception_handler('Товар')
+    def get(self, request, filter):
+        """Возвращает информацию о рекомендуемых продуктах."""
+        data = Product.objects.filter(category_class=filter, is_active=True).order_by('-discount')[:6]
+        if not data:
+            raise EmptyResultSet
+        return data
+
+
 class Products(APIView):
     """Класс для работы с таблицей продуктов."""
     permission_classes = [HasAPIKey]
@@ -184,23 +217,10 @@ class Products(APIView):
     @exception_handler('Товар')
     def get(self, request):
         """Возвращает информацию о всех продуктах."""
-        data = Product.objects.filter(is_active=True)
+        data = Product.objects.filter(is_active=True).order_by('-discount')
         if not data:
             raise EmptyResultSet
-        serializer = ProductsSerializer(data, many=True)
-        return Response(serializer.data)
-
-    @swagger_auto_schema(operation_id="Products",
-                         operation_summary="Создание товара",
-                         tags=['Товары'])
-    @exception_handler('Товар')
-    def post(self, request):
-        """Добавляет продукт в базу данных """
-        serializer = ProductsSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'data': serializer.data,
-                         'message': 'Товар успешно добавлен.'})
+        return data
 
 
 class UserProfile(APIView):

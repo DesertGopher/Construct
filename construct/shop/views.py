@@ -8,6 +8,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from api.models import Product, Review, ProductCategory, Profile, UserCart, User, Address, Order, OrderStatus
+from api.views import UserProfile, Products, CategoryProducts, ProductDetail, SameProducts
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
 from .forms import ReviewForm, OrderCreate
@@ -35,7 +36,7 @@ def index(request):
         'title': title
     }
     if request.user.is_active:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
         context['profile'] = profile
 
     return render(request, 'shop/index.html', context)
@@ -45,7 +46,7 @@ def index(request):
 def category(request):
     filter = str(request.GET.get('name'))
     if filter:
-        product_list = Product.objects.filter(category_class=int(filter), is_active=True).order_by('-is_stock')
+        product_list = CategoryProducts().get(request=request, filter=int(filter))
         title = ProductCategory.objects.get(id=int(filter)).name
         context = {
             **get_params(request),
@@ -53,7 +54,7 @@ def category(request):
             'title': title
         }
     else:
-        product_list = Product.objects.filter(is_active=True).order_by('-discount')
+        product_list = Products().get(request=request)
         title = 'Все товары'
         context = {
             **get_params(request),
@@ -61,7 +62,7 @@ def category(request):
             'title': title
         }
     if request.user.is_active:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
         context['profile'] = profile
     return render(request, 'shop/CategoryLSTK.html', context)
 
@@ -69,16 +70,15 @@ def category(request):
 @server_error_decorator
 @is_active_decorator
 def detail(request, product_id):
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     reviews = Review.objects.order_by('-pub_date')
     try:
-        product = Product.objects.get(pk=product_id, is_active=True)
+        product = ProductDetail().get(request=request, id=product_id)
     except Product.DoesNotExist:
         message = 'Такого товара не существует.'
         return render(request, 'dashboard/404.html', {'message': message})
     title = str(product.name)
-    same_products = Product.objects.filter(category_class=product.category_class,
-                                           is_active=True).order_by('-discount')[:6]
+    same_products = SameProducts().get(request=request, filter=product.category_class)
     params = {
         'profile': profile,
         'product': product,
@@ -123,7 +123,7 @@ def create_order(request):
 
     cart = Cart(request)
     user = User.objects.get(username=request.user)
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     address_list = Address.objects.filter(client_id=request.user, is_active=True)
     title = 'Оформление заказа'
 
@@ -234,7 +234,7 @@ def order_detail(request, order_id):
         amount.append(int(serializer.data['product_list'].get(key)))
     order_products = Product.objects.filter(id__in=get_keys)
 
-    profile = Profile.objects.get(client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     title = order
     total = float(0)
     len = int(0)

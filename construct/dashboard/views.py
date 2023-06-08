@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 
 from api.models import (
-    News,
     UserCart,
     Product,
     Profile,
@@ -16,6 +15,8 @@ from api.models import (
     OrderStatus,
     ProductCategory,
 )
+
+from api.views import NewsList, NewsDetail, UserProfile, LastNews
 from .forms import *
 from .forms import UserCreationForm, AddAddress, UserUpdate, WriteSupport
 from modules.serializers import LoadCartSerializer, OrderProducts
@@ -24,14 +25,14 @@ from modules.exceptions import *
 
 @server_error_decorator
 def index(request):
-    latest_news = News.objects.filter(is_active=True).order_by("-pub_date")[:3]
-    last_news = News.objects.last().id
+    latest_news = NewsList().get(request=request)[:3]
+    last_news = LastNews().get(request=request).id
     context = {
         "latest_news": latest_news,
         "last_news": last_news,
     }
     if request.user.is_active:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
         context["profile"] = profile
 
     return render(request, "dashboard/about.html", context)
@@ -40,7 +41,7 @@ def index(request):
 @server_error_decorator
 def contact(request):
     if request.user.is_active:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
         return render(request, "dashboard/contact.html", {"profile": profile})
     else:
         return render(request, "dashboard/contact.html")
@@ -49,7 +50,7 @@ def contact(request):
 @server_error_decorator
 def terms_of_service(request):
     if request.user.is_active:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
         return render(request, "dashboard/terms_of_service.html", {"profile": profile})
     else:
         return render(request, "dashboard/terms_of_service.html")
@@ -58,7 +59,7 @@ def terms_of_service(request):
 @server_error_decorator
 def privacy_policy(request):
     if request.user.is_active:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
         return render(request, "dashboard/privacy_policy.html", {"profile": profile})
     else:
         return render(request, "dashboard/privacy_policy.html")
@@ -69,7 +70,7 @@ def privacy_policy(request):
 def profile(request):
     user = User.objects.get(username=request.user)
     try:
-        profile = Profile.objects.get(client_id=request.user)
+        profile = UserProfile().get(request=request, client=request.user)
     except:
         profile = Profile.objects.create(client_id=request.user)
     address_list = Address.objects.filter(client_id=request.user, is_active=True)
@@ -169,7 +170,7 @@ class Login(LoginView):
 @server_error_decorator
 @is_active_decorator
 def update_profile(request):
-    profile = get_object_or_404(Profile, client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         user_form = UserUpdate(request.POST, instance=request.user)
@@ -193,7 +194,7 @@ def update_profile(request):
 @server_error_decorator
 @is_active_decorator
 def support(request):
-    profile = get_object_or_404(Profile, client_id=request.user)
+    profile = UserProfile().get(request=request, client=request.user)
     message = ''
     if request.method == "POST":
         form = WriteSupport(request.POST, request.FILES)

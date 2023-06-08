@@ -17,7 +17,7 @@ user_urls = [
 
 # Товары
 products_urls = [
-    path('product/', views.Products.as_view(), name="product"),
+    path('category-product/<int:category_class>/', views.CategoryProducts.as_view(), name="category_product"),
     path('product-detail/<int:id>/', views.ProductDetail.as_view(), name="product_detail"),
 ]
 

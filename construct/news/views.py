@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-from api.models import News, Profile
 from api.views import NewsList, NewsDetail, UserProfile, LastNews
 from modules.exceptions import *
 
