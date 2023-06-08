@@ -53,11 +53,10 @@ class NewsList(APIView):
     @exception_handler('Новость')
     def get(self, request):
         """Возвращает информацию о всех новостях."""
-        data = News.objects.filter(is_active=True)
+        data = News.objects.filter(is_active=True).order_by('-pub_date')
         if not data:
             raise EmptyResultSet
-        serializer = NewsSerializer(data, many=True)
-        return Response(serializer.data)
+        return data
 
     @swagger_auto_schema(operation_id="NewsList",
                          operation_summary="Создание новости",
@@ -85,8 +84,9 @@ class NewsDetail(APIView):
     def get(self, request, id):
         """Получает информацию о новости по id"""
         data = News.objects.get(id=id)
-        serializer = NewsSerializer(data, many=False)
-        return Response(serializer.data)
+        if not data:
+            raise EmptyResultSet
+        return data
 
     @swagger_auto_schema(operation_id="NewsDetail",
                          operation_summary="Изменяет новость по id",
@@ -100,6 +100,22 @@ class NewsDetail(APIView):
         serializer.save()
         return Response({'status': True,
                         'message': 'Запись о новости успешно изменена.'})
+
+
+class LastNews(APIView):
+    """Класс для работы с таблицей новостей"""
+    permission_classes = [HasAPIKey]
+
+    @swagger_auto_schema(operation_id="LastNews",
+                         operation_summary="Выводит информацию о последней новости",
+                         tags=['Новости'])
+    @exception_handler('Новость')
+    def get(self, request):
+        """Получает информацию о последней новости"""
+        data = News.objects.filter(is_active=True).last()
+        if not data:
+            raise EmptyResultSet
+        return data
 
 
 class UserDetail(APIView):
