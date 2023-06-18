@@ -41,12 +41,15 @@
         <a href="{% url 'crm:home' %}" style="margin-left: 3%;">
             <img src="{% static 'crm/img/LOGO.png' %}" width="35" height="35"></a>
         <a href="{% url 'admin:index' %}"><i class="fas fa-user"></i> Администрирование</a>
-        <a> | </a>
+        <a style="margin: 0 10px 0 10px;"> | </a>
         <a href="{% url 'crm:home' %}"><i class="fas fa-clock"></i> Логи</a>
     </div>
+    <div class="central_one">
+        <a>Construct CRM</a>
+    </div>
     <div class="right_one">
-        <a>{{user}}</a>
-        <a class="btn btn-outline-primary" href=""><i class="fa fa-logout"></i> Выйти</a>
+        <a style="margin: 0 15px 0 0;">{{user}}</a>
+        <a href=""><i class="fa fa-logout"></i> Выйти</a>
     </div>
 </div>
 <div style="height: 6vh"></div>

@@ -7,12 +7,24 @@
     justify-content: space-between;
     position: fixed;
     z-index: 10;
+    border-bottom: 2px solid black;
 }
-.left_one, right_one {
+.left_one, .right_one, .central_one {
     width: 30%;
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+}
+.right_one {
+    margin-right: 30px;
+    justify-content: flex-end;;
+}
+.left_one {
     margin-left: 30px;
-    display:flex
-    align-items:center
+}
+.central_one {
+    justify-content: center;
+    font-size: 28px;
 }
 
 body {
@@ -31,17 +43,25 @@ body {
     width: 20%;
     height: 94vh;
     position: fixed;
-    margin-left: 30px;
 }
 
 .buts {
+    font-size: 24px;
+    background: aliceblue;
     height: 94vh;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid black;
+    border-right: 2px solid black;
     justify-content: space-around;
-    align-items: center;
-    margin-right: 20px;
+    align-items: flex-start;
+    margin-right: 30px;
+}
+.buts > a {
+    color: blue;
+    margin-left: 22px;
+}
+.buts > a:hover {
+    color: green;
 }
 
 .content {

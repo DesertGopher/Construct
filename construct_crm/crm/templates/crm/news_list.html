@@ -18,8 +18,8 @@
         <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_news' %}">
             <i class="fa fa-plus"></i> </a>
         <div class="d1">
-            <form>
-                <input type="text" placeholder="Искать здесь...">
+            <form action="." method="get">
+                {{ form.query }}
                 <button type="submit">
                     <i class="fa fa-search"></i>
                 </button>

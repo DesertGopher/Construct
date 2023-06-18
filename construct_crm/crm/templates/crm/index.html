@@ -115,13 +115,13 @@
 
         <div class="logs">
             <ul class="nav nav-tabs">
-                <li><a class="nav-link api-tab active" data-toggle="tab" href="#api">АПИ</a></li>
-                <li><a class="nav-link orders-tab" data-toggle="tab" href="#orders">Заказы</a></li>
-                <li><a class="nav-link server-tab" data-toggle="tab" href="#server">Сервер</a></li>
-                <li><a class="nav-link logs-tab" data-toggle="tab" href="#logs">Общие логи</a></li>
+                <li><a class="nav-link logs-tab" data-toggle="tab" href="#api">АПИ</a></li>
+                <li><a class="nav-link logs-tab" data-toggle="tab" href="#orders">Заказы</a></li>
+                <li><a class="nav-link logs-tab" data-toggle="tab" href="#server">Сервер</a></li>
+                <li><a class="nav-link logs-tab active" data-toggle="tab" href="#logs">Общие логи</a></li>
             </ul>
             <div class="tab-content">
-                <div id="api" class="tab-pane fade in active">
+                <div id="api" class="tab-pane fade">
                     <div class="logs_content">
                         <a>{{ api_logs|linebreaks }}</a>
                     </div>
@@ -136,7 +136,7 @@
                         <a>{{ server_logs|linebreaks }}</a>
                     </div>
                 </div>
-                <div id="logs" class="tab-pane fade">
+                <div id="logs" class="tab-pane fade in active">
                     <div class="logs_content">
                         <a>{{ logs|linebreaks }}</a>
                     </div>
