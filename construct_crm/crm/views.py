@@ -7,6 +7,7 @@ from modules.serializers import OrderProducts
 
 from modules.exceptions import *
 from .forms import *
+from .models import *
 
 
 def get_shop_params():
@@ -519,3 +520,13 @@ def reports(request):
 
     }
     return render(request, "crm/reports.html", context)
+
+
+def templates(request):
+    tid = str(request.GET.get("tid"))
+    temp_list = Templates.objects.filter()
+    context = {"temp_list": temp_list}
+    if tid and tid.isnumeric():
+        template = Templates.objects.get(id=int(tid))
+        context["template"] = template
+    return render(request, "crm/templates_list.html", context)

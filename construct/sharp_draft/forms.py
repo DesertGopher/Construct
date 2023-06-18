@@ -180,9 +180,6 @@ class SettingPlateForm(forms.Form):
                 client_id=user
             )
 
-    class Meta:
-        fields = ["payment_type", "address_id"]
-
 
 class SquarePlate(forms.Form):
     side = forms.IntegerField()

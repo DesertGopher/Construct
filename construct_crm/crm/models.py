@@ -219,3 +219,22 @@ class Support(models.Model):
         verbose_name = 'Обращение'
         verbose_name_plural = 'Обращения'
         db_table = 'support'
+
+
+class Templates(models.Model):
+    client_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, default="Мой штамп")
+    author = models.CharField(max_length=50, null=True, blank=True)
+    checker = models.CharField(max_length=50, null=True, blank=True)
+    company = models.CharField(max_length=50, null=True, blank=True)
+    code = models.CharField(max_length=50, null=True, blank=True)
+    object = models.CharField(max_length=50, null=True, blank=True)
+    project = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name = "Штамп"
+        verbose_name_plural = "Штампы"
+        db_table = "templates"

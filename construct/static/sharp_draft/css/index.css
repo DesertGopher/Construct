@@ -7,11 +7,9 @@
     background: Moccasin;
     justify-content: flex-start;
     margin-bottom: 20px;
+        z-index: 10;
 }
 
-body {
-   // background: linear-gradient(to bottom, LightSalmon, White);
-}
 
 .nav1, nav2, nav3 {
     display: flex;

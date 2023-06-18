@@ -18,6 +18,7 @@
     background-color: aliceblue;
     display: flex;
     align-items: center;
+    z-index: 10;
 }
 
 .user {
@@ -88,6 +89,7 @@ body{
     display: flex;
     width: 100%;
     border-bottom: 1px solid;
+    z-index: 10;
 }
 
 .user img {

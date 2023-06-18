@@ -32,4 +32,7 @@ urlpatterns = [
 
     # Отчеты
     path('reports/', views.reports, name='reports'),
+
+    # Шаблоны
+    path('templates/', views.templates, name='templates'),
 ]
