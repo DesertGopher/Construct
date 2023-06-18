@@ -6,6 +6,7 @@ from django.conf import settings
 from modules.serializers import OrderProducts
 
 from modules.exceptions import *
+from .reports import generate_report
 from .forms import *
 from .models import *
 
@@ -533,10 +534,8 @@ def reports(request):
     if request.method == "POST":
         form = OrderPeriodForm(request.POST)
         if form.is_valid():
-            pass
-            # return FileResponse(
-            #     open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
-            # )
+            orders = Order.objects.all().order_by("-date_created")
+            generate_report(orders)
     else:
         form = OrderPeriodForm()
 
