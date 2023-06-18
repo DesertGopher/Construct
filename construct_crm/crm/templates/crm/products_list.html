@@ -17,9 +17,11 @@
         <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_product' %}">
             <i class="fa fa-plus"></i> </a>
         <div class="d1">
-            <form action="." method="get">
-                {{ form.query }}
-                <button type="submit"><i class="fa fa-search"></i></button>
+            <form>
+                <input type="text" placeholder="Искать здесь...">
+                <button type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
             </form>
         </div>
     </div>
@@ -50,12 +52,12 @@
                         <a>{{ product.get_sale }}₽</a>
                     </div>
                     <div class="buttons">
-                        <a type="button" class="log btn btn-warning" href="{% url 'crm:product_edit' product.id %}">
+                        <a type="button" href="{% url 'crm:product_edit' product.id %}">
                             <i class="fa fa-pen"></i> </a>
-                        <a type="button" class="log btn btn-danger"
+                        <a type="button"
                            href="{% url 'crm:products_list' %}?deleted={{ product.id }}">
                             <i class="fa fa-trash"></i></a>
-                        <a type="button" class="log btn btn-info"
+                        <a type="button"
                            href="{% url 'crm:products_list' %}?restored={{ product.id }}">
                             <i class="fa fa-redo"></i></a>
                     </div>

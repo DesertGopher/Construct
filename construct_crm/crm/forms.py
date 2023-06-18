@@ -4,6 +4,14 @@ from django.forms import ModelForm
 from .models import *
 
 
+_REPORT_PERIOD = (
+    ("Год", "Год"),
+    ("Квартал", "Квартал"),
+    ("Месяц", "Месяц"),
+    ("Неделя", "Неделя"),
+)
+
+
 class AuthUserForm(AuthenticationForm, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AuthUserForm, self).__init__(*args, **kwargs)

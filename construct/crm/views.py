@@ -107,9 +107,9 @@ def news_edit(request, news_id):
     else:
         form = NewsEdit(instance=new_item)
     return render(request, 'crm/news_edit.html', {'form': form,
-                                                        'profile': profile,
-                                                        'new_item': new_item,
-                                                        })
+                                                  'profile': profile,
+                                                  'new_item': new_item,
+                                                  })
 
 
 @server_error_decorator
@@ -118,7 +118,7 @@ def products_list(request):
     profile = Profile.objects.get(client_id=request.user)
     products = Product.objects.all().order_by('id')
     categories = ProductCategory.objects.all().order_by('id')
-    filter = str(request.GET.get('deleted'))
+    filter_del = str(request.GET.get('deleted'))
     restore = str(request.GET.get('restored'))
 
     params = {
@@ -148,15 +148,15 @@ def products_list(request):
         'form': form,
     }
 
-    if filter != 'None':
-        if (isinstance(int(filter), int)):
-            product_to_delete = Product.objects.get(id=int(filter))
+    if filter_del != 'None':
+        if isinstance(int(filter_del), int):
+            product_to_delete = Product.objects.get(id=int(filter_del))
             product_to_delete.is_active = False
             product_to_delete.save()
             return render(request, 'crm/products_list.html', context)
 
     if restore != 'None':
-        if (isinstance(int(restore), int)):
+        if isinstance(int(restore), int):
             product_to_restore = Product.objects.get(id=int(restore))
             product_to_restore.is_active = True
             product_to_restore.save()
@@ -232,7 +232,7 @@ def create_product(request):
 def news_list(request):
     profile = Profile.objects.get(client_id=request.user)
     news = News.objects.all().order_by('id')
-    filter = str(request.GET.get('deleted'))
+    filter_del = str(request.GET.get('deleted'))
     restore = str(request.GET.get('restored'))
 
     form = SearchForm()
@@ -256,9 +256,9 @@ def news_list(request):
         'news': news,
         'form': form,
     }
-    if filter != 'None':
-        if isinstance(int(filter), int):
-            new_to_delete = News.objects.get(id=int(filter))
+    if filter_del != 'None':
+        if isinstance(int(filter_del), int):
+            new_to_delete = News.objects.get(id=int(filter_del))
             new_to_delete.is_active = False
             new_to_delete.save()
             return render(request, 'crm/news_list.html', context)
@@ -366,10 +366,10 @@ def user_order_edit(request, order_id):
     profile = Profile.objects.get(client_id=request.user)
     title = order
     total = float(0)
-    len = int(0)
+    leng = int(0)
     for product in order_products:
-        total += product.get_sale() * amount[len]
-        len += 1
+        total += product.get_sale() * amount[leng]
+        leng += 1
     context = {
         'form': form,
         'keys': keys,
@@ -398,7 +398,7 @@ def user_permissions(request):
 
 @server_error_decorator
 @is_superuser_decorator
-def make_user_client(request, user_id):
+def make_user_client(user_id):
     target_user = User.objects.get(id=user_id)
     try:
         target_user.is_staff = False
@@ -411,7 +411,7 @@ def make_user_client(request, user_id):
 
 @server_error_decorator
 @is_superuser_decorator
-def make_user_manager(request, user_id):
+def make_user_manager(user_id):
     target_user = User.objects.get(id=user_id)
     try:
         target_user.is_staff = True
@@ -424,7 +424,7 @@ def make_user_manager(request, user_id):
 
 @server_error_decorator
 @is_superuser_decorator
-def make_user_superuser(request, user_id):
+def make_user_superuser(user_id):
     target_user = User.objects.get(id=user_id)
     try:
         target_user.is_staff = True
@@ -433,4 +433,3 @@ def make_user_superuser(request, user_id):
         return redirect('crm:permissions')
     except target_user.username == 'igor':
         return redirect('crm:permissions')
-

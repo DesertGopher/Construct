@@ -18,9 +18,11 @@
         <a type="button" class="log btn btn-outline-success" href="{% url 'crm:create_news' %}">
             <i class="fa fa-plus"></i> </a>
         <div class="d1">
-            <form action="." method="get">
-                {{ form.query }}
-                <button type="submit"><i class="fa fa-search"></i></button>
+            <form>
+                <input type="text" placeholder="Искать здесь...">
+                <button type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
             </form>
         </div>
     </div>
@@ -48,12 +50,12 @@
                     </div>
 
                     <div class="buttons">
-                        <a type="button" class="log btn btn-warning" href="{% url 'crm:news_edit' new.id %}">
+                        <a type="button" href="{% url 'crm:news_edit' new.id %}">
                             <i class="fa fa-pen"></i> </a>
-                        <a type="button" class="log btn btn-danger"
+                        <a type="button"
                            href="{% url 'crm:news_list' %}?deleted={{ new.id }}">
                             <i class="fa fa-trash"></i></a>
-                        <a type="button" class="log btn btn-info"
+                        <a type="button"
                            href="{% url 'crm:news_list' %}?restored={{ new.id }}">
                             <i class="fa fa-redo"></i></a>
                     </div>

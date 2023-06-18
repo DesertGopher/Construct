@@ -4,11 +4,12 @@ from . import views
 app_name = 'crm'
 urlpatterns = [
     path('', views.index, name='home'),
+
     # Заказы
     path('orders/', views.user_orders, name='orders'),
     path('order-edit/<int:order_id>/', views.user_order_edit, name='order_edit'),
 
-
+    # Пользователи
     path('permissions/', views.user_permissions, name='permissions'),
     path('make-user-client/<int:user_id>/', views.make_user_client, name='make_user_client'),
     path('make-user-manager/<int:user_id>/', views.make_user_manager, name='make_user_manager'),
@@ -28,4 +29,7 @@ urlpatterns = [
 
     # Тех. поддержка
     path('support-list/', views.support_list, name='support_list'),
+
+    # Отчеты
+    path('reports/', views.reports, name='reports'),
 ]

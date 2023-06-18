@@ -3,7 +3,7 @@
 {% block title %}Sharp Draft{% endblock %}
 
 {% block SD-static %}
-    <link rel="stylesheet" href="{% static 'sharp_draft/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'sharp_draft/css/xml.css' %}">
 {% endblock %}
 
 {% block SD-style %}
@@ -13,16 +13,37 @@
 {% endblock %}
 {% block SD %}
 
+
 <form style="margin: 2% 0 0 3%" method="POST">
     {% csrf_token %}
-    {{ form.length }}
-    {{ form.project_name }}
-    {{ form.element_name }}
-    {{ form.profile }}
-    {{ form.material }}
-    <button type="submit" class="btn btn-info"> Создать файл </button>
+    <div class="sharp_form">
+        <div class="sharp_form_1">
+            {{ form.length }}
+        </div>
+        <div class="sharp_form_2">
+            {{ form.project_name }}
+        </div>
+        <div class="sharp_form_3">
+            {{ form.element_name }}
+        </div>
+        <div class="sharp_form_4">
+            {{ form.profile }}
+        </div>
+        <div class="sharp_form_5">
+            {{ form.material }}
+        </div>
+        <button type="submit" class="btn btn-info"> Создать файл </button>
+
+   </div>
 </form><br>
+
+    <div class="body_img">
+        <img src="{% static 'dashboard/img/401.jpg' %}">
+    </div>
+
+
 {% if message %}
 {{ message }}
 {% endif %}
+
 {% endblock %}

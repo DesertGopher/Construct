@@ -7,6 +7,7 @@
     padding: 2%;
     align-items: center;
     // border: 3px solid blue;
+
 }
 
 .plate_pic {
@@ -32,4 +33,17 @@ table.mt {
     width: 50%;
     margin: 1% 25% 0 25%;
     justify-content: space-around;
+}
+.button {
+    display:flex;
+    justify-content: center;
+    margin-top: 15%;
+    align-items: center;
+}
+
+.btn{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
 }

@@ -5,13 +5,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: fixed;
+    z-index: 10;
 }
 .left_one, right_one {
     width: 30%;
+    margin-left: 30px;
+    display:flex
+    align-items:center
 }
 
 body {
-    background: radial-gradient(white, LightCyan);
+    background: rgb(252,255,255);
+    background: linear-gradient(90deg, rgba(252,255,255,1) 0%, rgba(230,255,255,1) 52%, rgba(252,255,255,1) 100%);
 }
 
 .main_nav {
@@ -22,9 +28,10 @@ body {
 }
 
 .crm_nav {
-    width: 15%;
+    width: 20%;
     height: 94vh;
     position: fixed;
+    margin-left: 30px;
 }
 
 .buts {
@@ -33,12 +40,11 @@ body {
     flex-direction: column;
     border-right: 1px solid black;
     justify-content: space-around;
-}
-.crm_nav > .buts > a {
-    height: 6vh;
+    align-items: center;
+    margin-right: 20px;
 }
 
 .content {
-    margin: 0 0 0 15%;
-    width: 85%;
+    margin: 0 0 0 20%;
+    width: 80%;
 }

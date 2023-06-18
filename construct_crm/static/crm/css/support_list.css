@@ -42,3 +42,8 @@
     width:20%;
     justify-content: center;
 }
+
+.buttons {
+    margin-left: 30px;
+    margin-top: 20px;
+}

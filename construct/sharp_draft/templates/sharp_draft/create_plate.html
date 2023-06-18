@@ -14,10 +14,14 @@
 {% block SD %}
 {{message}}
     {% if not template %}
-    <form method="GET" >
-        {{ setform.as_p }}<br>
-        <button type="submit" class="btn btn-info" style="margin-bottom: 2%;" > Сгенерировать </button>
-    </form>
+    <div class="button">
+        <form method="GET" >
+            {{ setform.as_p }}<br>
+            <div class="btn">
+                <button type="submit" class="btn btn-warning" style="margin-bottom: 2%;" > Сгенерировать </button>
+            </div>
+        </form>
+    </div>
 
     {% else %}
     <form method="POST">

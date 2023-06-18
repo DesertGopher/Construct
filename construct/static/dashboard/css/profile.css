@@ -11,10 +11,11 @@
     height: 94vh;
     align-items: center;
     flex-direction: column;
-    width: 30%;
+    width: 35%;
 }
 .profile img {
     max-width: 60%;
+    padding: 10px;
 }
 .shop_addresses {
     padding: 1%;

@@ -40,34 +40,37 @@
     <div class="left_one">
         <a href="{% url 'crm:home' %}" style="margin-left: 3%;">
             <img src="{% static 'crm/img/LOGO.png' %}" width="35" height="35"></a>
-        <a class="btn btn-outline-primary" href="{% url 'admin:index' %}"><i class="fas fa-user"></i> Администрирование</a>
+        <a href="{% url 'admin:index' %}"><i class="fas fa-user"></i> Администрирование</a>
         <a> | </a>
-        <a class="btn btn-outline-primary" href="{% url 'crm:home' %}"><i class="fas fa-clock"></i> Логи</a>
+        <a href="{% url 'crm:home' %}"><i class="fas fa-clock"></i> Логи</a>
     </div>
     <div class="right_one">
-        <a class="btn btn-outline-primary" href=""><i class="fas fa-bell"></i> Уведомления</a>
+        <a>{{user}}</a>
         <a class="btn btn-outline-primary" href=""><i class="fa fa-logout"></i> Выйти</a>
     </div>
 </div>
+<div style="height: 6vh"></div>
+
 <div class="main_nav">
 
     <div class="crm_nav">
         <div class="buts">
-            <a class="btn btn-primary" href="{% url 'crm:home' %}">Главная страница</a>
-            <a class="btn btn-primary" href="{% url 'crm:products_list' %}">Управление товарами</a>
-            <a class="btn btn-primary" href="{% url 'crm:news_list' %}">Управление новостями</a>
-            <a class="btn btn-primary" href="{% url 'crm:orders' %}">Управление заказами</a>
-            <a class="btn btn-primary" href="{% url 'crm:permissions' %}">Управление правами</a>
-            <a class="btn btn-primary" href="{% url 'crm:support_list' %}">Вопросы тех. поддержки</a>
-            <a class="btn btn-secondary" href="">Шаблоны пользователей</a>
-            <a class="btn btn-secondary" href="">Отчеты</a>
+            <a href="{% url 'crm:home' %}">Главная страница</a>
+            <a href="{% url 'crm:products_list' %}">Управление товарами</a>
+            <a href="{% url 'crm:news_list' %}">Управление новостями</a>
+            <a href="{% url 'crm:orders' %}">Управление заказами</a>
+            <a href="{% url 'crm:permissions' %}">Управление правами</a>
+            <a href="{% url 'crm:support_list' %}">Вопросы тех. поддержки</a>
+            <a href="">Шаблоны пользователей</a>
+            <a href="{% url 'crm:reports' %}">Отчеты</a>
 
-            <a class="btn btn-primary" target="_blank" href="http://127.0.0.1:8000/swagger/">Swagger</a>
-            <a class="btn btn-primary" target="_blank" href="http://127.0.0.1:8005/docs">Docs</a>
-            <a class="btn btn-primary" target="_blank" href="http://127.0.0.1:8000/redoc/">Redoc</a>
-            <a class="btn btn-secondary" target="_blank" href="">Sphinx</a>
+            <a target="_blank" href="http://127.0.0.1:8000/swagger/">Swagger</a>
+            <a target="_blank" href="http://127.0.0.1:8005/docs">Docs</a>
+            <a target="_blank" href="http://127.0.0.1:8000/redoc/">Redoc</a>
+            <a target="_blank" href="">Sphinx</a>
         </div>
     </div>
+
 
     <div class="content">
         {% block crm %}

@@ -9,9 +9,10 @@ from modules.exceptions import *
 from .forms import *
 
 
-def get_shop_params(request):
+def get_shop_params():
     categories = ProductCategory.objects.all()
     params = {
+        "categories": categories,
     }
     return params
 
@@ -96,7 +97,6 @@ def news_edit(request, news_id):
     except News.DoesNotExist:
         message = "Такой новости не существует."
         return render(request, "dashboard/404.html", {"message": message})
-    # profile = Profile.objects.get(client_id=request.user)
 
     if request.method == "POST":
         form = NewsEdit(request.POST, request.FILES, instance=new_item)
@@ -112,7 +112,6 @@ def news_edit(request, news_id):
         "crm/news_edit.html",
         {
             "form": form,
-            # "profile": profile,
             "new_item": new_item,
         },
     )
@@ -123,7 +122,7 @@ def news_edit(request, news_id):
 def products_list(request):
     products = Product.objects.all().order_by("id")
     categories = ProductCategory.objects.all().order_by("id")
-    filter = str(request.GET.get("deleted"))
+    filter_del = str(request.GET.get("deleted"))
     restore = str(request.GET.get("restored"))
 
     params = {
@@ -153,9 +152,9 @@ def products_list(request):
         "form": form,
     }
 
-    if filter != "None":
-        if isinstance(int(filter), int):
-            product_to_delete = Product.objects.get(id=int(filter))
+    if filter_del != "None":
+        if isinstance(int(filter_del), int):
+            product_to_delete = Product.objects.get(id=int(filter_del))
             product_to_delete.is_active = False
             product_to_delete.save()
             return render(request, "crm/products_list.html", context)
@@ -244,9 +243,8 @@ def create_product(request):
 @server_error_decorator
 @is_staff_decorator
 def news_list(request):
-    # profile = Profile.objects.get(client_id=request.user)
     news = News.objects.all().order_by("id")
-    filter = str(request.GET.get("deleted"))
+    filter_del = str(request.GET.get("deleted"))
     restore = str(request.GET.get("restored"))
 
     form = SearchForm()
@@ -267,13 +265,12 @@ def news_list(request):
             return render(request, "crm/news_list.html", context)
 
     context = {
-        # "profile": profile,
         "news": news,
         "form": form,
     }
-    if filter != "None":
-        if isinstance(int(filter), int):
-            new_to_delete = News.objects.get(id=int(filter))
+    if filter_del != "None":
+        if isinstance(int(filter_del), int):
+            new_to_delete = News.objects.get(id=int(filter_del))
             new_to_delete.is_active = False
             new_to_delete.save()
             return render(request, "crm/news_list.html", context)
@@ -380,10 +377,10 @@ def user_order_edit(request, order_id):
     profile = Profile.objects.get(client_id=request.user)
     title = order
     total = float(0)
-    len = int(0)
+    leng = int(0)
     for product in order_products:
-        total += product.get_sale() * amount[len]
-        len += 1
+        total += product.get_sale() * amount[leng]
+        leng += 1
     context = {
         "form": form,
         "keys": keys,
@@ -411,7 +408,7 @@ def user_permissions(request):
 
 @server_error_decorator
 @is_superuser_decorator
-def make_user_client(request, user_id):
+def make_user_client(user_id):
     target_user = User.objects.get(id=user_id)
     try:
         target_user.is_staff = False
@@ -424,7 +421,7 @@ def make_user_client(request, user_id):
 
 @server_error_decorator
 @is_superuser_decorator
-def make_user_manager(request, user_id):
+def make_user_manager(user_id):
     target_user = User.objects.get(id=user_id)
     try:
         target_user.is_staff = True
@@ -437,7 +434,7 @@ def make_user_manager(request, user_id):
 
 @server_error_decorator
 @is_superuser_decorator
-def make_user_superuser(request, user_id):
+def make_user_superuser(user_id):
     target_user = User.objects.get(id=user_id)
     try:
         target_user.is_staff = True
@@ -450,7 +447,6 @@ def make_user_superuser(request, user_id):
 
 @server_error_decorator
 def product_detail(request, product_id):
-    # profile = Profile.objects.get(client_id=request.user)
     reviews = Review.objects.order_by('-pub_date')
     try:
         product = Product.objects.get(pk=product_id, is_active=True)
@@ -460,13 +456,12 @@ def product_detail(request, product_id):
     title = str(product.name)
 
     params = {
-        # 'profile': profile,
         'product': product,
         'title': title,
         'reviews': reviews,
     }
 
-    context = {**get_shop_params(request),
+    context = {**get_shop_params(),
                **params}
     return render(request, 'crm/product_detail.html', context)
 
@@ -494,7 +489,6 @@ def support_list(request):
     get_r = str(request.GET.get("get_r"))
     read = str(request.GET.get("read"))
     cq = str(request.GET.get("current_question"))
-    # profile = Profile.objects.get(client_id=request.user)
 
     sup_list = Support.objects.all().order_by("-id")
 
@@ -508,7 +502,6 @@ def support_list(request):
         current_question = sup_list.first()
 
     context = {
-        # "profile": profile,
         "sup_list": sup_list,
         "current_question": current_question,
     }
@@ -519,3 +512,10 @@ def support_list(request):
             current_question.save()
             return render(request, "crm/support_list.html", context)
     return render(request, "crm/support_list.html", context)
+
+
+def reports(request):
+    context = {
+
+    }
+    return render(request, "crm/reports.html", context)
