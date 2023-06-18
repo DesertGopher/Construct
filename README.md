@@ -42,6 +42,8 @@ Python 3.9
 - PDF
   - fpdf==1.7.2 (to geterate plate scheme)
   - aspose-pdf==23.4.0 (to geterate plate scheme) (FOR NO USAGE)
+- Excel
+  - pandas==2.0.2 (excel reports generation)
 ---
 ## Logs
 - api_view_logs.log (API methods logs)

@@ -12,5 +12,17 @@
 {% endblock %}
 
 {% block crm %}
-Тут будут Excel отчеты агаааа
+<div class="title">
+    <a>Excel Отчеты</a>
+</div>
+<div class="rep1">
+    <a>Отчет о выручке</a>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="order_form">
+            {{ form }}
+            <button type="submit" class="btn btn-outline-success"> Сгенерировать отчет </button>
+       </div>
+    </form>
+</div><hr>
 {% endblock %}

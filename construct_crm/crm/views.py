@@ -485,7 +485,7 @@ def news_detail(request, news_id):
 
 
 @server_error_decorator
-# @is_staff_decorator
+@is_staff_decorator
 def support_list(request):
     get_r = str(request.GET.get("get_r"))
     read = str(request.GET.get("read"))
@@ -515,13 +515,8 @@ def support_list(request):
     return render(request, "crm/support_list.html", context)
 
 
-def reports(request):
-    context = {
-
-    }
-    return render(request, "crm/reports.html", context)
-
-
+@server_error_decorator
+@is_staff_decorator
 def templates(request):
     tid = str(request.GET.get("tid"))
     temp_list = Templates.objects.filter()
@@ -530,3 +525,22 @@ def templates(request):
         template = Templates.objects.get(id=int(tid))
         context["template"] = template
     return render(request, "crm/templates_list.html", context)
+
+
+@server_error_decorator
+@is_staff_decorator
+def reports(request):
+    if request.method == "POST":
+        form = OrderPeriodForm(request.POST)
+        if form.is_valid():
+            pass
+            # return FileResponse(
+            #     open(obj["path"], "rb"), as_attachment=True, filename=obj["name"]
+            # )
+    else:
+        form = OrderPeriodForm()
+
+    context = {
+        "form": form,
+    }
+    return render(request, "crm/reports.html", context)

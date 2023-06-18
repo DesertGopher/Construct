@@ -1,0 +1,16 @@
+.title {
+    margin: 1% 0 2% 0;
+    font-size: 28px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.rep1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 85%;
+    margin: 0 10% 0 5%;
+    font-size: 24px;
+}

@@ -5,11 +5,16 @@ from .models import *
 
 
 _REPORT_PERIOD = (
-    ("Год", "Год"),
-    ("Квартал", "Квартал"),
-    ("Месяц", "Месяц"),
     ("Неделя", "Неделя"),
+    ("Месяц", "Месяц"),
+    ("Квартал", "Квартал"),
+    ("Год", "Год"),
+    ("За все время", "За все время"),
 )
+
+
+class OrderPeriodForm(forms.Form):
+    plate = forms.ChoiceField(choices=_REPORT_PERIOD, label="Период")
 
 
 class AuthUserForm(AuthenticationForm, forms.ModelForm):

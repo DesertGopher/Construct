@@ -1,6 +1,4 @@
-body {
-    background: radial-gradient(white, LightCyan);
-}
+
 
 .pads {
     width: 90%;
@@ -148,5 +146,4 @@ form {
 }
 .box > .tab-content {
     width: 100%;
-
 }
