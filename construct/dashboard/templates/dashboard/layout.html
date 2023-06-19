@@ -72,10 +72,7 @@
                     {% else %}
                         <img src="{% static 'dashboard/img/user.png' %}"> {{ user.username|upper }} </a>
                     {% endif %}
-                {% if user.is_staff %}
 
-                    <a type="button" class="log btn btn-info" href="{% url 'crm:home' %}">CRM</a>
-                {% endif %}
                 {% if user.is_superuser %}
                     <a type="button" class="log btn btn-info" href="{% url 'admin:index' %}">
                         <i class="fa fa-cog" aria-hidden="true"></i></a>

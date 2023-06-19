@@ -1,13 +1,14 @@
 import datetime
 import os
 from pathlib import Path
+from typing import Any
 
 import openpyxl
 import pandas as pd
 from openpyxl.styles import Font
 
 
-def set_width(filepath):
+def set_width(filepath: str):
     wb = openpyxl.load_workbook(filename=filepath)
     ws = wb.active
 
@@ -34,7 +35,7 @@ def set_width(filepath):
     wb.close()
 
 
-def generate_report(orders):
+def generate_report(orders: Any):
     users_list = []
     orders_list = []
     costs_list = []
